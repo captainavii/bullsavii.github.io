@@ -3,476 +3,305 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SMIF Enterprises</title>
+<title>SMIF Enterprises — HR & Manpower Solutions</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245582739.js"></script>
+<!-- End of HubSpot Embed Code -->
 <style>
-  :root {
-    --navy: #0A1628;
-    --navy-mid: #142240;
-    --gold: #C9993F;
-    --gold-light: #E8BA6A;
-    --cream: #F5F0E8;
-    --white: #FFFFFF;
-    --gray: #8A9BB0;
-    --light-gray: #E8EDF4;
-  }
+:root {
+  --navy:    #0A1628;
+  --navy2:   #142240;
+  --navy3:   #0E1D35;
+  --gold:    #C9993F;
+  --gold-lt: #E8BA6A;
+  --gold-bg: rgba(201,153,63,0.12);
+  --white:   #FFFFFF;
+  --gray:    #8A9BB0;
+  --border:  rgba(201,153,63,0.15);
+  --green:   #2ECC71;
+  --blue:    #3498DB;
+  --red:     #E74C3C;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ANNOUNCE BAR */
+.announce-bar{background:#060E1A;color:rgba(255,255,255,0.7);padding:0.45rem 4rem;font-size:0.74rem;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:200;border-bottom:1px solid rgba(201,153,63,0.1)}
+.announce-bar a{color:var(--gold-lt);text-decoration:none}
+.announce-bar a:hover{text-decoration:underline}
+.announce-right{display:flex;gap:1.5rem;align-items:center}
 
-  html { scroll-behavior: smooth; }
+/* NAV */
+nav{position:fixed;top:2rem;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 4rem;height:64px;background:rgba(10,22,40,0.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,153,63,0.15);animation:fadeDown .7s ease both}
+.logo{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--white);letter-spacing:-0.5px;text-decoration:none}
+.logo span{color:var(--gold)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:0.85rem;font-weight:500;letter-spacing:0.4px;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:var(--gold);color:var(--navy);border:none;padding:.62rem 1.5rem;font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.84rem;cursor:pointer;border-radius:4px;transition:all .2s;letter-spacing:.3px}
+.nav-cta:hover{background:var(--gold-lt);transform:translateY(-1px)}
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--navy);
-    color: var(--white);
-    overflow-x: hidden;
-  }
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:9.5rem 4rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 80% at 70% 50%,rgba(201,153,63,0.07) 0%,transparent 70%);pointer-events:none}
+.hero-grid-bg{position:absolute;inset:0;pointer-events:none;opacity:0.035;background-image:linear-gradient(rgba(201,153,63,1) 1px,transparent 1px),linear-gradient(90deg,rgba(201,153,63,1) 1px,transparent 1px);background-size:60px 60px}
+.hero-content{animation:fadeUp .9s .2s both}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--gold-bg);border:1px solid rgba(201,153,63,0.3);color:var(--gold);padding:.38rem 1rem;border-radius:100px;font-size:0.74rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.75rem}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5vw,4.2rem);font-weight:900;line-height:1.1;margin-bottom:1.4rem}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{color:var(--gray);font-size:1rem;line-height:1.78;max-width:470px;margin-bottom:2.4rem;font-weight:300}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--navy);padding:.88rem 2rem;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.92rem;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-primary:hover{background:var(--gold-lt);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,153,63,.28)}
+.btn-outline{background:transparent;color:var(--white);padding:.88rem 2rem;border:1px solid rgba(255,255,255,.2);border-radius:4px;font-family:'DM Sans',sans-serif;font-weight:500;font-size:.92rem;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+.hero-visual{display:flex;justify-content:center;align-items:center;animation:fadeUp .9s .4s both}
+.hero-card-stack{position:relative;width:360px;height:440px}
+.hcard{position:absolute;background:var(--navy2);border:1px solid rgba(201,153,63,.18);border-radius:16px;padding:1.75rem 2rem;backdrop-filter:blur(10px)}
+.hcard-main{width:300px;top:60px;left:30px;background:linear-gradient(135deg,#1A3050,#0E2240);border-color:rgba(201,153,63,.32);animation:float 4s ease-in-out infinite}
+.hcard-1{width:200px;top:0;right:0;animation:float 4s ease-in-out 1s infinite}
+.hcard-2{width:220px;bottom:0;left:10px;animation:float 4s ease-in-out 2s infinite}
+.hcard-num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;color:var(--gold);line-height:1}
+.hcard-lbl{font-size:.75rem;color:var(--gray);margin-top:.35rem;text-transform:uppercase;letter-spacing:.8px}
+.hcard-icon{font-size:1.4rem;margin-bottom:.7rem}
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem 4rem;
-    background: rgba(10,22,40,0.85);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(201,153,63,0.15);
-    animation: fadeDown 0.7s ease both;
-  }
+/* STATS BAR */
+.stats-bar{background:var(--navy2);border-top:1px solid rgba(201,153,63,.1);border-bottom:1px solid rgba(201,153,63,.1);padding:2.5rem 4rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+.stat-item .num{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:900;color:var(--gold)}
+.stat-item .desc{color:var(--gray);font-size:.82rem;margin-top:.22rem}
 
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; font-weight: 900;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--gold); }
+/* SECTIONS */
+section{padding:6rem 4rem}
+.section-tag{display:inline-block;color:var(--gold);font-size:.74rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:.85rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,3.8vw,2.8rem);font-weight:900;line-height:1.15;margin-bottom:1.2rem}
+.section-sub{color:var(--gray);font-size:.97rem;line-height:1.75;max-width:560px;font-weight:300}
 
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    color: var(--gray); text-decoration: none;
-    font-size: 0.875rem; font-weight: 500; letter-spacing: 0.5px;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
+/* SERVICES */
+#services{background:var(--navy)}
+.services-header{text-align:center;margin-bottom:3.8rem}
+.services-header .section-sub{margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+.service-card{background:var(--navy2);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:2.4rem;transition:all .3s;position:relative;overflow:hidden}
+.service-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,153,63,.06),transparent);opacity:0;transition:opacity .3s}
+.service-card:hover{border-color:rgba(201,153,63,.35);transform:translateY(-4px)}
+.service-card:hover::after{opacity:1}
+.svc-icon{width:50px;height:50px;background:var(--gold-bg);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.35rem;margin-bottom:1.4rem;border:1px solid rgba(201,153,63,.2)}
+.service-card h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:.65rem}
+.service-card p{color:var(--gray);font-size:.87rem;line-height:1.72}
 
-  .nav-cta {
-    background: var(--gold); color: var(--navy);
-    border: none; padding: 0.65rem 1.6rem;
-    font-family: 'DM Sans', sans-serif; font-weight: 600;
-    font-size: 0.875rem; cursor: pointer; border-radius: 4px;
-    transition: background 0.2s, transform 0.15s;
-    letter-spacing: 0.3px;
-  }
-  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+/* JOB BOARD */
+#jobs{background:var(--navy2)}
+.jobs-filter{display:flex;gap:.65rem;flex-wrap:wrap;margin-bottom:2rem}
+.filter-btn{padding:.45rem 1.05rem;border:1px solid rgba(255,255,255,.12);border-radius:100px;background:transparent;color:var(--gray);font-size:.78rem;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:500}
+.filter-btn.active,.filter-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.jobs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.job-card{background:var(--navy);border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:1.65rem;transition:all .25s}
+.job-card:hover{border-color:rgba(201,153,63,.3);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.job-card.featured{border-color:rgba(201,153,63,.35);background:linear-gradient(135deg,rgba(201,153,63,.07),rgba(201,153,63,.02))}
+.job-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.9rem}
+.job-badge{font-size:.68rem;padding:.27rem .75rem;border-radius:100px;font-weight:600;text-transform:uppercase;letter-spacing:.4px}
+.badge-full{background:rgba(46,204,113,.12);color:#2ECC71;border:1px solid rgba(46,204,113,.22)}
+.badge-contract{background:var(--gold-bg);color:var(--gold);border:1px solid rgba(201,153,63,.22)}
+.badge-temp{background:rgba(52,152,219,.12);color:#3498DB;border:1px solid rgba(52,152,219,.22)}
+.badge-urgent{background:rgba(231,76,60,.12);color:#E74C3C;border:1px solid rgba(231,76,60,.22)}
+.job-featured-tag{font-size:.68rem;color:var(--gold);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.5rem}
+.job-title{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:700;margin-bottom:.3rem}
+.job-company{font-size:.8rem;font-weight:600;color:var(--gold-lt);margin-bottom:.45rem}
+.job-meta{color:var(--gray);font-size:.76rem;display:flex;gap:.85rem;flex-wrap:wrap;margin-bottom:.85rem}
+.job-skills{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.85rem}
+.job-skill{font-size:.68rem;padding:.18rem .55rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:var(--gray)}
+.job-apply{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold);color:var(--navy);padding:.52rem 1.2rem;border-radius:5px;font-size:.78rem;font-weight:600;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.job-apply:hover{background:var(--gold-lt);transform:translateY(-1px)}
+.job-apply.outlined{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.18)}
+.job-apply.outlined:hover{border-color:var(--gold);color:var(--gold)}
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    padding: 8rem 4rem 4rem;
-    position: relative;
-    overflow: hidden;
-  }
+/* SALARY CALC */
+#salary{background:var(--navy)}
+.salary-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.salary-calc{background:var(--navy2);border:1px solid rgba(201,153,63,.18);border-radius:18px;padding:2.25rem}
+.calc-lbl{display:flex;justify-content:space-between;font-size:.78rem;color:var(--gray);margin-bottom:.45rem;font-weight:500}
+.calc-lbl span{color:var(--gold);font-weight:600}
+.calc-slider{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,.1);outline:none;cursor:pointer;margin-bottom:1.3rem}
+.calc-slider::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--gold);cursor:pointer}
+.calc-sel{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.62rem .9rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.87rem;outline:none;cursor:pointer;margin-bottom:1.3rem}
+.calc-sel option{background:#0E1D35}
+.salary-result{background:linear-gradient(135deg,rgba(201,153,63,.1),rgba(201,153,63,.04));border:1px solid rgba(201,153,63,.28);border-radius:13px;padding:1.75rem;margin-top:1.25rem}
+.sal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.r-label{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.25rem}
+.r-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--gold)}
 
-  .hero::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: radial-gradient(ellipse 70% 80% at 70% 50%, rgba(201,153,63,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
+/* INDUSTRIES */
+#industries{background:var(--navy2)}
+.industries-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.industry-tags{display:flex;flex-wrap:wrap;gap:.65rem;margin-top:1.75rem}
+.industry-tag{padding:.52rem 1.1rem;border:1px solid rgba(201,153,63,.22);border-radius:100px;font-size:.82rem;color:var(--gray);transition:all .2s;cursor:default;background:rgba(201,153,63,.04)}
+.industry-tag:hover,.industry-tag.active{border-color:var(--gold);color:var(--gold);background:var(--gold-bg)}
+.process-box{background:linear-gradient(135deg,#142240,#0E1D35);border-radius:22px;padding:2.75rem;border:1px solid rgba(201,153,63,.15)}
+.process-step{display:flex;gap:1.15rem;margin-bottom:1.65rem;align-items:flex-start}
+.step-num{width:34px;height:34px;min-width:34px;background:var(--gold-bg);border:1px solid rgba(201,153,63,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--gold)}
+.step-content h4{font-size:.92rem;font-weight:600;margin-bottom:.22rem}
+.step-content p{color:var(--gray);font-size:.83rem;line-height:1.62}
 
-  .hero-grid-bg {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0.04;
-    background-image:
-      linear-gradient(rgba(201,153,63,1) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,153,63,1) 1px, transparent 1px);
-    background-size: 60px 60px;
-  }
+/* ABOUT */
+#about{background:var(--navy)}
+.about-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.founder-card{background:var(--navy2);border:1px solid rgba(201,153,63,.2);border-radius:22px;padding:2.5rem;text-align:center;position:relative;overflow:hidden}
+.founder-card::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;background:radial-gradient(circle,rgba(201,153,63,.08),transparent 70%);pointer-events:none}
+.founder-avatar{width:92px;height:92px;border-radius:50%;margin:0 auto 1.1rem;background:linear-gradient(135deg,var(--gold) 0%,#7A5515 100%);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--navy);border:3px solid rgba(201,153,63,.28)}
+.founder-name{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;margin-bottom:.3rem}
+.founder-title{color:var(--gold);font-size:.76rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.1rem}
+.founder-bio{color:var(--gray);font-size:.86rem;line-height:1.76;margin-bottom:1rem}
+.founder-badges{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin-top:1.1rem}
+.founder-badge{font-size:.68rem;padding:.25rem .75rem;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:100px;color:var(--gray)}
+.founder-socials{display:flex;justify-content:center;gap:.65rem;margin-top:1.3rem}
+.social-btn{padding:.45rem 1.1rem;border:1px solid rgba(201,153,63,.28);border-radius:7px;background:transparent;color:var(--gold);font-size:.78rem;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:.35rem;font-family:'DM Sans',sans-serif;font-weight:500}
+.social-btn:hover{background:var(--gold-bg);border-color:var(--gold)}
+.mission-card{background:rgba(201,153,63,.06);border:1px solid rgba(201,153,63,.15);border-left:2px solid var(--gold);border-radius:0 12px 12px 0;padding:1.25rem 1.4rem;margin-bottom:.9rem}
+.mission-card h4{color:var(--gold);font-size:.74rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:.38rem}
+.mission-card p{color:var(--gray);font-size:.83rem;line-height:1.65}
+.about-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.75rem}
+.about-stat{text-align:center;padding:.9rem;background:var(--gold-bg);border-radius:10px;border:1px solid rgba(201,153,63,.18)}
+.as-num{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;color:var(--gold)}
+.as-lbl{color:var(--gray);font-size:.71rem;margin-top:.18rem}
 
-  .hero-content { animation: fadeUp 0.9s 0.2s both; }
+/* TEAM */
+#team{background:var(--navy2)}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.75rem}
+.team-card{background:var(--navy);border:1px solid rgba(255,255,255,.07);border-radius:15px;padding:1.9rem;text-align:center;transition:all .28s}
+.team-card:hover{border-color:rgba(201,153,63,.28);transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+.team-avatar{width:66px;height:66px;border-radius:50%;margin:0 auto .9rem;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;color:var(--navy)}
+.team-name{font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+.team-role{color:var(--gold);font-size:.72rem;letter-spacing:.5px;text-transform:uppercase;margin-bottom:.65rem;font-weight:600}
+.team-desc{color:var(--gray);font-size:.8rem;line-height:1.65}
 
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(201,153,63,0.12);
-    border: 1px solid rgba(201,153,63,0.3);
-    color: var(--gold); padding: 0.4rem 1rem;
-    border-radius: 100px; font-size: 0.78rem; font-weight: 600;
-    letter-spacing: 1px; text-transform: uppercase;
-    margin-bottom: 2rem;
-  }
+/* WHY US */
+#why{background:var(--navy)}
+.why-layout{display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem}
+.why-card{padding:1.85rem;border-left:2px solid var(--gold);background:rgba(201,153,63,.04);border-radius:0 12px 12px 0;transition:background .2s}
+.why-card:hover{background:rgba(201,153,63,.08)}
+.why-icon{font-size:1.35rem;margin-bottom:.65rem}
+.why-card h4{font-weight:600;margin-bottom:.4rem;font-size:.93rem}
+.why-card p{color:var(--gray);font-size:.84rem;line-height:1.67}
 
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    font-weight: 900; line-height: 1.1;
-    color: var(--white);
-    margin-bottom: 1.5rem;
-  }
+/* TESTIMONIALS */
+#testimonials{background:var(--navy2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.75rem}
+.testi-card{background:var(--navy);border:1px solid rgba(255,255,255,.06);border-radius:15px;padding:1.9rem;transition:border-color .2s}
+.testi-card:hover{border-color:rgba(201,153,63,.28)}
+.stars{color:var(--gold);font-size:.88rem;margin-bottom:.65rem;letter-spacing:1px}
+.testi-quote{color:var(--gold);font-size:2rem;line-height:1;margin-bottom:.75rem;font-family:'Playfair Display',serif}
+.testi-text{color:var(--gray);font-size:.86rem;line-height:1.75;margin-bottom:1.3rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:.7rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.07)}
+.testi-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#7A5515);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+.testi-name{font-weight:600;font-size:.86rem}
+.testi-role{color:var(--gray);font-size:.72rem}
 
-  .hero h1 em {
-    font-style: normal;
-    color: var(--gold);
-  }
+/* FAQ */
+#faq{background:var(--navy)}
+.faq-layout{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.08)}
+.faq-q{width:100%;text-align:left;background:transparent;border:none;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:1.1rem 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.faq-q:hover{color:var(--gold)}
+.faq-icon{color:var(--gold);transition:transform .25s;min-width:18px;font-style:normal;font-size:1.2rem;font-weight:700}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{color:var(--gray);font-size:.84rem;line-height:1.76;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .2s}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:1.1rem}
 
-  .hero p {
-    color: var(--gray); font-size: 1.05rem; line-height: 1.75;
-    max-width: 480px; margin-bottom: 2.5rem;
-    font-weight: 300;
-  }
+/* HIRING BANNER */
+.hire-banner{background:linear-gradient(90deg,var(--gold),var(--gold-lt));color:var(--navy);padding:1.15rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.hire-banner h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900}
+.hire-banner p{font-size:.82rem;opacity:.8}
+.banner-btn{background:var(--navy);color:var(--gold-lt);padding:.6rem 1.5rem;border:none;border-radius:5px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap}
+.banner-btn:hover{background:#0E1D35}
 
-  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* CONTACT */
+#contact{background:linear-gradient(135deg,#0A1628 0%,#142240 50%,#0A1628 100%);position:relative;overflow:hidden}
+#contact::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(201,153,63,.06) 0%,transparent 70%);pointer-events:none}
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;position:relative}
+.contact-info p{color:var(--gray);line-height:1.75;margin-bottom:2rem}
+.cdetail{display:flex;align-items:flex-start;gap:.88rem;margin-bottom:1rem;color:var(--gray);font-size:.88rem}
+.cdetail-icon{width:34px;height:34px;background:rgba(201,153,63,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem;min-width:34px;border:1px solid rgba(201,153,63,.2)}
+.cdetail-sub{font-size:.68rem;color:var(--gold-lt);font-weight:600;text-transform:uppercase;letter-spacing:.7px;margin-bottom:.15rem}
+.hs-badge{display:flex;align-items:flex-start;gap:.75rem;background:rgba(201,153,63,.08);border:1px solid rgba(201,153,63,.2);border-radius:11px;padding:1rem 1.25rem;margin-top:1.65rem}
+.hs-badge-t{font-size:.7rem;color:var(--gold-lt);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.28rem}
+.hs-badge p{font-size:.8rem;color:var(--gray);line-height:1.55}
+.contact-form{background:var(--navy2);border:1px solid rgba(201,153,63,.18);border-radius:20px;padding:2.4rem}
+.contact-form h3{font-family:'Playfair Display',serif;font-size:1.28rem;font-weight:700;margin-bottom:1.65rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.15rem}
+.form-group label{display:block;font-size:.72rem;color:var(--gray);margin-bottom:.38rem;font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.72rem 1rem;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.88rem;transition:border-color .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--gray);opacity:.6}
+.form-group select option{background:#0E1D35}
+.form-group textarea{resize:vertical;min-height:95px}
+.form-submit{width:100%;background:var(--gold);color:var(--navy);border:none;border-radius:8px;padding:.95rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.form-submit:hover{background:var(--gold-lt);transform:translateY(-1px)}
 
-  .btn-primary {
-    background: var(--gold); color: var(--navy);
-    padding: 0.9rem 2rem; border: none; border-radius: 4px;
-    font-family: 'DM Sans', sans-serif; font-weight: 600;
-    font-size: 0.95rem; cursor: pointer;
-    transition: all 0.2s; text-decoration: none;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,153,63,0.3); }
+/* FOOTER */
+footer{background:#060E1A;border-top:1px solid rgba(255,255,255,.06);padding:3rem 4rem 2rem}
+.footer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2.75rem}
+.footer-brand .logo{font-size:1.3rem;display:block;margin-bottom:.7rem}
+.footer-brand p{color:var(--gray);font-size:.82rem;max-width:270px;line-height:1.65}
+.footer-links h4{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold-lt);margin-bottom:.9rem;font-weight:600}
+.footer-links ul{list-style:none}
+.footer-links ul li{margin-bottom:.55rem}
+.footer-links ul a{color:var(--gray);text-decoration:none;font-size:.84rem;transition:color .2s}
+.footer-links ul a:hover{color:var(--white)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);padding-top:1.35rem;display:flex;justify-content:space-between;align-items:flex-start;color:var(--gray);font-size:.76rem}
+.footer-bottom-right{text-align:right;display:flex;flex-direction:column;gap:.22rem}
 
-  .btn-outline {
-    background: transparent; color: var(--white);
-    padding: 0.9rem 2rem; border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 4px; font-family: 'DM Sans', sans-serif;
-    font-weight: 500; font-size: 0.95rem; cursor: pointer;
-    transition: all 0.2s; text-decoration: none; display: inline-block;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.reveal{opacity:0;transform:translateY(26px);transition:all .68s ease}
+.reveal.visible{opacity:1;transform:none}
 
-  .hero-visual {
-    display: flex; justify-content: center; align-items: center;
-    animation: fadeUp 0.9s 0.4s both;
-    position: relative;
-  }
-
-  .hero-card-stack { position: relative; width: 360px; height: 440px; }
-
-  .stat-card {
-    position: absolute;
-    background: var(--navy-mid);
-    border: 1px solid rgba(201,153,63,0.15);
-    border-radius: 16px;
-    padding: 1.75rem 2rem;
-    backdrop-filter: blur(10px);
-  }
-
-  .stat-card-main {
-    width: 300px; top: 60px; left: 30px;
-    background: linear-gradient(135deg, #1A3050 0%, #0E2240 100%);
-    border-color: rgba(201,153,63,0.3);
-    animation: float 4s ease-in-out infinite;
-  }
-
-  .stat-card-1 {
-    width: 200px; top: 0; right: 0;
-    animation: float 4s ease-in-out 1s infinite;
-  }
-
-  .stat-card-2 {
-    width: 220px; bottom: 0; left: 10px;
-    animation: float 4s ease-in-out 2s infinite;
-  }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.5rem; font-weight: 900; color: var(--gold);
-    line-height: 1;
-  }
-  .stat-label {
-    font-size: 0.8rem; color: var(--gray); margin-top: 0.4rem;
-    text-transform: uppercase; letter-spacing: 0.8px;
-  }
-  .stat-icon {
-    font-size: 1.5rem; margin-bottom: 0.75rem;
-  }
-
-  /* ── STATS BAR ── */
-  .stats-bar {
-    background: var(--navy-mid);
-    border-top: 1px solid rgba(201,153,63,0.1);
-    border-bottom: 1px solid rgba(201,153,63,0.1);
-    padding: 2.5rem 4rem;
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 2rem; text-align: center;
-  }
-
-  .stat-item .num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem; font-weight: 900; color: var(--gold);
-  }
-  .stat-item .desc {
-    color: var(--gray); font-size: 0.85rem; margin-top: 0.25rem;
-  }
-
-  /* ── SECTIONS ── */
-  section { padding: 6rem 4rem; }
-
-  .section-tag {
-    display: inline-block;
-    color: var(--gold); font-size: 0.78rem;
-    text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 900;
-    line-height: 1.15; margin-bottom: 1.25rem;
-  }
-
-  .section-sub {
-    color: var(--gray); font-size: 1rem; line-height: 1.7;
-    max-width: 560px; font-weight: 300;
-  }
-
-  /* ── SERVICES ── */
-  #services { background: var(--navy); }
-  .services-header { text-align: center; margin-bottom: 4rem; }
-  .services-header .section-sub { margin: 0 auto; }
-
-  .services-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  .service-card {
-    background: var(--navy-mid);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px; padding: 2.5rem;
-    transition: all 0.3s; cursor: default;
-    position: relative; overflow: hidden;
-  }
-  .service-card::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(201,153,63,0.06), transparent);
-    opacity: 0; transition: opacity 0.3s;
-  }
-  .service-card:hover { border-color: rgba(201,153,63,0.35); transform: translateY(-4px); }
-  .service-card:hover::after { opacity: 1; }
-
-  .service-icon {
-    width: 52px; height: 52px;
-    background: rgba(201,153,63,0.12);
-    border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem; margin-bottom: 1.5rem;
-    border: 1px solid rgba(201,153,63,0.2);
-  }
-
-  .service-card h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem;
-  }
-  .service-card p { color: var(--gray); font-size: 0.9rem; line-height: 1.7; }
-
-  /* ── INDUSTRIES ── */
-  #industries { background: var(--navy-mid); }
-  .industries-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-
-  .industry-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
-  .industry-tag {
-    padding: 0.6rem 1.2rem;
-    border: 1px solid rgba(201,153,63,0.2);
-    border-radius: 100px; font-size: 0.85rem; color: var(--gray);
-    transition: all 0.2s; cursor: default;
-    background: rgba(201,153,63,0.04);
-  }
-  .industry-tag:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,153,63,0.08); }
-  .industry-tag.active { border-color: var(--gold); color: var(--gold); background: rgba(201,153,63,0.12); }
-
-  .industry-visual {
-    background: linear-gradient(135deg, #142240, #0E1D35);
-    border-radius: 24px; padding: 3rem;
-    border: 1px solid rgba(201,153,63,0.15);
-  }
-
-  .process-step {
-    display: flex; gap: 1.25rem; margin-bottom: 1.75rem;
-    align-items: flex-start;
-  }
-  .step-num {
-    width: 36px; height: 36px; min-width: 36px;
-    background: rgba(201,153,63,0.12); border: 1px solid rgba(201,153,63,0.3);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 0.8rem; font-weight: 700; color: var(--gold);
-  }
-  .step-content h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
-  .step-content p { color: var(--gray); font-size: 0.85rem; line-height: 1.6; }
-
-  /* ── WHY US ── */
-  #why { background: var(--navy); }
-  .why-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
-
-  .why-card {
-    padding: 2rem;
-    border-left: 2px solid var(--gold);
-    background: rgba(201,153,63,0.04);
-    border-radius: 0 12px 12px 0;
-    transition: background 0.2s;
-  }
-  .why-card:hover { background: rgba(201,153,63,0.08); }
-  .why-card h4 { font-weight: 600; margin-bottom: 0.5rem; font-size: 1rem; }
-  .why-card p { color: var(--gray); font-size: 0.88rem; line-height: 1.65; }
-
-  /* ── TESTIMONIALS ── */
-  #testimonials { background: var(--navy-mid); }
-  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-
-  .testi-card {
-    background: var(--navy);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px; padding: 2rem;
-    transition: border-color 0.2s;
-  }
-  .testi-card:hover { border-color: rgba(201,153,63,0.25); }
-
-  .testi-quote { color: var(--gold); font-size: 2rem; line-height: 1; margin-bottom: 1rem; }
-  .testi-text { color: var(--gray); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
-  .testi-author { display: flex; align-items: center; gap: 0.75rem; }
-  .testi-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--navy-mid) 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 0.9rem;
-  }
-  .testi-name { font-weight: 600; font-size: 0.9rem; }
-  .testi-role { color: var(--gray); font-size: 0.78rem; }
-
-  /* ── CONTACT ── */
-  #contact {
-    background: linear-gradient(135deg, #0A1628 0%, #142240 50%, #0A1628 100%);
-    position: relative; overflow: hidden;
-  }
-  #contact::before {
-    content: '';
-    position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(201,153,63,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; position: relative; }
-
-  .contact-info h2 { margin-bottom: 1.25rem; }
-  .contact-info p { color: var(--gray); line-height: 1.7; margin-bottom: 2rem; }
-
-  .contact-detail {
-    display: flex; align-items: center; gap: 0.9rem;
-    margin-bottom: 1rem; color: var(--gray); font-size: 0.9rem;
-  }
-  .contact-detail-icon {
-    width: 36px; height: 36px;
-    background: rgba(201,153,63,0.1); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1rem; min-width: 36px;
-  }
-
-  .contact-form {
-    background: var(--navy-mid);
-    border: 1px solid rgba(201,153,63,0.15);
-    border-radius: 20px; padding: 2.5rem;
-  }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-  .form-group { margin-bottom: 1.25rem; }
-  .form-group label {
-    display: block; font-size: 0.8rem;
-    color: var(--gray); margin-bottom: 0.4rem; font-weight: 500;
-    text-transform: uppercase; letter-spacing: 0.5px;
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%; background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px; padding: 0.75rem 1rem;
-    color: var(--white); font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem; transition: border-color 0.2s;
-    outline: none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--gold);
-  }
-  .form-group select option { background: var(--navy-mid); }
-  .form-group textarea { resize: vertical; min-height: 100px; }
-
-  .form-submit {
-    width: 100%; background: var(--gold); color: var(--navy);
-    border: none; border-radius: 8px; padding: 1rem;
-    font-family: 'DM Sans', sans-serif; font-weight: 700;
-    font-size: 1rem; cursor: pointer; transition: all 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .form-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
-
-  /* ── FOOTER ── */
-  footer {
-    background: #060E1A;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding: 3rem 4rem 2rem;
-  }
-  .footer-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 3rem; }
-  .footer-brand .logo { font-size: 1.3rem; display: block; margin-bottom: 0.75rem; }
-  .footer-brand p { color: var(--gray); font-size: 0.85rem; max-width: 280px; line-height: 1.6; }
-
-  .footer-links h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 1rem; }
-  .footer-links ul { list-style: none; }
-  .footer-links ul li { margin-bottom: 0.6rem; }
-  .footer-links ul a { color: var(--gray); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
-  .footer-links ul a:hover { color: var(--white); }
-
-  .footer-bottom {
-    border-top: 1px solid rgba(255,255,255,0.06);
-    padding-top: 1.5rem;
-    display: flex; justify-content: space-between; align-items: center;
-    color: var(--gray); font-size: 0.8rem;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
-  .reveal.visible { opacity: 1; transform: none; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
-    .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
-    .hero-visual { display: none; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 2rem 1.5rem; }
-    section { padding: 4rem 1.5rem; }
-    .services-grid { grid-template-columns: 1fr; }
-    .industries-layout { grid-template-columns: 1fr; gap: 3rem; }
-    .why-grid { grid-template-columns: 1fr; }
-    .testi-grid { grid-template-columns: 1fr; }
-    .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
-    footer { padding: 3rem 1.5rem 2rem; }
-    .footer-top { flex-direction: column; gap: 2rem; }
-    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
-    .form-row { grid-template-columns: 1fr; }
-  }
+/* RESPONSIVE */
+@media(max-width:900px){
+  .announce-bar{padding:.45rem 1.5rem;font-size:.68rem;flex-direction:column;gap:.3rem}
+  .announce-right{flex-wrap:wrap;justify-content:center;gap:.75rem}
+  nav{padding:0 1.5rem;top:3.5rem}
+  .nav-links{display:none}
+  .hero{grid-template-columns:1fr;padding:11rem 1.5rem 3.5rem}
+  .hero-visual{display:none}
+  .stats-bar{grid-template-columns:repeat(2,1fr);padding:2rem 1.5rem}
+  section{padding:4rem 1.5rem}
+  .services-grid,.jobs-grid,.team-grid,.testi-grid,.why-grid{grid-template-columns:1fr}
+  .industries-layout,.about-layout,.salary-layout,.contact-layout,.faq-layout,.why-layout{grid-template-columns:1fr;gap:2.5rem}
+  footer{padding:2.5rem 1.5rem}
+  .footer-top{flex-direction:column;gap:2rem}
+  .footer-bottom{flex-direction:column;gap:.4rem}
+  .footer-bottom-right{text-align:left}
+  .form-row{grid-template-columns:1fr}
+  .hire-banner{padding:1.1rem 1.5rem}
+}
 </style>
 </head>
 <body>
 
+<!-- ANNOUNCE BAR -->
+<div class="announce-bar">
+  <span>🇮🇳 Pan-India HR &amp; Manpower Solutions — Trusted by Growing Businesses Since 2025</span>
+  <div class="announce-right">
+    <span>🎧 <a href="mailto:support@245582739.na2.r.hubspot-inbox.com">support@245582739.na2.r.hubspot-inbox.com</a></span>
+    <span>📞 <a href="tel:+919650299407" style="color:var(--white);text-decoration:none">+91 96502 99407</a></span>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
-  <div class="logo">SMIF<span> Enterprises</span></div>
+  <a href="#" class="logo">SMIF<span> Enterprises</span></a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
+    <li><a href="#jobs">Jobs</a></li>
+    <li><a href="#about">About</a></li>
     <li><a href="#industries">Industries</a></li>
-    <li><a href="#why">Why Us</a></li>
-    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Manpower</button>
@@ -483,7 +312,7 @@
   <div class="hero-grid-bg"></div>
   <div class="hero-content">
     <div class="hero-badge">🏆 Trusted HR Partner Since 2025</div>
-    <h1>Connecting <em>Great Talent</em> with Great Organizations</h1>
+    <h1>Connecting <em>Great Talent</em><br>with Great Organizations</h1>
     <p>SMIF Enterprises delivers end-to-end HR services — from workforce planning and manpower supply to permanent placements. We help businesses scale faster with the right people.</p>
     <div class="hero-actions">
       <a href="#contact" class="btn-primary">Request Manpower</a>
@@ -492,28 +321,28 @@
   </div>
   <div class="hero-visual">
     <div class="hero-card-stack">
-      <div class="stat-card stat-card-1">
-        <div class="stat-icon">👥</div>
-        <div class="stat-num">100+</div>
-        <div class="stat-label">Placements This Year</div>
+      <div class="hcard hcard-1">
+        <div class="hcard-icon">👥</div>
+        <div class="hcard-num">100+</div>
+        <div class="hcard-lbl">Placements This Year</div>
       </div>
-      <div class="stat-card stat-card-main">
-        <div class="stat-icon">🏢</div>
-        <div class="stat-num">98%</div>
-        <div class="stat-label">Client Retention Rate</div>
-        <div style="margin-top:1.25rem; padding-top:1.25rem; border-top: 1px solid rgba(255,255,255,0.08);">
-          <div style="font-size:0.78rem; color:var(--gray); margin-bottom:0.5rem;">Active Industries</div>
-          <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-            <span style="background:rgba(201,153,63,0.1);padding:0.2rem 0.6rem;border-radius:100px;font-size:0.7rem;color:var(--gold);">IT</span>
-            <span style="background:rgba(201,153,63,0.1);padding:0.2rem 0.6rem;border-radius:100px;font-size:0.7rem;color:var(--gold);">Healthcare</span>
-            <span style="background:rgba(201,153,63,0.1);padding:0.2rem 0.6rem;border-radius:100px;font-size:0.7rem;color:var(--gold);">Manufacturing</span>
+      <div class="hcard hcard-main">
+        <div class="hcard-icon">🏢</div>
+        <div class="hcard-num">98%</div>
+        <div class="hcard-lbl">Client Retention Rate</div>
+        <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.08)">
+          <div style="font-size:.72rem;color:var(--gray);margin-bottom:.4rem">Active Industries</div>
+          <div style="display:flex;gap:.35rem;flex-wrap:wrap">
+            <span style="background:var(--gold-bg);padding:.15rem .5rem;border-radius:100px;font-size:.65rem;color:var(--gold);font-weight:600">IT</span>
+            <span style="background:var(--gold-bg);padding:.15rem .5rem;border-radius:100px;font-size:.65rem;color:var(--gold);font-weight:600">Healthcare</span>
+            <span style="background:var(--gold-bg);padding:.15rem .5rem;border-radius:100px;font-size:.65rem;color:var(--gold);font-weight:600">Manufacturing</span>
           </div>
         </div>
       </div>
-      <div class="stat-card stat-card-2">
-        <div class="stat-icon">⚡</div>
-        <div class="stat-num">48hrs</div>
-        <div class="stat-label">Avg. Deployment Time</div>
+      <div class="hcard hcard-2">
+        <div class="hcard-icon">⚡</div>
+        <div class="hcard-num">48hrs</div>
+        <div class="hcard-lbl">Avg. Deployment Time</div>
       </div>
     </div>
   </div>
@@ -521,22 +350,10 @@
 
 <!-- STATS BAR -->
 <div class="stats-bar">
-  <div class="stat-item reveal">
-    <div class="num">Est.</div>
-    <div class="desc">Since 2025</div>
-  </div>
-  <div class="stat-item reveal">
-    <div class="num">5+</div>
-    <div class="desc">Corporate Clients</div>
-  </div>
-  <div class="stat-item reveal">
-    <div class="num">100+</div>
-    <div class="desc">Professionals Placed</div>
-  </div>
-  <div class="stat-item reveal">
-    <div class="num">2+</div>
-    <div class="desc">Industries Served</div>
-  </div>
+  <div class="stat-item reveal"><div class="num">Est.</div><div class="desc">Since 2025</div></div>
+  <div class="stat-item reveal"><div class="num">5+</div><div class="desc">Corporate Clients</div></div>
+  <div class="stat-item reveal"><div class="num">100+</div><div class="desc">Professionals Placed</div></div>
+  <div class="stat-item reveal"><div class="num">2+</div><div class="desc">Industries Served</div></div>
 </div>
 
 <!-- SERVICES -->
@@ -547,35 +364,140 @@
     <p class="section-sub">From sourcing to onboarding, we manage the entire talent lifecycle so you can focus on growing your business.</p>
   </div>
   <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-icon">🔍</div>
-      <h3>Permanent Recruitment</h3>
-      <p>We identify, screen, and deliver top-tier candidates for full-time roles. Our deep talent network ensures you get the best fit for every position — fast.</p>
+    <div class="service-card reveal"><div class="svc-icon">🔍</div><h3>Permanent Recruitment</h3><p>We identify, screen, and deliver top-tier candidates for full-time roles. Our deep talent network ensures you get the best fit for every position — fast.</p></div>
+    <div class="service-card reveal"><div class="svc-icon">⚡</div><h3>Temporary Staffing</h3><p>Scale your workforce up or down with skilled temporary staff for projects, seasonal demands, or sudden capacity needs — deployed within 48 hours.</p></div>
+    <div class="service-card reveal"><div class="svc-icon">🏗️</div><h3>Contract-to-Hire</h3><p>Evaluate candidates in real working conditions before committing to permanent employment. Reduce hiring risk with our flexible contract-to-hire model.</p></div>
+    <div class="service-card reveal"><div class="svc-icon">📋</div><h3>Payroll Management</h3><p>We handle payroll processing, statutory compliance, tax filings, and employee records — relieving your HR team of administrative burden.</p></div>
+    <div class="service-card reveal"><div class="svc-icon">🎓</div><h3>Training &amp; Upskilling</h3><p>Boost workforce productivity with customized training programs. From soft skills to technical certifications, we develop talent that delivers results.</p></div>
+    <div class="service-card reveal"><div class="svc-icon">📊</div><h3>HR Consulting</h3><p>Get strategic guidance on workforce planning, org design, compliance, and HR policies. Our experts partner with you to build people strategies that work.</p></div>
+  </div>
+</section>
+
+<!-- JOB BOARD -->
+<section id="jobs">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+    <div>
+      <div class="section-tag">Open Positions</div>
+      <h2 class="section-title">Current Job Openings</h2>
+      <p class="section-sub">Browse active roles we're currently hiring for on behalf of our clients.</p>
     </div>
-    <div class="service-card reveal">
-      <div class="service-icon">⚡</div>
-      <h3>Temporary Staffing</h3>
-      <p>Scale your workforce up or down with skilled temporary staff for projects, seasonal demands, or sudden capacity needs — deployed within 48 hours.</p>
+    <a href="#contact" class="btn-primary" style="align-self:flex-end;white-space:nowrap">Submit Your CV →</a>
+  </div>
+  <div class="jobs-filter">
+    <button class="filter-btn active" onclick="filterJobs('all',this)">All Roles</button>
+    <button class="filter-btn" onclick="filterJobs('IT',this)">IT &amp; Tech</button>
+    <button class="filter-btn" onclick="filterJobs('Finance',this)">Finance</button>
+    <button class="filter-btn" onclick="filterJobs('Healthcare',this)">Healthcare</button>
+    <button class="filter-btn" onclick="filterJobs('Manufacturing',this)">Manufacturing</button>
+    <button class="filter-btn" onclick="filterJobs('Sales',this)">Field Sales</button>
+    <button class="filter-btn" onclick="filterJobs('HR',this)">HR &amp; Admin</button>
+  </div>
+  <div class="jobs-grid" id="jobsGrid">
+
+    <div class="job-card featured reveal" data-cat="Sales">
+      <div class="job-featured-tag">⭐ Featured Opening</div>
+      <div class="job-top">
+        <div>
+          <div class="job-title">Field Sales Executive</div>
+          <div class="job-company">Excitel Broadband</div>
+          <div class="job-meta">
+            <span>📍 Okhla Phase II, Delhi</span>
+            <span>💰 Competitive + Incentives</span>
+            <span>🕐 0–6+ Years</span>
+          </div>
+        </div>
+        <span class="job-badge badge-urgent">Urgent</span>
+      </div>
+      <div class="job-skills">
+        <span class="job-skill">Door-to-Door Sales</span>
+        <span class="job-skill">Lead Generation</span>
+        <span class="job-skill">Customer Acquisition</span>
+        <span class="job-skill">Hindi / English</span>
+      </div>
+      <div style="margin-bottom:.9rem;padding:.75rem;background:rgba(201,153,63,.07);border-radius:8px;border:1px solid rgba(201,153,63,.18)">
+        <p style="font-size:.78rem;color:var(--gray);line-height:1.65"><strong style="color:var(--white)">About Role:</strong> Join Excitel's growing field sales team in Delhi. Drive new broadband subscriptions through direct customer engagement in residential areas. Attractive incentive structure on top of fixed pay.</p>
+      </div>
+      <div style="display:flex;gap:.65rem;flex-wrap:wrap">
+        <a href="https://www.jobhai.com/field-sales-field-boy-job-in-smif-enterprises-okhla-phase-ii-delhi-0-to-6-plus-years-1773055387-7363933-jid" target="_blank" rel="noopener" class="job-apply">Apply on JobHai →</a>
+        <a href="#contact" class="job-apply outlined">Enquire via SMIF</a>
+      </div>
     </div>
-    <div class="service-card reveal">
-      <div class="service-icon">🏗️</div>
-      <h3>Contract-to-Hire</h3>
-      <p>Evaluate candidates in real working conditions before committing to permanent employment. Reduce hiring risk with our flexible contract-to-hire model.</p>
+
+    <div class="job-card reveal" data-cat="IT">
+      <div class="job-top"><div><div class="job-title">Senior React Developer</div><div class="job-company">TechNova Solutions</div><div class="job-meta"><span>📍 Delhi NCR</span><span>💰 ₹12–18 LPA</span></div></div><span class="job-badge badge-full">Full Time</span></div>
+      <div class="job-skills"><span class="job-skill">React</span><span class="job-skill">TypeScript</span><span class="job-skill">Node.js</span><span class="job-skill">AWS</span></div>
+      <div style="margin-top:.85rem"><a href="#contact" class="job-apply outlined">Apply via SMIF</a></div>
     </div>
-    <div class="service-card reveal">
-      <div class="service-icon">📋</div>
-      <h3>Payroll Management</h3>
-      <p>We handle payroll processing, statutory compliance, tax filings, and employee records — relieving your HR team of administrative burden.</p>
+
+    <div class="job-card reveal" data-cat="Finance">
+      <div class="job-top"><div><div class="job-title">Financial Analyst</div><div class="job-company">Capital Bridge</div><div class="job-meta"><span>📍 Mumbai</span><span>💰 ₹8–12 LPA</span></div></div><span class="job-badge badge-contract">Contract</span></div>
+      <div class="job-skills"><span class="job-skill">Excel</span><span class="job-skill">SAP</span><span class="job-skill">Tally</span><span class="job-skill">CA Preferred</span></div>
+      <div style="margin-top:.85rem"><a href="#contact" class="job-apply outlined">Apply via SMIF</a></div>
     </div>
-    <div class="service-card reveal">
-      <div class="service-icon">🎓</div>
-      <h3>Training &amp; Upskilling</h3>
-      <p>Boost workforce productivity with customized training programs. From soft skills to technical certifications, we develop talent that delivers results.</p>
+
+    <div class="job-card reveal" data-cat="Healthcare">
+      <div class="job-top"><div><div class="job-title">Hospital Operations Manager</div><div class="job-company">MediCare Hospitals</div><div class="job-meta"><span>📍 Bangalore</span><span>💰 ₹10–15 LPA</span></div></div><span class="job-badge badge-full">Full Time</span></div>
+      <div class="job-skills"><span class="job-skill">Hospital Management</span><span class="job-skill">JCI Accreditation</span><span class="job-skill">NABH</span></div>
+      <div style="margin-top:.85rem"><a href="#contact" class="job-apply outlined">Apply via SMIF</a></div>
     </div>
-    <div class="service-card reveal">
-      <div class="service-icon">📊</div>
-      <h3>HR Consulting</h3>
-      <p>Get strategic guidance on workforce planning, org design, compliance, and HR policies. Our experts partner with you to build people strategies that work.</p>
+
+    <div class="job-card reveal" data-cat="Manufacturing">
+      <div class="job-top"><div><div class="job-title">Production Supervisor</div><div class="job-company">Meridian Manufacturing</div><div class="job-meta"><span>📍 Pune</span><span>💰 ₹5–8 LPA</span></div></div><span class="job-badge badge-temp">Temporary</span></div>
+      <div class="job-skills"><span class="job-skill">Lean Manufacturing</span><span class="job-skill">ISO 9001</span><span class="job-skill">PLC Operations</span></div>
+      <div style="margin-top:.85rem"><a href="#contact" class="job-apply outlined">Apply via SMIF</a></div>
+    </div>
+
+    <div class="job-card reveal" data-cat="HR">
+      <div class="job-top"><div><div class="job-title">HR Business Partner</div><div class="job-company">StarPath Retail</div><div class="job-meta"><span>📍 Delhi</span><span>💰 ₹7–11 LPA</span></div></div><span class="job-badge badge-full">Full Time</span></div>
+      <div class="job-skills"><span class="job-skill">HRIS</span><span class="job-skill">Employee Relations</span><span class="job-skill">SHRM-CP</span></div>
+      <div style="margin-top:.85rem"><a href="#contact" class="job-apply outlined">Apply via SMIF</a></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SALARY CALC -->
+<section id="salary">
+  <div class="salary-layout">
+    <div>
+      <div class="section-tag">Salary Insights</div>
+      <h2 class="section-title">Know Your Market Worth</h2>
+      <p class="section-sub">Benchmark compensation for any role. Make informed hiring decisions or negotiate with confidence.</p>
+      <div style="margin-top:2rem;display:flex;flex-direction:column;gap:1.1rem">
+        <div style="display:flex;align-items:flex-start;gap:.88rem"><div style="width:36px;height:36px;background:var(--gold-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;min-width:36px;border:1px solid rgba(201,153,63,.2)">📈</div><div><div style="font-weight:600;font-size:.88rem;margin-bottom:.15rem">Real Market Data</div><div style="color:var(--gray);font-size:.8rem">Based on active placements across India</div></div></div>
+        <div style="display:flex;align-items:flex-start;gap:.88rem"><div style="width:36px;height:36px;background:var(--gold-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;min-width:36px;border:1px solid rgba(201,153,63,.2)">🏙️</div><div><div style="font-weight:600;font-size:.88rem;margin-bottom:.15rem">City-Wise Benchmarks</div><div style="color:var(--gray);font-size:.8rem">Adjusted for metro vs Tier 2/3 cities</div></div></div>
+        <div style="display:flex;align-items:flex-start;gap:.88rem"><div style="width:36px;height:36px;background:var(--gold-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;min-width:36px;border:1px solid rgba(201,153,63,.2)">🎓</div><div><div style="font-weight:600;font-size:.88rem;margin-bottom:.15rem">Experience-Adjusted</div><div style="color:var(--gray);font-size:.8rem">Ranges shift based on years of experience</div></div></div>
+      </div>
+    </div>
+    <div class="salary-calc reveal">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:1.5rem">Salary Estimator</h3>
+      <div class="calc-lbl">Years of Experience <span id="expVal">3 Years</span></div>
+      <input class="calc-slider" type="range" min="0" max="20" value="3" id="expSlider" oninput="calcSalary()">
+      <div class="calc-lbl" style="margin-bottom:.4rem">Industry</div>
+      <select class="calc-sel" id="industrySelect" onchange="calcSalary()">
+        <option value="IT">Information Technology</option>
+        <option value="Finance">Banking &amp; Finance</option>
+        <option value="Healthcare">Healthcare &amp; Pharma</option>
+        <option value="Manufacturing">Manufacturing</option>
+        <option value="Retail">Retail &amp; E-Commerce</option>
+        <option value="Logistics">Logistics &amp; Supply Chain</option>
+      </select>
+      <div class="calc-lbl" style="margin-bottom:.4rem">City Tier</div>
+      <select class="calc-sel" id="citySelect" onchange="calcSalary()">
+        <option value="1.0">Metro (Delhi, Mumbai, Bangalore)</option>
+        <option value="0.85">Tier 2 (Pune, Hyderabad, Chennai)</option>
+        <option value="0.70">Tier 3 (Jaipur, Lucknow, Indore)</option>
+      </select>
+      <div class="salary-result">
+        <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:1px;color:var(--gray);margin-bottom:.85rem;font-weight:600">Estimated Salary Range</div>
+        <div class="sal-grid">
+          <div><div class="r-label">Annual (Min)</div><div class="r-val" id="salMin">₹4.2L</div></div>
+          <div><div class="r-label">Annual (Max)</div><div class="r-val" id="salMax">₹7.5L</div></div>
+          <div><div class="r-label">Monthly (Min)</div><div class="r-val" id="salMonMin">₹35K</div></div>
+          <div><div class="r-label">Monthly (Max)</div><div class="r-val" id="salMonMax">₹62K</div></div>
+        </div>
+        <div style="margin-top:.85rem;font-size:.7rem;color:var(--gray);opacity:.7">* Indicative range based on current market data</div>
+      </div>
     </div>
   </div>
 </section>
@@ -586,92 +508,114 @@
     <div>
       <div class="section-tag">Who We Serve</div>
       <h2 class="section-title">Built for Every Industry</h2>
-      <p class="section-sub">We have specialized talent pools and domain expertise across a wide range of industries, ensuring the candidates we deliver are truly ready to contribute.</p>
+      <p class="section-sub">Specialized talent pools and domain expertise across industries — candidates who are truly ready to contribute from day one.</p>
       <div class="industry-tags">
         <span class="industry-tag active">Information Technology</span>
-        <span class="industry-tag">Healthcare & Pharma</span>
+        <span class="industry-tag">Healthcare &amp; Pharma</span>
         <span class="industry-tag">Manufacturing</span>
-        <span class="industry-tag">Banking & Finance</span>
-        <span class="industry-tag">Retail & E-Commerce</span>
+        <span class="industry-tag">Banking &amp; Finance</span>
+        <span class="industry-tag">Retail &amp; E-Commerce</span>
         <span class="industry-tag">Construction</span>
-        <span class="industry-tag">Logistics & Supply Chain</span>
+        <span class="industry-tag">Logistics &amp; Supply Chain</span>
         <span class="industry-tag">Hospitality</span>
         <span class="industry-tag">Education</span>
-        <span class="industry-tag">Oil & Gas</span>
+        <span class="industry-tag">Oil &amp; Gas</span>
         <span class="industry-tag">Telecom</span>
         <span class="industry-tag">FMCG</span>
       </div>
     </div>
-    <div class="industry-visual reveal">
-      <div style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:1.75rem;font-weight:600;">Our Process</div>
-      <div class="process-step">
-        <div class="step-num">01</div>
-        <div class="step-content">
-          <h4>Requirements Discovery</h4>
-          <p>We deeply understand your role requirements, team culture, and business goals through a structured briefing session.</p>
-        </div>
+    <div class="process-box reveal">
+      <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--gold);margin-bottom:1.65rem;font-weight:600">Our Hiring Process</div>
+      <div class="process-step"><div class="step-num">01</div><div class="step-content"><h4>Requirements Discovery</h4><p>We deeply understand your role requirements, team culture, and business goals through a structured briefing session.</p></div></div>
+      <div class="process-step"><div class="step-num">02</div><div class="step-content"><h4>Talent Sourcing &amp; Screening</h4><p>We tap our vast network and run rigorous multi-stage screening including technical assessments and background checks.</p></div></div>
+      <div class="process-step"><div class="step-num">03</div><div class="step-content"><h4>Shortlisting &amp; Interviews</h4><p>You receive a curated shortlist of pre-vetted candidates. We coordinate all interviews and gather structured feedback.</p></div></div>
+      <div class="process-step" style="margin-bottom:0"><div class="step-num">04</div><div class="step-content"><h4>Deployment &amp; Follow-up</h4><p>We manage onboarding, documentation, and conduct 30/60/90-day check-ins to ensure satisfaction on both sides.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-layout">
+    <div class="founder-card reveal">
+      <div class="founder-avatar">AY</div>
+      <div class="founder-name">Arjun Yadav</div>
+      <div class="founder-title">Founder &amp; Managing Director</div>
+      <p class="founder-bio">An HR professional with a passion for bridging the gap between exceptional talent and high-growth organizations. Arjun founded SMIF Enterprises with a vision to make quality manpower solutions accessible to businesses of all sizes across India.</p>
+      <p class="founder-bio" style="margin-bottom:0">With deep expertise in workforce planning, compliance, and talent strategy, he personally oversees every client relationship to ensure standards of quality and speed remain uncompromised.</p>
+      <div class="founder-badges">
+        <span class="founder-badge">🏆 1+ Year in HR</span>
+        <span class="founder-badge">📍 Delhi-Based</span>
+        <span class="founder-badge">🤝 Pan-India Network</span>
       </div>
-      <div class="process-step">
-        <div class="step-num">02</div>
-        <div class="step-content">
-          <h4>Talent Sourcing & Screening</h4>
-          <p>We tap our vast network and run rigorous multi-stage screening including technical assessments and background checks.</p>
-        </div>
+      <div class="founder-socials">
+        <a href="tel:+919650299407" class="social-btn">📞 Call Directly</a>
+        <a href="mailto:info@smifenterprises.online" class="social-btn">✉️ Email</a>
       </div>
-      <div class="process-step">
-        <div class="step-num">03</div>
-        <div class="step-content">
-          <h4>Shortlisting & Interviews</h4>
-          <p>You receive a curated shortlist of pre-vetted candidates. We coordinate all interviews and gather structured feedback.</p>
-        </div>
+    </div>
+    <div>
+      <div class="section-tag">About Us</div>
+      <h2 class="section-title">The Story Behind SMIF Enterprises</h2>
+      <p class="section-sub">Founded in 2025 and headquartered in Dwarka, New Delhi, SMIF Enterprises was born from a belief that great businesses deserve great people — and finding them shouldn't be complicated.</p>
+      <div style="margin-top:1.65rem">
+        <div class="mission-card"><h4>🎯 Our Mission</h4><p>To be India's most trusted manpower partner — delivering qualified, compliant, and culture-fit talent at the speed businesses demand today.</p></div>
+        <div class="mission-card"><h4>👁️ Our Vision</h4><p>A future where every organization — from startups to enterprises — has effortless access to the human capital it needs to thrive.</p></div>
+        <div class="mission-card"><h4>💎 Our Values</h4><p>Integrity in every placement. Speed without compromise. Compliance as a standard, not an afterthought. Relationships built on accountability.</p></div>
       </div>
-      <div class="process-step">
-        <div class="step-num">04</div>
-        <div class="step-content">
-          <h4>Deployment & Follow-up</h4>
-          <p>We manage onboarding, documentation, and conduct 30/60/90-day check-ins to ensure satisfaction on both sides.</p>
-        </div>
+      <div class="about-stats">
+        <div class="about-stat"><div class="as-num">2025</div><div class="as-lbl">Founded</div></div>
+        <div class="about-stat"><div class="as-num">5+</div><div class="as-lbl">Clients</div></div>
+        <div class="about-stat"><div class="as-num">100+</div><div class="as-lbl">Lives Placed</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div style="text-align:center">
+    <div class="section-tag">Our People</div>
+    <h2 class="section-title">The Team Behind Your Success</h2>
+    <p class="section-sub" style="margin:0 auto">Every member brings domain knowledge and a genuine commitment to your hiring outcomes.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-avatar" style="background:linear-gradient(135deg,var(--gold),#7A5515)">AY</div>
+      <div class="team-name">Arjun Yadav</div>
+      <div class="team-role">Founder &amp; MD</div>
+      <p class="team-desc">Leads overall strategy, client relationships, and quality standards. The driving force behind SMIF's rapid growth and reputation.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#3498DB,#1A5276)">VR</div>
+      <div class="team-name">Vimal Raj</div>
+      <div class="team-role">Head of Recruitment</div>
+      <p class="team-desc">Oversees all permanent and contractual hiring mandates. Specialist in executive search across IT and BFSI sectors.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#2ECC71,#196F3D)">AM</div>
+      <div class="team-name">Anup Manjhi</div>
+      <div class="team-role">Compliance &amp; Payroll Lead</div>
+      <p class="team-desc">Ensures 100% statutory compliance for all deployed staff. Expert in PF, ESI, gratuity, and labour law across India.</p>
     </div>
   </div>
 </section>
 
 <!-- WHY US -->
 <section id="why">
-  <div style="display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:start;">
+  <div class="why-layout">
     <div>
       <div class="section-tag">Why SMIF Enterprises</div>
       <h2 class="section-title">The Partner You Can Count On</h2>
       <p class="section-sub">We don't just fill positions — we build workforce strategies that help your organization thrive.</p>
-      <div style="margin-top:2rem;">
-        <a href="#contact" class="btn-primary">Partner With Us</a>
-      </div>
+      <div style="margin-top:2rem"><a href="#contact" class="btn-primary">Partner With Us</a></div>
     </div>
     <div class="why-grid">
-      <div class="why-card reveal">
-        <h4>Speed Without Compromise</h4>
-        <p>Our pre-screened talent pools mean we can deploy qualified candidates in as little as 48 hours, without cutting corners on quality.</p>
-      </div>
-      <div class="why-card reveal">
-        <h4>Compliance Guaranteed</h4>
-        <p>We stay fully compliant with all labor laws, PF/ESI regulations, and statutory requirements — protecting you from legal risk.</p>
-      </div>
-      <div class="why-card reveal">
-        <h4>Dedicated Account Managers</h4>
-        <p>Every client gets a single point of contact who understands your business and is personally accountable for your satisfaction.</p>
-      </div>
-      <div class="why-card reveal">
-        <h4>Replacement Guarantee</h4>
-        <p>If a placed candidate doesn't work out within the guarantee period, we find a replacement at no additional cost to you.</p>
-      </div>
-      <div class="why-card reveal">
-        <h4>Pan-India Network</h4>
-        <p>With offices and talent networks across all major cities, we source the right talent wherever your operations are located.</p>
-      </div>
-      <div class="why-card reveal">
-        <h4>Technology-Driven Matching</h4>
-        <p>Our proprietary ATS and skills assessment platform ensures data-backed candidate matching, not just resume scanning.</p>
-      </div>
+      <div class="why-card reveal"><div class="why-icon">⚡</div><h4>Speed Without Compromise</h4><p>Pre-screened talent pools mean we can deploy qualified candidates in as little as 48 hours, without cutting corners on quality.</p></div>
+      <div class="why-card reveal"><div class="why-icon">⚖️</div><h4>Compliance Guaranteed</h4><p>We stay fully compliant with all labor laws, PF/ESI regulations, and statutory requirements — protecting you from legal risk.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🤝</div><h4>Dedicated Account Managers</h4><p>Every client gets a single point of contact who understands your business and is personally accountable for your satisfaction.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🔄</div><h4>Replacement Guarantee</h4><p>If a placed candidate doesn't work out within the guarantee period, we find a replacement at no additional cost to you.</p></div>
+      <div class="why-card reveal"><div class="why-icon">🗺️</div><h4>Pan-India Network</h4><p>With talent networks across all major cities, we source the right people wherever your operations are located.</p></div>
+      <div class="why-card reveal"><div class="why-icon">💡</div><h4>Technology-Driven Matching</h4><p>Our ATS and skills assessment platform ensures data-backed candidate matching, not just resume scanning.</p></div>
     </div>
   </div>
 </section>
@@ -682,40 +626,51 @@
   <h2 class="section-title">What Our Clients Say</h2>
   <div class="testi-grid">
     <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
       <div class="testi-quote">"</div>
       <p class="testi-text">SMIF Enterprises helped us ramp up our operations team by 60 people in under 3 weeks. Their speed and quality of candidates is genuinely impressive.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">RK</div>
-        <div>
-          <div class="testi-name">Rajesh Kumar</div>
-          <div class="testi-role">VP Operations, TechNova Solutions</div>
-        </div>
-      </div>
+      <div class="testi-author"><div class="testi-av">RK</div><div><div class="testi-name">Rajesh Kumar</div><div class="testi-role">VP Operations, TechNova Solutions</div></div></div>
     </div>
     <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
       <div class="testi-quote">"</div>
-      <p class="testi-text">We've partnered with SMIF Enterprises for all our contractual hiring. Their compliance management alone has saved us significant legal headaches.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">PS</div>
-        <div>
-          <div class="testi-name">Priya Sharma</div>
-          <div class="testi-role">HR Director, Meridian Manufacturing</div>
-        </div>
-      </div>
+      <p class="testi-text">We've partnered with SMIF for all our contractual hiring. Their compliance management alone has saved us significant legal headaches.</p>
+      <div class="testi-author"><div class="testi-av">PS</div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">HR Director, Meridian Manufacturing</div></div></div>
     </div>
     <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
       <div class="testi-quote">"</div>
-      <p class="testi-text">The dedicated account manager approach is what sets them apart. They know our culture and only send candidates who will truly fit — rarely wasting our time.</p>
-      <div class="testi-author">
-        <div class="testi-avatar">AM</div>
-        <div>
-          <div class="testi-name">Anil Mehta</div>
-          <div class="testi-role">CEO, StarPath Retail Group</div>
-        </div>
-      </div>
+      <p class="testi-text">The dedicated account manager approach is what sets them apart. They know our culture and only send candidates who will truly fit.</p>
+      <div class="testi-author"><div class="testi-av">AM</div><div><div class="testi-name">Anil Mehta</div><div class="testi-role">CEO, StarPath Retail Group</div></div></div>
     </div>
   </div>
 </section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-layout">
+    <div>
+      <div class="section-tag">Got Questions?</div>
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-sub">Everything you need to know about working with SMIF Enterprises.</p>
+      <div style="margin-top:2rem"><a href="#contact" class="btn-outline">Ask Anything →</a></div>
+    </div>
+    <div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How quickly can you deploy candidates? <i class="faq-icon">+</i></button><div class="faq-a">For temporary and contractual roles, we can deploy pre-screened candidates within 24–48 hours of receiving a confirmed requirement. For permanent senior roles, our average time-to-offer is 7–10 business days.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What is your replacement guarantee policy? <i class="faq-icon">+</i></button><div class="faq-a">If a placed candidate leaves or underperforms within the guarantee period (typically 30–90 days), we provide a free replacement. We stand fully behind the quality of every placement we make.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do you handle PF, ESI, and statutory compliance? <i class="faq-icon">+</i></button><div class="faq-a">Yes — for all contract and temporary staff deployed through us, we are the employer of record and handle all statutory compliances including PF, ESI, gratuity, professional tax, and labour law filings. Zero compliance risk for you.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Which cities do you operate in? <i class="faq-icon">+</i></button><div class="faq-a">We operate pan-India with our primary base in New Delhi. We actively source and deploy in Delhi NCR, Mumbai, Bangalore, Hyderabad, Pune, Chennai, Kolkata, and Tier 2 cities on request.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can job seekers also register with you? <i class="faq-icon">+</i></button><div class="faq-a">Absolutely. Submit your CV through our contact form or email us at info@smifenterprises.online. We'll reach out when a matching opportunity arises from our client mandates.</div></div>
+      <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do I reach your support team? <i class="faq-icon">+</i></button><div class="faq-a">Reach us at support@245582739.na2.r.hubspot-inbox.com — all queries are tracked via HubSpot CRM with a guaranteed response within 4 business hours on working days.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRING BANNER -->
+<div class="hire-banner">
+  <div><h3>📢 We're Hiring Recruitment Consultants!</h3><p>Join the SMIF Enterprises team — help businesses grow and candidates thrive.</p></div>
+  <a href="mailto:info@smifenterprises.online" class="banner-btn">View Internal Openings →</a>
+</div>
 
 <!-- CONTACT -->
 <section id="contact">
@@ -724,44 +679,29 @@
       <div class="section-tag">Get In Touch</div>
       <h2 class="section-title">Ready to Build Your Team?</h2>
       <p>Tell us your manpower requirements and a SMIF Enterprises consultant will get back to you within 4 business hours with a tailored proposal.</p>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">📞</div>
-        <span>+91 96502 99407</span>
+      <div class="cdetail"><div class="cdetail-icon">📞</div><span>+91 96502 99407</span></div>
+      <div class="cdetail"><div class="cdetail-icon">✉️</div><span>info@smifenterprises.online</span></div>
+      <div class="cdetail" style="align-items:flex-start">
+        <div class="cdetail-icon" style="background:rgba(201,153,63,.18);border-color:rgba(201,153,63,.3)">🎧</div>
+        <div><div class="cdetail-sub">HubSpot Support Inbox</div><span style="font-size:.82rem;word-break:break-all">support@245582739.na2.r.hubspot-inbox.com</span></div>
       </div>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">✉️</div>
-        <span>info@smifenterprises.online</span>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">📍</div>
-        <span>Dwarka, New Delhi 110078</span>
-      </div>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">🕐</div>
-        <span>Mon – Sat, 9:00 AM – 6:30 PM IST</span>
+      <div class="cdetail"><div class="cdetail-icon">📍</div><span>Dwarka, New Delhi 110078</span></div>
+      <div class="cdetail"><div class="cdetail-icon">🕐</div><span>Mon – Sat, 9:00 AM – 6:30 PM IST</span></div>
+      <div class="cdetail"><div class="cdetail-icon">👤</div><span>Arjun Yadav — Founder &amp; MD</span></div>
+      <div class="hs-badge">
+        <div style="font-size:1.5rem">⚡</div>
+        <div><div class="hs-badge-t">Powered by HubSpot CRM</div><p>All inquiries tracked end-to-end. Response within <strong style="color:var(--white)">4 business hours</strong>.</p></div>
       </div>
     </div>
     <div class="contact-form reveal">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:1.75rem;">Request a Consultation</h3>
+      <h3>Request a Consultation</h3>
       <div class="form-row">
-        <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" placeholder="Full Name">
-        </div>
-        <div class="form-group">
-          <label>Company</label>
-          <input type="text" placeholder="Company Name">
-        </div>
+        <div class="form-group"><label>Your Name</label><input type="text" placeholder="Full Name"></div>
+        <div class="form-group"><label>Company</label><input type="text" placeholder="Company Name"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="work@company.com">
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" placeholder="+91 XXXXX XXXXX">
-        </div>
+        <div class="form-group"><label>Email</label><input type="email" placeholder="work@company.com"></div>
+        <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
       </div>
       <div class="form-group">
         <label>Service Required</label>
@@ -771,14 +711,14 @@
           <option>Contract-to-Hire</option>
           <option>Payroll Management</option>
           <option>HR Consulting</option>
-          <option>Training & Upskilling</option>
+          <option>Training &amp; Upskilling</option>
         </select>
       </div>
       <div class="form-group">
         <label>Tell Us About Your Requirement</label>
         <textarea placeholder="Number of positions, role type, timeline, location..."></textarea>
       </div>
-      <button class="form-submit" onclick="this.textContent='✅ Inquiry Submitted!';this.style.background='#3a9e6f';setTimeout(()=>{this.textContent='Submit Request';this.style.background=''},3000)">Submit Request</button>
+      <button class="form-submit" onclick="this.textContent='✅ Inquiry Submitted!';this.style.background='#2ECC71';this.style.color='#0A1628';setTimeout(()=>{this.textContent='Submit Request';this.style.background='';this.style.color=''},3000)">Submit Request</button>
     </div>
   </div>
 </section>
@@ -787,70 +727,118 @@
 <footer>
   <div class="footer-top">
     <div class="footer-brand">
-      <span class="logo">SMIF<span> Enterprises</span></span>
+      <a href="#" class="logo">SMIF<span> Enterprises</span></a>
       <p>Your trusted HR partner — connecting ambitious businesses with exceptional talent across India.</p>
+      <p style="margin-top:.65rem;font-size:.75rem;color:rgba(255,255,255,.3)">Founded by Arjun Yadav · Dwarka, New Delhi</p>
     </div>
     <div class="footer-links">
       <h4>Services</h4>
       <ul>
-        <li><a href="#">Permanent Recruitment</a></li>
-        <li><a href="#">Temporary Staffing</a></li>
-        <li><a href="#">Payroll Management</a></li>
-        <li><a href="#">HR Consulting</a></li>
+        <li><a href="#services">Permanent Recruitment</a></li>
+        <li><a href="#services">Temporary Staffing</a></li>
+        <li><a href="#services">Payroll Management</a></li>
+        <li><a href="#services">HR Consulting</a></li>
+        <li><a href="#services">Training &amp; Upskilling</a></li>
       </ul>
     </div>
     <div class="footer-links">
       <h4>Company</h4>
       <ul>
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Our Team</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Blog</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#team">Our Team</a></li>
+        <li><a href="#jobs">Job Openings</a></li>
+        <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
     <div class="footer-links">
-      <h4>Legal</h4>
+      <h4>Contact</h4>
       <ul>
+        <li><a href="tel:+919650299407">+91 96502 99407</a></li>
+        <li><a href="mailto:info@smifenterprises.online">info@smifenterprises.online</a></li>
+        <li><a href="mailto:support@245582739.na2.r.hubspot-inbox.com" style="font-size:.76rem;word-break:break-all">HubSpot Support</a></li>
         <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
         <li><a href="#">Compliance</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2025 SMIF Enterprises. All rights reserved.</span>
-    <span>info@smifenterprises.online | +91 96502 99407</span>
+    <span>© 2025 SMIF Enterprises. All rights reserved. Founded by Arjun Yadav.</span>
+    <div class="footer-bottom-right">
+      <span>info@smifenterprises.online · +91 96502 99407</span>
+      <span style="font-size:.7rem;opacity:.55">Support: support@245582739.na2.r.hubspot-inbox.com</span>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-
-  // Industry tag interaction
-  document.querySelectorAll('.industry-tag').forEach(tag => {
-    tag.addEventListener('click', function() {
-      document.querySelectorAll('.industry-tag').forEach(t => t.classList.remove('active'));
-      this.classList.add('active');
-    });
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 70);
   });
+}, { threshold: 0.08 });
+reveals.forEach(el => obs.observe(el));
 
-  // Smooth nav link scrolling
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
+// Industry tags
+document.querySelectorAll('.industry-tag').forEach(t => {
+  t.addEventListener('click', function() {
+    document.querySelectorAll('.industry-tag').forEach(x => x.classList.remove('active'));
+    this.classList.add('active');
   });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const h = a.getAttribute('href');
+    if (h === '#') return;
+    e.preventDefault();
+    const t = document.querySelector(h);
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Job filter
+function filterJobs(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.job-card').forEach(c => {
+    c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+  });
+}
+
+// FAQ accordion
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+// Salary calculator
+const salBase = {
+  IT: { base: 4.5, g: 1.8 },
+  Finance: { base: 4.0, g: 1.5 },
+  Healthcare: { base: 3.5, g: 1.3 },
+  Manufacturing: { base: 2.8, g: 1.1 },
+  Retail: { base: 2.5, g: 1.0 },
+  Logistics: { base: 2.8, g: 1.0 }
+};
+function calcSalary() {
+  const exp = parseInt(document.getElementById('expSlider').value);
+  const ind = document.getElementById('industrySelect').value;
+  const city = parseFloat(document.getElementById('citySelect').value);
+  document.getElementById('expVal').textContent = exp + (exp === 1 ? ' Year' : ' Years');
+  const { base, g } = salBase[ind];
+  const mn = (base + exp * g * 0.4) * city;
+  const mx = (base + exp * g * 0.7) * city * 1.3;
+  document.getElementById('salMin').textContent = '₹' + mn.toFixed(1) + 'L';
+  document.getElementById('salMax').textContent = '₹' + mx.toFixed(1) + 'L';
+  document.getElementById('salMonMin').textContent = '₹' + Math.round(mn * 100000 / 12 / 1000) + 'K';
+  document.getElementById('salMonMax').textContent = '₹' + Math.round(mx * 100000 / 12 / 1000) + 'K';
+}
+calcSalary();
 </script>
 </body>
 </html>
