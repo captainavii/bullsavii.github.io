@@ -83,13 +83,11 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .nav-r{display:flex;align-items:center;gap:10px}
 .nav-cta{background:var(--gold2);color:#fff;border:none;padding:.44rem 1.2rem;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.8rem;cursor:pointer;border-radius:980px;transition:all .2s;white-space:nowrap}
 .nav-cta:hover{background:var(--gold3);transform:scale(1.03)}
-/* Hamburger */
 .ham{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:7px;background:none;border:none;border-radius:6px}
 .ham span{display:block;width:20px;height:1.5px;background:var(--ink3);border-radius:2px;transition:all .3s}
 .ham.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);background:var(--ink)}
 .ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .ham.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);background:var(--ink)}
-/* Mobile drawer */
 .drawer{display:none;position:fixed;top:88px;left:0;right:0;bottom:0;z-index:190;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);flex-direction:column;padding:1.5rem clamp(1.25rem,5vw,2rem);overflow-y:auto}
 .drawer.open{display:flex}
 .drawer a{color:var(--ink2);font-size:1.1rem;font-weight:500;padding:.9rem 0;border-bottom:1px solid var(--border2);transition:color .2s}
@@ -106,7 +104,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .hero h1{margin-bottom:1.35rem}
 .hero p.lead{max-width:460px;margin-bottom:2.5rem}
 .hero-btns{display:flex;gap:.85rem;flex-wrap:wrap}
-/* Floating cards */
 .hero-vis{display:flex;justify-content:center;align-items:center;animation:fadeUp .8s .3s both}
 .stack{position:relative;width:min(320px,78vw);height:370px}
 .fc{position:absolute;background:#fff;border:1px solid var(--border2);border-radius:var(--r3);padding:1.5rem 1.75rem;box-shadow:var(--shadow2)}
@@ -238,25 +235,12 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .an-l{color:var(--ink3);font-size:.68rem;margin-top:.18rem}
 @media(max-width:780px){.about-l{grid-template-columns:1fr;gap:2.5rem}}
 
-/* ── TEAM ── */
-#team{background:var(--bg)}
-.team-h{text-align:center;margin-bottom:3rem}
-.team-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-.tc{background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r3);padding:2rem;text-align:center;transition:all .25s}
-.tc:hover{border-color:var(--gold-bd);transform:translateY(-4px);box-shadow:var(--shadow2)}
-.tav{width:64px;height:64px;border-radius:50%;margin:0 auto .9rem;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;color:#fff}
-.tn{font-weight:700;font-size:.95rem;color:var(--ink);margin-bottom:.2rem}
-.tr{color:var(--gold);font-size:.68rem;letter-spacing:.6px;text-transform:uppercase;margin-bottom:.65rem;font-weight:700}
-.td{color:var(--ink3);font-size:.8rem;line-height:1.68}
-@media(max-width:640px){.team-g{grid-template-columns:1fr 1fr}}
-@media(max-width:380px){.team-g{grid-template-columns:1fr}}
-
 /* ── WHY ── */
-#why{background:var(--white)}
+#why{background:var(--bg)}
 .why-l{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start}
 .why-g{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
 .wc{padding:1.8rem;border-left:3px solid var(--gold2);background:var(--gold-bg);border-radius:0 var(--r2) var(--r2) 0;transition:all .2s}
-.wc:hover{background:var(--bg);box-shadow:var(--shadow1)}
+.wc:hover{background:var(--white);box-shadow:var(--shadow1)}
 .wi{font-size:1.3rem;margin-bottom:.6rem}
 .wc h4{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.38rem}
 .wc p{color:var(--ink3);font-size:.8rem;line-height:1.72}
@@ -264,9 +248,9 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:500px){.why-g{grid-template-columns:1fr}}
 
 /* ── TESTIMONIALS ── */
-#testimonials{background:var(--bg)}
+#testimonials{background:var(--white)}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.75rem}
-.tcard{background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.9rem;transition:all .25s}
+.tcard{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.9rem;transition:all .25s}
 .tcard:hover{border-color:var(--gold-bd);box-shadow:var(--shadow1)}
 .tc-s{color:var(--gold);font-size:.82rem;letter-spacing:1px;margin-bottom:.65rem}
 .tc-q{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);line-height:1;margin-bottom:.7rem}
@@ -278,7 +262,7 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:720px){.tg{grid-template-columns:1fr}}
 
 /* ── FAQ ── */
-#faq{background:var(--white)}
+#faq{background:var(--bg)}
 .faq-l{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start}
 .fi{border-bottom:1px solid var(--border2)}
 .fq{width:100%;text-align:left;background:none;border:none;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;padding:1.05rem 0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.9rem;transition:color .2s}
@@ -297,7 +281,7 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .hb-btn:hover{background:var(--gold3);transform:scale(1.03)}
 
 /* ── CONTACT ── */
-#contact{background:var(--bg)}
+#contact{background:var(--white)}
 .con-l{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .con-info h2{color:var(--ink)}
 .con-info p.lead{margin-bottom:1.9rem}
@@ -307,15 +291,15 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .hs-n{display:flex;gap:.75rem;background:var(--navy);border-radius:var(--r2);padding:1.05rem 1.25rem;margin-top:1.6rem}
 .hs-nt{font-size:.66rem;color:var(--gold3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.25rem}
 .hs-nb{font-size:.78rem;color:rgba(255,255,255,.65);line-height:1.58}
-.cf{background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r4);padding:2.3rem;box-shadow:var(--shadow1)}
+.cf{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r4);padding:2.3rem;box-shadow:var(--shadow1)}
 .cf h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:1.6rem;color:var(--ink)}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
 .fg{margin-bottom:1.1rem}
 .fg label{display:block;font-size:.68rem;color:var(--ink3);margin-bottom:.35rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
-.fg input,.fg select,.fg textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.68rem .95rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.86rem;transition:border-color .2s;outline:none;-webkit-appearance:none}
+.fg input,.fg select,.fg textarea{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.68rem .95rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.86rem;transition:border-color .2s;outline:none;-webkit-appearance:none}
 .fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold2);background:var(--white)}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--ink4)}
-.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236e6e73'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;background-color:var(--bg)}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236e6e73'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;background-color:var(--white)}
 .fg select option{background:#fff;color:var(--ink)}
 .fg textarea{resize:vertical;min-height:92px}
 .f-sub{width:100%;background:var(--gold2);color:#fff;border:none;border-radius:980px;padding:.92rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;transition:all .22s;letter-spacing:.2px}
@@ -344,9 +328,99 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
+
+/* ── NEW: TICKER ── */
+.ticker-wrap{overflow:hidden;background:var(--navy);padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.ticker{display:flex;white-space:nowrap;animation:ticker 28s linear infinite}
+.ticker:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:.5rem;padding:0 2rem;font-size:.72rem;color:rgba(255,255,255,.7);font-weight:500}
+.ticker-item .dot{color:var(--gold3)}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── NEW: CHATBOT ── */
+.chat-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;width:52px;height:52px;border-radius:50%;background:var(--gold2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 4px 20px rgba(201,153,63,.45);transition:all .22s}
+.chat-fab:hover{transform:scale(1.1);background:var(--gold3)}
+.chat-box{position:fixed;bottom:4.5rem;right:1.5rem;z-index:998;width:min(340px,calc(100vw - 2rem));background:#fff;border-radius:var(--r3);box-shadow:0 12px 48px rgba(0,0,0,.15);border:1.5px solid var(--border2);display:none;flex-direction:column;overflow:hidden;animation:fadeUp .25s both}
+.chat-box.open{display:flex}
+.chat-hdr{background:linear-gradient(135deg,var(--navy),#1a3560);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem}
+.chat-av{width:34px;height:34px;border-radius:50%;background:var(--gold2);display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff}
+.chat-hdr-t{flex:1}
+.chat-hdr-t div:first-child{font-size:.84rem;font-weight:700;color:#fff}
+.chat-hdr-t div:last-child{font-size:.62rem;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:.3rem}
+.chat-hdr-t div:last-child::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#4caf50}
+.chat-close{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-size:1.1rem;padding:.2rem}
+.chat-msgs{flex:1;max-height:280px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem}
+.chat-msgs::-webkit-scrollbar{width:3px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.msg{max-width:82%;padding:.6rem .9rem;border-radius:12px;font-size:.78rem;line-height:1.6}
+.msg.bot{background:var(--bg);border:1px solid var(--border2);color:var(--ink2);align-self:flex-start;border-radius:4px 12px 12px 12px}
+.msg.user{background:var(--gold2);color:#fff;align-self:flex-end;border-radius:12px 4px 12px 12px}
+.chat-qs{padding:.65rem 1rem;border-top:1px solid var(--border2);display:flex;flex-wrap:wrap;gap:.4rem}
+.chat-q{font-size:.67rem;padding:.28rem .75rem;border:1.5px solid var(--gold-bd);border-radius:980px;color:var(--gold);cursor:pointer;background:var(--gold-bg);transition:all .18s;font-family:'DM Sans',sans-serif;font-weight:500}
+.chat-q:hover{background:var(--gold2);color:#fff;border-color:var(--gold2)}
+.chat-inp{display:flex;gap:.5rem;padding:.75rem 1rem;border-top:1px solid var(--border2);background:var(--bg)}
+.chat-inp input{flex:1;background:#fff;border:1.5px solid var(--border);border-radius:8px;padding:.5rem .8rem;font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--ink);outline:none;transition:border-color .2s}
+.chat-inp input:focus{border-color:var(--gold2)}
+.chat-inp button{background:var(--gold2);color:#fff;border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;font-size:.8rem;font-weight:700;transition:all .18s;font-family:'DM Sans',sans-serif}
+.chat-inp button:hover{background:var(--gold3)}
+
+/* ── NEW: COMPARISON TABLE ── */
+#compare{background:var(--white)}
+.cmp-wrap{overflow-x:auto}
+.cmp-table{width:100%;border-collapse:collapse;min-width:540px}
+.cmp-table th{padding:.9rem 1.1rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.8px;font-weight:700;color:var(--ink3);text-align:left;border-bottom:2px solid var(--border2)}
+.cmp-table th:not(:first-child){text-align:center}
+.cmp-table th.smif-col{color:var(--gold);background:var(--gold-bg)}
+.cmp-table td{padding:.85rem 1.1rem;font-size:.83rem;color:var(--ink2);border-bottom:1px solid var(--border2);vertical-align:middle}
+.cmp-table td.smif-col{background:var(--gold-bg);text-align:center;font-weight:600;color:var(--green)}
+.cmp-table td:not(:first-child){text-align:center}
+.cmp-table tr:last-child td{border-bottom:none}
+.cmp-table .yes{color:var(--green);font-size:1rem}
+.cmp-table .no{color:var(--ink4);font-size:1rem}
+.cmp-table .par{color:var(--gold);font-size:.8rem;font-weight:600}
+
+/* ── NEW: RESOURCE HUB ── */
+#resources{background:var(--bg)}
+.res-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem}
+.res-card{background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.8rem;transition:all .25s;display:flex;flex-direction:column;gap:.75rem}
+.res-card:hover{border-color:var(--gold-bd);transform:translateY(-4px);box-shadow:var(--shadow2)}
+.res-tag{display:inline-block;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;padding:.2rem .65rem;border-radius:980px}
+.res-tag.guide{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(20,80,160,.2)}
+.res-tag.tip{background:var(--green-bg);color:var(--green);border:1px solid rgba(28,122,62,.2)}
+.res-tag.tool{background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold-bd)}
+.res-ico{font-size:1.6rem}
+.res-t{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);line-height:1.3}
+.res-d{font-size:.78rem;color:var(--ink3);line-height:1.68;flex:1}
+.res-link{font-size:.75rem;font-weight:700;color:var(--gold);display:inline-flex;align-items:center;gap:.25rem;margin-top:.25rem;cursor:pointer;transition:opacity .2s}
+.res-link:hover{opacity:.7}
+@media(max-width:720px){.res-g{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.res-g{grid-template-columns:1fr}}
+
+/* ── NEW: PROGRESS BAR ── */
+#scroll-progress{position:fixed;top:0;left:0;z-index:9999;height:2.5px;background:linear-gradient(90deg,var(--gold),var(--gold3));width:0%;transition:width .1s linear}
+
+/* ── NEW: BACK TO TOP ── */
+.btt{position:fixed;bottom:1.5rem;left:1.5rem;z-index:997;width:40px;height:40px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;box-shadow:var(--shadow2);transition:all .22s;opacity:0;pointer-events:none}
+.btt.show{opacity:1;pointer-events:auto}
+.btt:hover{background:var(--gold2);transform:translateY(-3px)}
+
+/* ── NEW: TRUST BADGES ── */
+.trust-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1.5rem;padding:2.5rem clamp(1.25rem,5vw,4rem);background:var(--bg);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2)}
+.tb{display:flex;align-items:center;gap:.55rem;font-size:.78rem;color:var(--ink3);font-weight:500}
+.tb-ico{font-size:1.2rem}
+
+/* ── NEW: WHATSAPP FLOAT ── */
+.wa-fab{position:fixed;bottom:1.5rem;right:4.75rem;z-index:999;width:44px;height:44px;border-radius:50%;background:#25d366;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 16px rgba(37,211,102,.4);transition:all .22s;text-decoration:none}
+.wa-fab:hover{transform:scale(1.1)}
 </style>
 </head>
 <body>
+
+<!-- SCROLL PROGRESS -->
+<div id="scroll-progress"></div>
+
+<!-- BACK TO TOP -->
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <!-- ANNOUNCE BAR -->
 <div class="ab">
@@ -363,6 +437,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#jobs">Jobs</a></li>
+    <li><a href="#resources">Resources</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#industries">Industries</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -380,6 +455,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 <div class="drawer" id="drawer">
   <a href="#services" onclick="cm()">Services</a>
   <a href="#jobs" onclick="cm()">Jobs</a>
+  <a href="#resources" onclick="cm()">Resources</a>
   <a href="#about" onclick="cm()">About</a>
   <a href="#industries" onclick="cm()">Industries</a>
   <a href="#faq" onclick="cm()">FAQ</a>
@@ -387,8 +463,26 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
   <button class="drawer-cta" onclick="cm();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Manpower →</button>
 </div>
 
+<!-- LIVE TICKER -->
+<div class="ticker-wrap" style="margin-top:88px">
+  <div class="ticker" id="ticker">
+    <span class="ticker-item"><span class="dot">●</span> 🔴 URGENT: Field Sales Executive — Excitel Broadband, Delhi</span>
+    <span class="ticker-item"><span class="dot">●</span> 💼 Senior React Developer — TechNova Solutions, Delhi NCR</span>
+    <span class="ticker-item"><span class="dot">●</span> 🏥 Hospital Operations Manager — MediCare, Bangalore</span>
+    <span class="ticker-item"><span class="dot">●</span> 📊 Financial Analyst — Capital Bridge, Mumbai</span>
+    <span class="ticker-item"><span class="dot">●</span> 🏭 Production Supervisor — Meridian Manufacturing, Pune</span>
+    <span class="ticker-item"><span class="dot">●</span> 👥 HR Business Partner — StarPath Retail, Delhi</span>
+    <span class="ticker-item"><span class="dot">●</span> 🔴 URGENT: Field Sales Executive — Excitel Broadband, Delhi</span>
+    <span class="ticker-item"><span class="dot">●</span> 💼 Senior React Developer — TechNova Solutions, Delhi NCR</span>
+    <span class="ticker-item"><span class="dot">●</span> 🏥 Hospital Operations Manager — MediCare, Bangalore</span>
+    <span class="ticker-item"><span class="dot">●</span> 📊 Financial Analyst — Capital Bridge, Mumbai</span>
+    <span class="ticker-item"><span class="dot">●</span> 🏭 Production Supervisor — Meridian Manufacturing, Pune</span>
+    <span class="ticker-item"><span class="dot">●</span> 👥 HR Business Partner — StarPath Retail, Delhi</span>
+  </div>
+</div>
+
 <!-- HERO -->
-<div class="hero">
+<div class="hero" style="padding-top:0">
   <div class="hero-blob"></div>
   <div class="hero-blob2"></div>
   <div class="wrap">
@@ -431,6 +525,16 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       </div>
     </div>
   </div>
+</div>
+
+<!-- TRUST BADGES -->
+<div class="trust-row reveal">
+  <div class="tb"><span class="tb-ico">🏆</span> ISO-Compliant Processes</div>
+  <div class="tb"><span class="tb-ico">⚖️</span> 100% Labour Law Compliant</div>
+  <div class="tb"><span class="tb-ico">🔒</span> Data Privacy Assured</div>
+  <div class="tb"><span class="tb-ico">⚡</span> 48-Hour Deployment SLA</div>
+  <div class="tb"><span class="tb-ico">🤝</span> Replacement Guarantee</div>
+  <div class="tb"><span class="tb-ico">🗺️</span> Pan-India Coverage</div>
 </div>
 
 <!-- STATS -->
@@ -488,7 +592,6 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
     </div>
     <div class="jobs-g" id="jg">
 
-      <!-- EXCITEL FEATURED -->
       <div class="jc feat reveal" data-cat="Sales">
         <div class="j-fl">⭐ Featured Opening</div>
         <div class="j-top">
@@ -668,39 +771,6 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 
 <div class="divider"></div>
 
-<!-- TEAM -->
-<section id="team">
-  <div class="wrap">
-    <div class="team-h reveal">
-      <div class="eyebrow">Our People</div>
-      <h2 class="h-lg">The Team Behind Your Success</h2>
-      <p class="lead" style="margin:0 auto;max-width:460px">Every member brings deep domain knowledge and a genuine commitment to your hiring outcomes.</p>
-    </div>
-    <div class="team-g">
-      <div class="tc reveal">
-        <div class="tav" style="background:linear-gradient(135deg,var(--gold2),#7a5515)">AY</div>
-        <div class="tn">Arjun Yadav</div>
-        <div class="tr">Founder &amp; MD</div>
-        <p class="td">Leads overall strategy, client relationships, and quality standards. The driving force behind SMIF's rapid growth and reputation.</p>
-      </div>
-      <div class="tc reveal">
-        <div class="tav" style="background:linear-gradient(135deg,#3498db,#1a5276)">VR</div>
-        <div class="tn">Vimal Raj</div>
-        <div class="tr">Head of Recruitment</div>
-        <p class="td">Oversees all permanent and contractual hiring mandates. Specialist in executive search across IT and BFSI sectors.</p>
-      </div>
-      <div class="tc reveal">
-        <div class="tav" style="background:linear-gradient(135deg,#2ecc71,#196f3d)">AM</div>
-        <div class="tn">Anup Manjhi</div>
-        <div class="tr">Compliance &amp; Payroll Lead</div>
-        <p class="td">Ensures 100% statutory compliance for all deployed staff. Expert in PF, ESI, gratuity, and labour law across India.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
 <!-- WHY -->
 <section id="why">
   <div class="wrap">
@@ -719,6 +789,41 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <div class="wc reveal"><div class="wi">🗺️</div><h4>Pan-India Network</h4><p>With talent networks across all major cities, we source the right people wherever your operations are located.</p></div>
         <div class="wc reveal"><div class="wi">💡</div><h4>Technology-Driven Matching</h4><p>Our ATS and skills assessment platform ensures data-backed candidate matching, not just resume scanning.</p></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COMPARISON TABLE (NEW) -->
+<section id="compare">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:3rem" class="reveal">
+      <div class="eyebrow">Why Choose Us</div>
+      <h2 class="h-lg">SMIF vs. The Alternative</h2>
+      <p class="lead" style="margin:0 auto;max-width:480px">See how partnering with SMIF Enterprises stacks up against in-house hiring or generic job portals.</p>
+    </div>
+    <div class="cmp-wrap reveal">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th class="smif-col">SMIF Enterprises</th>
+            <th>Job Portals</th>
+            <th>In-House HR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Time to Deploy</td><td class="smif-col">48 Hours</td><td><span class="par">1–3 Weeks</span></td><td><span class="no">4–8 Weeks</span></td></tr>
+          <tr><td>Pre-Screened Candidates</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="par">Partial</span></td></tr>
+          <tr><td>PF/ESI Compliance Managed</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="par">Extra Cost</span></td></tr>
+          <tr><td>Replacement Guarantee</td><td class="smif-col"><span class="yes">✓ Free</span></td><td><span class="no">✗</span></td><td><span class="no">✗</span></td></tr>
+          <tr><td>Dedicated Account Manager</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="par">Sometimes</span></td></tr>
+          <tr><td>Pan-India Sourcing</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="par">Limited</span></td><td><span class="no">City-only</span></td></tr>
+          <tr><td>Salary Benchmarking</td><td class="smif-col"><span class="yes">✓ Included</span></td><td><span class="par">Paid Add-on</span></td><td><span class="no">Manual</span></td></tr>
+          <tr><td>Payroll Management</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="par">Extra Team</span></td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -757,6 +862,63 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 
 <div class="divider"></div>
 
+<!-- RESOURCE HUB (NEW) -->
+<section id="resources">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:0" class="reveal">
+      <div class="eyebrow">Knowledge Centre</div>
+      <h2 class="h-lg">HR Resources &amp; Guides</h2>
+      <p class="lead" style="margin:0 auto;max-width:480px">Free tools, tips, and guides to help HR leaders and job seekers make better decisions.</p>
+    </div>
+    <div class="res-g">
+      <div class="res-card reveal">
+        <span class="res-tag guide">Guide</span>
+        <div class="res-ico">📘</div>
+        <div class="res-t">India Labour Law Compliance Checklist 2025</div>
+        <p class="res-d">A practical checklist covering PF, ESI, gratuity, professional tax, and the latest amendments every employer must know.</p>
+        <a class="res-link" href="#contact">Download Free → <span>↗</span></a>
+      </div>
+      <div class="res-card reveal">
+        <span class="res-tag tip">Tip Sheet</span>
+        <div class="res-ico">🎯</div>
+        <div class="res-t">How to Write a Job Description That Attracts Top Talent</div>
+        <p class="res-d">10 proven principles that make your JD stand out and reduce the volume of unqualified applications.</p>
+        <a class="res-link" href="#contact">Download Free → <span>↗</span></a>
+      </div>
+      <div class="res-card reveal">
+        <span class="res-tag tool">Tool</span>
+        <div class="res-ico">💰</div>
+        <div class="res-t">Manpower Cost Calculator</div>
+        <p class="res-d">Estimate total cost of employment including CTC, PF, ESI, gratuity, and other statutory components instantly.</p>
+        <a class="res-link" href="#salary">Use Salary Tool → <span>↗</span></a>
+      </div>
+      <div class="res-card reveal">
+        <span class="res-tag guide">Guide</span>
+        <div class="res-ico">🤝</div>
+        <div class="res-t">Interview Preparation Kit for Job Seekers</div>
+        <p class="res-d">Role-specific interview questions, answer frameworks, and tips to help you land your next opportunity with confidence.</p>
+        <a class="res-link" href="#contact">Get the Kit → <span>↗</span></a>
+      </div>
+      <div class="res-card reveal">
+        <span class="res-tag tip">Tip Sheet</span>
+        <div class="res-ico">📊</div>
+        <div class="res-t">Workforce Planning Template for SMEs</div>
+        <p class="res-d">A ready-to-use Excel template to forecast hiring needs, track headcount, and plan your annual manpower budget.</p>
+        <a class="res-link" href="#contact">Request Template → <span>↗</span></a>
+      </div>
+      <div class="res-card reveal">
+        <span class="res-tag tool">Tool</span>
+        <div class="res-ico">🔍</div>
+        <div class="res-t">Candidate Background Check Guide</div>
+        <p class="res-d">What to verify before hiring — from education and employment history to criminal records and reference checks in India.</p>
+        <a class="res-link" href="#contact">Read Guide → <span>↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
 <!-- FAQ -->
 <section id="faq">
   <div class="wrap">
@@ -774,6 +936,8 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <div class="fi"><button class="fq" onclick="tf(this)">Which cities do you operate in? <i class="fi-ico">+</i></button><div class="fa">We operate pan-India from our base in New Delhi. We actively source and deploy in Delhi NCR, Mumbai, Bangalore, Hyderabad, Pune, Chennai, Kolkata, and Tier 2 cities on request.</div></div>
         <div class="fi"><button class="fq" onclick="tf(this)">Can job seekers also register with you? <i class="fi-ico">+</i></button><div class="fa">Absolutely. Email your CV to info@smifenterprises.online or submit via our contact form below. We'll reach out when a matching opportunity arises from our client mandates.</div></div>
         <div class="fi"><button class="fq" onclick="tf(this)">How do I reach your support team? <i class="fi-ico">+</i></button><div class="fa">Email support@245582739.na2.r.hubspot-inbox.com — all queries are tracked via HubSpot CRM with a guaranteed response within 4 business hours on working days.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">Do you charge candidates a placement fee? <i class="fi-ico">+</i></button><div class="fa">No. We never charge candidates any fee for job placement or registration. Our fees are paid entirely by the hiring companies. Your career opportunities with us are always free of charge.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">What industries do you specialize in? <i class="fi-ico">+</i></button><div class="fa">We have deep expertise across IT, Healthcare, Manufacturing, Banking &amp; Finance, Retail, Logistics, Construction, and FMCG sectors, with dedicated sourcing networks for each domain.</div></div>
       </div>
     </div>
   </div>
@@ -863,8 +1027,8 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       <h4>Company</h4>
       <ul>
         <li><a href="#about">About Us</a></li>
-        <li><a href="#team">Our Team</a></li>
         <li><a href="#jobs">Job Openings</a></li>
+        <li><a href="#resources">Resources</a></li>
         <li><a href="#faq">FAQ</a></li>
       </ul>
     </div>
@@ -887,6 +1051,36 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
     </div>
   </div>
 </footer>
+
+<!-- CHATBOT (NEW) -->
+<div class="chat-box" id="chatBox">
+  <div class="chat-hdr">
+    <div class="chat-av">AY</div>
+    <div class="chat-hdr-t">
+      <div>SMIF Assistant</div>
+      <div>Online Now</div>
+    </div>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="msg bot">👋 Hi! I'm the SMIF virtual assistant. How can I help you today?</div>
+  </div>
+  <div class="chat-qs" id="chatQs">
+    <button class="chat-q" onclick="askQ('I need to hire staff')">Need to hire?</button>
+    <button class="chat-q" onclick="askQ('Looking for a job')">Looking for a job?</button>
+    <button class="chat-q" onclick="askQ('Tell me about your services')">Your services?</button>
+    <button class="chat-q" onclick="askQ('How fast can you deploy?')">How fast?</button>
+  </div>
+  <div class="chat-inp">
+    <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChat()">
+    <button onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<button class="chat-fab" onclick="toggleChat()" id="chatFab" title="Chat with us">💬</button>
+<a class="wa-fab" href="https://wa.me/919650299407" target="_blank" rel="noopener" title="WhatsApp us">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
 <script>
 // Hamburger
@@ -964,6 +1158,54 @@ window.addEventListener('scroll',()=>{
   const n=document.getElementById('mainnav');
   n.style.background=window.scrollY>60?'rgba(255,255,255,.98)':'rgba(255,255,255,.88)';
 },{passive:true});
+
+// Scroll progress bar
+window.addEventListener('scroll',()=>{
+  const scrolled=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('scroll-progress').style.width=scrolled+'%';
+  const btt=document.getElementById('btt');
+  btt.classList.toggle('show',window.scrollY>400);
+},{passive:true});
+
+// Chatbot
+const chatReplies={
+  'i need to hire staff':'Great! We can deploy pre-screened candidates within 48 hours. Fill out the contact form below or call +91 96502 99407 and Arjun will personally get back to you.',
+  'looking for a job':'Awesome! We have active openings across IT, Sales, Finance, Healthcare and more. Email your CV to info@smifenterprises.online and we will match you with the right opportunity.',
+  'tell me about your services':'We offer: Permanent Recruitment, Temporary Staffing, Contract-to-Hire, Payroll Management, Training and Upskilling, and HR Consulting. Scroll to our Services section for details!',
+  'how fast can you deploy?':'For contractual/temporary roles, we deploy within 24-48 hours. For permanent senior roles, our average time-to-offer is 7-10 business days.',
+  'default':'Thanks for reaching out! For fastest response, please call +91 96502 99407 or email info@smifenterprises.online. Our team responds within 4 business hours.'
+};
+function toggleChat(){
+  const box=document.getElementById('chatBox');
+  box.classList.toggle('open');
+  document.getElementById('chatFab').textContent=box.classList.contains('open')?'✕':'💬';
+}
+function askQ(q){
+  addMsg(q,'user');
+  document.getElementById('chatQs').style.display='none';
+  setTimeout(()=>{
+    const k=q.toLowerCase();
+    const reply=chatReplies[k]||chatReplies['default'];
+    addMsg(reply,'bot');
+  },600);
+}
+function sendChat(){
+  const inp=document.getElementById('chatInput');
+  const val=inp.value.trim();
+  if(!val)return;
+  addMsg(val,'user');
+  inp.value='';
+  document.getElementById('chatQs').style.display='none';
+  setTimeout(()=>{addMsg(chatReplies['default'],'bot');},600);
+}
+function addMsg(text,type){
+  const msgs=document.getElementById('chatMsgs');
+  const div=document.createElement('div');
+  div.className='msg '+type;
+  div.textContent=text;
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
 </script>
 </body>
 </html>
