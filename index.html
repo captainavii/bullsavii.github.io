@@ -5,49 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>SMIF Enterprises — HR & Manpower Solutions</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script type="text/javascript" id="hs-script-loader" async defer src="//js-na2.hs-scripts.com/245582739.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCVEnfaMY8e1wohNthgu_e44U4K6CpBAM8",
+    authDomain: "smifenterprises-d349b.firebaseapp.com",
+    projectId: "smifenterprises-d349b",
+    storageBucket: "smifenterprises-d349b.firebasestorage.app",
+    messagingSenderId: "596708511562",
+    appId: "1:596708511562:web:d1b5467379f7f1829ffbb3",
+    measurementId: "G-EXHSD2NLS1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window._smif = { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, signOut, onAuthStateChanged, updateProfile, collection, addDoc, getDocs, query, orderBy, doc, setDoc, getDoc, serverTimestamp };
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+      const role = userDoc.exists() ? userDoc.data().role : "jobseeker";
+      window._smifUser = { ...user, role };
+      updateNavForLoggedIn(user, role);
+      if (role === "employee" && user.emailVerified) {
+        // stay on page, show dashboard button
+      }
+    } else {
+      window._smifUser = null;
+      updateNavForLoggedOut();
+    }
+  });
+
+  function updateNavForLoggedIn(user, role) {
+    const navR = document.getElementById('navAuthArea');
+    if (!navR) return;
+    const displayName = user.displayName || user.email.split('@')[0];
+    navR.innerHTML = `
+      <span style="font-size:.75rem;color:var(--ink3);font-weight:500">${role === 'employee' ? '🏢' : '👤'} ${displayName}</span>
+      ${role === 'employee' && user.emailVerified ? `<button class="nav-cta" style="background:var(--blue)" onclick="openDashboard()">Dashboard</button>` : ''}
+      <button class="btn-outline" style="padding:.4rem 1rem;border-radius:980px;border:1.5px solid var(--border);font-size:.78rem;font-weight:600;cursor:pointer;background:transparent;color:var(--ink3)" onclick="window._smif.signOut(window._smif.auth)">Logout</button>
+    `;
+  }
+
+  function updateNavForLoggedOut() {
+    const navR = document.getElementById('navAuthArea');
+    if (!navR) return;
+    navR.innerHTML = `
+      <button class="nav-cta" style="background:transparent;color:var(--gold);border:1.5px solid var(--gold-bd)" onclick="openModal('login')">Login</button>
+      <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Manpower</button>
+    `;
+  }
+
+  window.updateNavForLoggedIn = updateNavForLoggedIn;
+  window.updateNavForLoggedOut = updateNavForLoggedOut;
+</script>
 <style>
-/* ── RESET ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:'DM Sans',sans-serif;background:#fff;color:#1d1d1f;overflow-x:hidden;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 
-/* ── TOKENS ── */
 :root{
-  --white:    #ffffff;
-  --bg:       #f5f5f7;
-  --bg2:      #fbfbfd;
-  --ink:      #1d1d1f;
-  --ink2:     #424245;
-  --ink3:     #6e6e73;
-  --ink4:     #a1a1a6;
-  --border:   #d2d2d7;
-  --border2:  #e8e8ed;
-  --gold:     #b07d2a;
-  --gold2:    #c9933f;
-  --gold3:    #e8ba6a;
-  --gold-bg:  #fdf6eb;
-  --gold-bd:  rgba(176,125,42,.25);
-  --navy:     #0f2040;
-  --green:    #1c7a3e;
-  --green-bg: #edf7f2;
-  --blue:     #1450a0;
-  --blue-bg:  #eef4fc;
-  --red:      #c0392b;
-  --red-bg:   #fdf0ee;
-  --r1:8px; --r2:14px; --r3:20px; --r4:28px;
-  --shadow1:  0 2px 12px rgba(0,0,0,.06);
-  --shadow2:  0 8px 32px rgba(0,0,0,.1);
+  --white:#ffffff;--bg:#f5f5f7;--bg2:#fbfbfd;
+  --ink:#1d1d1f;--ink2:#424245;--ink3:#6e6e73;--ink4:#a1a1a6;
+  --border:#d2d2d7;--border2:#e8e8ed;
+  --gold:#b07d2a;--gold2:#c9933f;--gold3:#e8ba6a;--gold-bg:#fdf6eb;--gold-bd:rgba(176,125,42,.25);
+  --navy:#0f2040;--green:#1c7a3e;--green-bg:#edf7f2;
+  --blue:#1450a0;--blue-bg:#eef4fc;--red:#c0392b;--red-bg:#fdf0ee;
+  --r1:8px;--r2:14px;--r3:20px;--r4:28px;
+  --shadow1:0 2px 12px rgba(0,0,0,.06);--shadow2:0 8px 32px rgba(0,0,0,.1);
 }
 
-/* ── LAYOUT ── */
 .wrap{width:100%;max-width:1120px;margin:0 auto;padding:0 clamp(1.25rem,5vw,4rem)}
 section{padding:clamp(3.5rem,7vw,6rem) 0}
 .divider{height:1px;background:var(--border2)}
 
-/* ── TYPE ── */
 .eyebrow{display:inline-block;color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;margin-bottom:1rem}
 h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;line-height:1.08;letter-spacing:-.4px;color:var(--ink)}
 .h-xl{font-size:clamp(2.6rem,5.5vw,4.8rem)}
@@ -56,7 +95,6 @@ h1,h2,h3{font-family:'Playfair Display',serif;font-weight:900;line-height:1.08;l
 p.lead{font-size:clamp(.95rem,1.5vw,1.1rem);color:var(--ink3);line-height:1.82;font-weight:400}
 em{font-style:normal;color:var(--gold)}
 
-/* ── BUTTONS ── */
 .btn{display:inline-flex;align-items:center;gap:.45rem;font-family:'DM Sans',sans-serif;font-weight:600;border-radius:980px;cursor:pointer;transition:all .22s;border:none;font-size:.9rem;letter-spacing:.1px;padding:.75rem 1.85rem;white-space:nowrap}
 .btn-dark{background:var(--ink);color:#fff}
 .btn-dark:hover{background:#424245;transform:scale(1.03)}
@@ -66,14 +104,12 @@ em{font-style:normal;color:var(--gold)}
 .btn-outline:hover{border-color:var(--gold2);color:var(--gold2)}
 .btn-sm{padding:.52rem 1.25rem;font-size:.8rem}
 
-/* ── ANNOUNCE BAR ── */
 .ab{position:fixed;top:0;left:0;right:0;z-index:300;height:36px;background:var(--bg);border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,4rem);font-size:11.5px;color:var(--ink3)}
 .ab a{color:var(--gold);font-weight:600;transition:opacity .2s}
 .ab a:hover{opacity:.7}
 .ab-r{display:flex;gap:20px;align-items:center}
 @media(max-width:600px){.ab-l{display:none}.ab-r{width:100%;justify-content:center;gap:14px}}
 
-/* ── NAV ── */
 nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,4rem);background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);transition:background .3s}
 .logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;letter-spacing:-.3px;color:var(--ink)}
 .logo span{color:var(--gold)}
@@ -95,7 +131,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .drawer-cta{margin-top:1.5rem;background:var(--gold2);color:#fff;text-align:center;padding:.95rem;border-radius:14px;font-weight:700;font-size:1rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
 @media(max-width:768px){.nav-links{display:none}.ham{display:flex}}
 
-/* ── HERO ── */
 .hero{min-height:100svh;display:flex;align-items:center;background:var(--white);position:relative;overflow:hidden;padding-top:calc(36px + 52px)}
 .hero-blob{position:absolute;top:-10%;right:-8%;width:60vw;height:60vw;max-width:750px;background:radial-gradient(circle at 60% 40%,rgba(201,153,63,.08) 0%,rgba(232,186,106,.04) 40%,transparent 65%);pointer-events:none}
 .hero-blob2{position:absolute;bottom:-5%;left:-5%;width:40vw;height:40vw;max-width:500px;background:radial-gradient(circle,rgba(15,32,64,.04) 0%,transparent 70%);pointer-events:none}
@@ -115,21 +150,14 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .fc-ico{font-size:1.25rem;margin-bottom:.6rem}
 @media(max-width:860px){.hero-inner{grid-template-columns:1fr;text-align:center}.hero-vis{display:none}.hero p.lead{margin:0 auto 2rem}.hero-btns{justify-content:center}}
 
-/* ── STATS ── */
 .stats{background:var(--bg);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2)}
 .stats-g{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;padding:clamp(1.5rem,3vw,2.5rem) 0}
 .sg{padding:1.1rem;border-right:1px solid var(--border2)}
 .sg:last-child{border-right:none}
 .sg-n{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2rem);font-weight:900;color:var(--gold)}
 .sg-l{font-size:.73rem;color:var(--ink3);margin-top:.2rem}
-@media(max-width:580px){
-  .stats-g{grid-template-columns:repeat(2,1fr)}
-  .sg:nth-child(2){border-right:none}.sg:nth-child(3){border-right:1px solid var(--border2)}
-  .sg{border-bottom:1px solid var(--border2)}
-  .sg:nth-child(3),.sg:nth-child(4){border-bottom:none}
-}
+@media(max-width:580px){.stats-g{grid-template-columns:repeat(2,1fr)}.sg:nth-child(2){border-right:none}.sg:nth-child(3){border-right:1px solid var(--border2)}.sg{border-bottom:1px solid var(--border2)}.sg:nth-child(3),.sg:nth-child(4){border-bottom:none}}
 
-/* ── SERVICES ── */
 #services{background:var(--white)}
 .svc-head{text-align:center;margin-bottom:3.5rem}
 .svc-head p.lead{margin:0 auto;max-width:520px}
@@ -142,7 +170,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:860px){.svc-g{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.svc-g{grid-template-columns:1fr}}
 
-/* ── JOBS ── */
 #jobs{background:var(--bg)}
 .jobs-h{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1.85rem;flex-wrap:wrap;gap:1rem}
 .fbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.75rem}
@@ -173,7 +200,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:640px){.jobs-g{grid-template-columns:1fr}}
 @media(max-width:560px){.jobs-h{flex-direction:column;align-items:flex-start}}
 
-/* ── SALARY ── */
 #salary{background:var(--white)}
 .sal-l{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
 .sal-perks{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem}
@@ -198,7 +224,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .sal-note{font-size:.65rem;color:var(--ink4);margin-top:.85rem}
 @media(max-width:780px){.sal-l{grid-template-columns:1fr;gap:2.5rem}}
 
-/* ── INDUSTRIES ── */
 #industries{background:var(--bg)}
 .ind-l{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
 .ind-tags{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.75rem}
@@ -212,7 +237,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .ps-d{font-size:.8rem;color:var(--ink3);line-height:1.65}
 @media(max-width:780px){.ind-l{grid-template-columns:1fr;gap:2.5rem}}
 
-/* ── ABOUT ── */
 #about{background:var(--white)}
 .about-l{display:grid;grid-template-columns:1fr 1.3fr;gap:5rem;align-items:center}
 .founder{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r4);padding:2.5rem;text-align:center;position:relative;overflow:hidden;box-shadow:var(--shadow1)}
@@ -235,7 +259,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .an-l{color:var(--ink3);font-size:.68rem;margin-top:.18rem}
 @media(max-width:780px){.about-l{grid-template-columns:1fr;gap:2.5rem}}
 
-/* ── WHY ── */
 #why{background:var(--bg)}
 .why-l{display:grid;grid-template-columns:1fr 2fr;gap:5rem;align-items:start}
 .why-g{display:grid;grid-template-columns:1fr 1fr;gap:1.15rem}
@@ -247,7 +270,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:780px){.why-l{grid-template-columns:1fr;gap:2.5rem}}
 @media(max-width:500px){.why-g{grid-template-columns:1fr}}
 
-/* ── TESTIMONIALS ── */
 #testimonials{background:var(--white)}
 .tg{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2.75rem}
 .tcard{background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.9rem;transition:all .25s}
@@ -261,7 +283,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .tc-r{font-size:.7rem;color:var(--ink3)}
 @media(max-width:720px){.tg{grid-template-columns:1fr}}
 
-/* ── FAQ ── */
 #faq{background:var(--bg)}
 .faq-l{display:grid;grid-template-columns:1fr 1.8fr;gap:5rem;align-items:start}
 .fi{border-bottom:1px solid var(--border2)}
@@ -273,18 +294,14 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .fi.open .fa{max-height:250px;padding-bottom:1.1rem}
 @media(max-width:780px){.faq-l{grid-template-columns:1fr;gap:2rem}}
 
-/* ── HIRE BANNER ── */
 .hb{background:linear-gradient(135deg,var(--navy),#1a3560);padding:1.2rem clamp(1.25rem,4vw,4rem);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
 .hb h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:#fff}
 .hb p{font-size:.8rem;color:rgba(255,255,255,.65)}
 .hb-btn{background:var(--gold2);color:#fff;padding:.55rem 1.4rem;border:none;border-radius:980px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:all .2s;text-decoration:none}
 .hb-btn:hover{background:var(--gold3);transform:scale(1.03)}
 
-/* ── CONTACT ── */
 #contact{background:var(--white)}
 .con-l{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
-.con-info h2{color:var(--ink)}
-.con-info p.lead{margin-bottom:1.9rem}
 .cd{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.95rem;color:var(--ink2);font-size:.86rem}
 .cd-ico{width:34px;height:34px;min-width:34px;background:var(--gold-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;border:1px solid var(--gold-bd)}
 .cd-sub{font-size:.64rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:.12rem}
@@ -297,7 +314,7 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 .fg{margin-bottom:1.1rem}
 .fg label{display:block;font-size:.68rem;color:var(--ink3);margin-bottom:.35rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
 .fg input,.fg select,.fg textarea{width:100%;background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:.68rem .95rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.86rem;transition:border-color .2s;outline:none;-webkit-appearance:none}
-.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold2);background:var(--white)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gold2)}
 .fg input::placeholder,.fg textarea::placeholder{color:var(--ink4)}
 .fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236e6e73'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center;background-color:var(--white)}
 .fg select option{background:#fff;color:var(--ink)}
@@ -307,7 +324,6 @@ nav{position:fixed;top:36px;left:0;right:0;z-index:200;height:52px;display:flex;
 @media(max-width:780px){.con-l{grid-template-columns:1fr;gap:2.5rem}}
 @media(max-width:480px){.fr{grid-template-columns:1fr}}
 
-/* ── FOOTER ── */
 footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,4rem) calc(clamp(1.5rem,3vw,2rem) + env(safe-area-inset-bottom))}
 .ft{display:flex;justify-content:space-between;align-items:flex-start;gap:2.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
 .fb3 .logo{font-size:1.25rem;margin-bottom:.65rem;display:block;color:#fff}
@@ -323,13 +339,11 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 .fbot-r{text-align:right;display:flex;flex-direction:column;gap:.2rem}
 @media(max-width:580px){.ft{gap:2rem}.fbot{flex-direction:column}.fbot-r{text-align:left}}
 
-/* ── ANIMATIONS ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .reveal.visible{opacity:1;transform:none}
 
-/* ── NEW: TICKER ── */
 .ticker-wrap{overflow:hidden;background:var(--navy);padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.08)}
 .ticker{display:flex;white-space:nowrap;animation:ticker 28s linear infinite}
 .ticker:hover{animation-play-state:paused}
@@ -337,7 +351,6 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 .ticker-item .dot{color:var(--gold3)}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* ── NEW: CHATBOT ── */
 .chat-fab{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;width:52px;height:52px;border-radius:50%;background:var(--gold2);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 4px 20px rgba(201,153,63,.45);transition:all .22s}
 .chat-fab:hover{transform:scale(1.1);background:var(--gold3)}
 .chat-box{position:fixed;bottom:4.5rem;right:1.5rem;z-index:998;width:min(340px,calc(100vw - 2rem));background:#fff;border-radius:var(--r3);box-shadow:0 12px 48px rgba(0,0,0,.15);border:1.5px solid var(--border2);display:none;flex-direction:column;overflow:hidden;animation:fadeUp .25s both}
@@ -364,7 +377,6 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 .chat-inp button{background:var(--gold2);color:#fff;border:none;border-radius:8px;padding:.5rem .85rem;cursor:pointer;font-size:.8rem;font-weight:700;transition:all .18s;font-family:'DM Sans',sans-serif}
 .chat-inp button:hover{background:var(--gold3)}
 
-/* ── NEW: COMPARISON TABLE ── */
 #compare{background:var(--white)}
 .cmp-wrap{overflow-x:auto}
 .cmp-table{width:100%;border-collapse:collapse;min-width:540px}
@@ -379,7 +391,6 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 .cmp-table .no{color:var(--ink4);font-size:1rem}
 .cmp-table .par{color:var(--gold);font-size:.8rem;font-weight:600}
 
-/* ── NEW: RESOURCE HUB ── */
 #resources{background:var(--bg)}
 .res-g{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2.5rem}
 .res-card{background:var(--white);border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.8rem;transition:all .25s;display:flex;flex-direction:column;gap:.75rem}
@@ -396,35 +407,121 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 @media(max-width:720px){.res-g{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.res-g{grid-template-columns:1fr}}
 
-/* ── NEW: PROGRESS BAR ── */
 #scroll-progress{position:fixed;top:0;left:0;z-index:9999;height:2.5px;background:linear-gradient(90deg,var(--gold),var(--gold3));width:0%;transition:width .1s linear}
-
-/* ── NEW: BACK TO TOP ── */
 .btt{position:fixed;bottom:1.5rem;left:1.5rem;z-index:997;width:40px;height:40px;border-radius:50%;background:var(--ink);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85rem;box-shadow:var(--shadow2);transition:all .22s;opacity:0;pointer-events:none}
 .btt.show{opacity:1;pointer-events:auto}
 .btt:hover{background:var(--gold2);transform:translateY(-3px)}
-
-/* ── NEW: TRUST BADGES ── */
 .trust-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1.5rem;padding:2.5rem clamp(1.25rem,5vw,4rem);background:var(--bg);border-top:1px solid var(--border2);border-bottom:1px solid var(--border2)}
 .tb{display:flex;align-items:center;gap:.55rem;font-size:.78rem;color:var(--ink3);font-weight:500}
 .tb-ico{font-size:1.2rem}
-
-/* ── NEW: WHATSAPP FLOAT ── */
 .wa-fab{position:fixed;bottom:1.5rem;right:4.75rem;z-index:999;width:44px;height:44px;border-radius:50%;background:#25d366;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;box-shadow:0 4px 16px rgba(37,211,102,.4);transition:all .22s;text-decoration:none}
 .wa-fab:hover{transform:scale(1.1)}
+
+/* ══════════════════════════════════════════
+   AUTH MODAL STYLES
+══════════════════════════════════════════ */
+.modal-overlay{position:fixed;inset:0;z-index:5000;background:rgba(15,32,64,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.show{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:var(--r4);width:100%;max-width:460px;box-shadow:0 24px 80px rgba(0,0,0,.2);overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
+.modal-overlay.show .modal-box{transform:none}
+.modal-hdr{background:linear-gradient(135deg,var(--navy),#1a3560);padding:1.6rem 1.8rem 1.4rem;position:relative}
+.modal-hdr h2{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:#fff;margin-bottom:.3rem}
+.modal-hdr p{font-size:.78rem;color:rgba(255,255,255,.6)}
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.12);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.modal-close:hover{background:rgba(255,255,255,.22)}
+.modal-body{padding:1.8rem}
+.role-tabs{display:flex;background:var(--bg);border-radius:10px;padding:3px;margin-bottom:1.5rem;gap:3px}
+.role-tab{flex:1;padding:.55rem;text-align:center;font-size:.78rem;font-weight:600;color:var(--ink3);border:none;background:transparent;border-radius:8px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.role-tab.active{background:#fff;color:var(--gold);box-shadow:0 1px 6px rgba(0,0,0,.08)}
+.auth-form .fg{margin-bottom:.9rem}
+.auth-form .fg label{display:block;font-size:.68rem;color:var(--ink3);margin-bottom:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+.auth-form .fg input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s}
+.auth-form .fg input:focus{border-color:var(--gold2);background:#fff}
+.auth-form .fg input::placeholder{color:var(--ink4)}
+.auth-submit{width:100%;background:var(--gold2);color:#fff;border:none;border-radius:980px;padding:.88rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .22s;margin-top:.4rem}
+.auth-submit:hover{background:var(--gold3);transform:scale(1.02)}
+.auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.auth-switch{text-align:center;margin-top:1.1rem;font-size:.8rem;color:var(--ink3)}
+.auth-switch a{color:var(--gold);font-weight:600;cursor:pointer}
+.auth-switch a:hover{text-decoration:underline}
+.auth-err{background:var(--red-bg);border:1px solid rgba(192,57,43,.2);color:var(--red);border-radius:9px;padding:.7rem 1rem;font-size:.8rem;margin-bottom:.9rem;display:none}
+.auth-suc{background:var(--green-bg);border:1px solid rgba(28,122,62,.2);color:var(--green);border-radius:9px;padding:.7rem 1rem;font-size:.8rem;margin-bottom:.9rem;display:none}
+.emp-note{background:var(--gold-bg);border:1px solid var(--gold-bd);border-radius:9px;padding:.7rem 1rem;font-size:.76rem;color:var(--ink2);margin-bottom:.9rem;display:none;line-height:1.5}
+.emp-note strong{color:var(--gold)}
+
+/* ══════════════════════════════════════════
+   DASHBOARD STYLES
+══════════════════════════════════════════ */
+.dash-overlay{position:fixed;inset:0;z-index:4000;background:#fff;overflow-y:auto;display:none}
+.dash-overlay.show{display:block}
+.dash-nav{background:var(--navy);padding:0 clamp(1rem,4vw,3rem);height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.dash-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:900;color:#fff}
+.dash-logo span{color:var(--gold3)}
+.dash-nav-r{display:flex;align-items:center;gap:.8rem}
+.dash-user{font-size:.78rem;color:rgba(255,255,255,.6)}
+.dash-logout{background:rgba(255,255,255,.1);color:#fff;border:none;padding:.38rem .9rem;border-radius:980px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:background .2s}
+.dash-logout:hover{background:rgba(255,255,255,.2)}
+.dash-body{padding:clamp(1.5rem,4vw,3rem) clamp(1rem,4vw,3rem);max-width:1100px;margin:0 auto}
+.dash-welcome{margin-bottom:2rem}
+.dash-welcome h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:900;color:var(--ink);margin-bottom:.3rem}
+.dash-welcome p{font-size:.86rem;color:var(--ink3)}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.ds-card{background:#fff;border:1.5px solid var(--border2);border-radius:var(--r2);padding:1.3rem 1.5rem;box-shadow:var(--shadow1);transition:all .2s}
+.ds-card:hover{border-color:var(--gold-bd);transform:translateY(-2px)}
+.ds-ico{font-size:1.5rem;margin-bottom:.5rem}
+.ds-n{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:var(--gold)}
+.ds-l{font-size:.72rem;color:var(--ink3);margin-top:.15rem}
+@media(max-width:640px){.dash-stats{grid-template-columns:repeat(2,1fr)}}
+.dash-panel{background:#fff;border:1.5px solid var(--border2);border-radius:var(--r3);padding:1.8rem;box-shadow:var(--shadow1)}
+.dash-panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+.dash-panel-hdr h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
+.add-cand-btn{background:var(--gold2);color:#fff;border:none;padding:.52rem 1.25rem;border-radius:980px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.add-cand-btn:hover{background:var(--gold3);transform:scale(1.03)}
+.cand-table-wrap{overflow-x:auto}
+.cand-table{width:100%;border-collapse:collapse;min-width:620px}
+.cand-table th{padding:.7rem 1rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;font-weight:700;color:var(--ink3);text-align:left;border-bottom:2px solid var(--border2);background:var(--bg)}
+.cand-table td{padding:.8rem 1rem;font-size:.82rem;color:var(--ink2);border-bottom:1px solid var(--border2);vertical-align:middle}
+.cand-table tr:last-child td{border-bottom:none}
+.cand-table tr:hover td{background:var(--gold-bg)}
+.skill-tag{font-size:.64rem;padding:.15rem .52rem;background:var(--blue-bg);color:var(--blue);border-radius:5px;border:1px solid rgba(20,80,160,.15);white-space:nowrap}
+.cand-empty{text-align:center;padding:3rem 1rem;color:var(--ink3);font-size:.86rem}
+.cand-empty .cand-empty-ico{font-size:2.5rem;margin-bottom:.75rem}
+.loading-row td{text-align:center;padding:2rem;color:var(--ink3);font-size:.82rem}
+
+/* Add Candidate Modal */
+.cand-modal-overlay{position:fixed;inset:0;z-index:6000;background:rgba(15,32,64,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.cand-modal-overlay.show{opacity:1;pointer-events:all}
+.cand-modal-box{background:#fff;border-radius:var(--r3);width:100%;max-width:520px;box-shadow:0 24px 80px rgba(0,0,0,.2);overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .28s cubic-bezier(.34,1.56,.64,1);max-height:90vh;overflow-y:auto}
+.cand-modal-overlay.show .cand-modal-box{transform:none}
+.cand-modal-hdr{background:linear-gradient(135deg,var(--navy),#1a3560);padding:1.4rem 1.8rem;display:flex;align-items:center;justify-content:space-between}
+.cand-modal-hdr h3{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:900;color:#fff}
+.cand-modal-body{padding:1.8rem}
+.cand-form .fg{margin-bottom:.95rem}
+.cand-form .fg label{display:block;font-size:.68rem;color:var(--ink3);margin-bottom:.3rem;font-weight:600;text-transform:uppercase;letter-spacing:.6px}
+.cand-form .fg input,.cand-form .fg textarea,.cand-form .fg select{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:.7rem 1rem;color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.86rem;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.cand-form .fg input:focus,.cand-form .fg textarea:focus,.cand-form .fg select:focus{border-color:var(--gold2);background:#fff}
+.cand-form .fg input::placeholder,.cand-form .fg textarea::placeholder{color:var(--ink4)}
+.cand-form .fg textarea{resize:vertical;min-height:80px}
+.cand-form .fr2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.cand-submit{width:100%;background:var(--gold2);color:#fff;border:none;border-radius:980px;padding:.88rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;transition:all .22s;margin-top:.4rem}
+.cand-submit:hover{background:var(--gold3);transform:scale(1.02)}
+.cand-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.verify-banner{background:var(--gold-bg);border:1.5px solid var(--gold-bd);border-radius:var(--r2);padding:1.2rem 1.5rem;margin:1rem clamp(1rem,4vw,3rem);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.verify-banner-t{flex:1}
+.verify-banner-t h4{font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:.2rem}
+.verify-banner-t p{font-size:.78rem;color:var(--ink3)}
+.verify-resend{background:var(--gold2);color:#fff;border:none;padding:.48rem 1.1rem;border-radius:980px;font-size:.75rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all .2s}
+.verify-resend:hover{background:var(--gold3)}
 </style>
 </head>
 <body>
 
-<!-- SCROLL PROGRESS -->
 <div id="scroll-progress"></div>
-
-<!-- BACK TO TOP -->
 <button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <!-- ANNOUNCE BAR -->
 <div class="ab">
-  <span class="ab-l">🇮🇳 Pan-India HR &amp; Manpower Solutions — Trusted by Growing Businesses Since 2025</span>
+  <span class="ab-l">🇮🇳 Pan-India HR & Manpower Solutions — Trusted by Growing Businesses Since 2025</span>
   <div class="ab-r">
     <span>🎧 <a href="mailto:support@245582739.na2.r.hubspot-inbox.com">Support Inbox</a></span>
     <span>📞 <a href="tel:+919650299407" style="color:var(--ink3)">+91 96502 99407</a></span>
@@ -443,12 +540,13 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <div class="nav-r">
+  <div class="nav-r" id="navAuthArea">
+    <button class="nav-cta" style="background:transparent;color:var(--gold);border:1.5px solid var(--gold-bd)" onclick="openModal('login')">Login</button>
     <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Manpower</button>
-    <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
+  <button class="ham" id="ham" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- MOBILE DRAWER -->
@@ -460,10 +558,10 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
   <a href="#industries" onclick="cm()">Industries</a>
   <a href="#faq" onclick="cm()">FAQ</a>
   <a href="#contact" onclick="cm()">Contact</a>
-  <button class="drawer-cta" onclick="cm();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Manpower →</button>
+  <button class="drawer-cta" onclick="cm();openModal('login')">Login / Register →</button>
 </div>
 
-<!-- LIVE TICKER -->
+<!-- TICKER -->
 <div class="ticker-wrap" style="margin-top:88px">
   <div class="ticker" id="ticker">
     <span class="ticker-item"><span class="dot">●</span> 🔴 URGENT: Field Sales Executive — Excitel Broadband, Delhi</span>
@@ -498,11 +596,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       </div>
       <div class="hero-vis">
         <div class="stack">
-          <div class="fc fc-a">
-            <div class="fc-ico">👥</div>
-            <div class="fc-num">100+</div>
-            <div class="fc-lbl">Placements This Year</div>
-          </div>
+          <div class="fc fc-a"><div class="fc-ico">👥</div><div class="fc-num">100+</div><div class="fc-lbl">Placements This Year</div></div>
           <div class="fc fc-main">
             <div class="fc-ico">🏢</div>
             <div class="fc-num">98%</div>
@@ -516,11 +610,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
               </div>
             </div>
           </div>
-          <div class="fc fc-b">
-            <div class="fc-ico">⚡</div>
-            <div class="fc-num">48hrs</div>
-            <div class="fc-lbl">Avg. Deployment Time</div>
-          </div>
+          <div class="fc fc-b"><div class="fc-ico">⚡</div><div class="fc-num">48hrs</div><div class="fc-lbl">Avg. Deployment Time</div></div>
         </div>
       </div>
     </div>
@@ -554,7 +644,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
   <div class="wrap">
     <div class="svc-head reveal">
       <div class="eyebrow">What We Offer</div>
-      <h2 class="h-lg">Comprehensive HR &amp; Manpower Solutions</h2>
+      <h2 class="h-lg">Comprehensive HR & Manpower Solutions</h2>
       <p class="lead">From sourcing to onboarding, we manage the entire talent lifecycle so you can focus on growing your business.</p>
     </div>
     <div class="svc-g">
@@ -562,7 +652,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       <div class="sc reveal"><div class="sc-ico">⚡</div><div class="sc-t">Temporary Staffing</div><p class="sc-b">Scale your workforce up or down with skilled temporary staff for projects, seasonal demands, or sudden capacity needs — deployed within 48 hours.</p></div>
       <div class="sc reveal"><div class="sc-ico">🏗️</div><div class="sc-t">Contract-to-Hire</div><p class="sc-b">Evaluate candidates in real working conditions before committing. Reduce hiring risk with our flexible contract-to-hire model.</p></div>
       <div class="sc reveal"><div class="sc-ico">📋</div><div class="sc-t">Payroll Management</div><p class="sc-b">We handle payroll processing, statutory compliance, tax filings, and employee records — relieving your HR team of administrative burden.</p></div>
-      <div class="sc reveal"><div class="sc-ico">🎓</div><div class="sc-t">Training &amp; Upskilling</div><p class="sc-b">Boost workforce productivity with customized programs. From soft skills to technical certifications, we develop talent that delivers results.</p></div>
+      <div class="sc reveal"><div class="sc-ico">🎓</div><div class="sc-t">Training & Upskilling</div><p class="sc-b">Boost workforce productivity with customized programs. From soft skills to technical certifications, we develop talent that delivers results.</p></div>
       <div class="sc reveal"><div class="sc-ico">📊</div><div class="sc-t">HR Consulting</div><p class="sc-b">Strategic guidance on workforce planning, org design, compliance, and HR policies. We build people strategies that work.</p></div>
     </div>
   </div>
@@ -583,15 +673,14 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
     </div>
     <div class="fbar">
       <button class="fb2 active" onclick="fj('all',this)">All Roles</button>
-      <button class="fb2" onclick="fj('IT',this)">IT &amp; Tech</button>
+      <button class="fb2" onclick="fj('IT',this)">IT & Tech</button>
       <button class="fb2" onclick="fj('Finance',this)">Finance</button>
       <button class="fb2" onclick="fj('Healthcare',this)">Healthcare</button>
       <button class="fb2" onclick="fj('Manufacturing',this)">Manufacturing</button>
       <button class="fb2" onclick="fj('Sales',this)">Field Sales</button>
-      <button class="fb2" onclick="fj('HR',this)">HR &amp; Admin</button>
+      <button class="fb2" onclick="fj('HR',this)">HR & Admin</button>
     </div>
     <div class="jobs-g" id="jg">
-
       <div class="jc feat reveal" data-cat="Sales">
         <div class="j-fl">⭐ Featured Opening</div>
         <div class="j-top">
@@ -603,43 +692,17 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
           <span class="jbdg bg-urg">Urgent</span>
         </div>
         <div class="j-sk"><span>Door-to-Door Sales</span><span>Lead Generation</span><span>Customer Acquisition</span><span>Hindi / English</span></div>
-        <div class="j-ab"><strong style="color:var(--ink)">About Role:</strong> Join Excitel's growing field sales team in Delhi. Drive new broadband subscriptions through direct customer engagement in residential areas. Attractive incentive structure on top of fixed pay.</div>
+        <div class="j-ab"><strong style="color:var(--ink)">About Role:</strong> Join Excitel's growing field sales team in Delhi. Drive new broadband subscriptions through direct customer engagement in residential areas.</div>
         <div class="j-btn-g">
           <a href="https://www.jobhai.com/field-sales-field-boy-job-in-smif-enterprises-okhla-phase-ii-delhi-0-to-6-plus-years-1773055387-7363933-jid" target="_blank" rel="noopener" class="j-apply">Apply on JobHai →</a>
           <a href="#contact" class="j-apply g">Enquire via SMIF</a>
         </div>
       </div>
-
-      <div class="jc reveal" data-cat="IT">
-        <div class="j-top"><div><div class="j-t">Senior React Developer</div><div class="j-c">TechNova Solutions</div><div class="j-m"><span>📍 Delhi NCR</span><span>💰 ₹12–18 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div>
-        <div class="j-sk"><span>React</span><span>TypeScript</span><span>Node.js</span><span>AWS</span></div>
-        <div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div>
-      </div>
-
-      <div class="jc reveal" data-cat="Finance">
-        <div class="j-top"><div><div class="j-t">Financial Analyst</div><div class="j-c">Capital Bridge</div><div class="j-m"><span>📍 Mumbai</span><span>💰 ₹8–12 LPA</span></div></div><span class="jbdg bg-con">Contract</span></div>
-        <div class="j-sk"><span>Excel</span><span>SAP</span><span>Tally</span><span>CA Preferred</span></div>
-        <div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div>
-      </div>
-
-      <div class="jc reveal" data-cat="Healthcare">
-        <div class="j-top"><div><div class="j-t">Hospital Operations Manager</div><div class="j-c">MediCare Hospitals</div><div class="j-m"><span>📍 Bangalore</span><span>💰 ₹10–15 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div>
-        <div class="j-sk"><span>Hospital Mgmt</span><span>JCI Accreditation</span><span>NABH</span></div>
-        <div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div>
-      </div>
-
-      <div class="jc reveal" data-cat="Manufacturing">
-        <div class="j-top"><div><div class="j-t">Production Supervisor</div><div class="j-c">Meridian Manufacturing</div><div class="j-m"><span>📍 Pune</span><span>💰 ₹5–8 LPA</span></div></div><span class="jbdg bg-tmp">Temporary</span></div>
-        <div class="j-sk"><span>Lean Manufacturing</span><span>ISO 9001</span><span>PLC Operations</span></div>
-        <div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div>
-      </div>
-
-      <div class="jc reveal" data-cat="HR">
-        <div class="j-top"><div><div class="j-t">HR Business Partner</div><div class="j-c">StarPath Retail</div><div class="j-m"><span>📍 Delhi</span><span>💰 ₹7–11 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div>
-        <div class="j-sk"><span>HRIS</span><span>Employee Relations</span><span>SHRM-CP</span></div>
-        <div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div>
-      </div>
-
+      <div class="jc reveal" data-cat="IT"><div class="j-top"><div><div class="j-t">Senior React Developer</div><div class="j-c">TechNova Solutions</div><div class="j-m"><span>📍 Delhi NCR</span><span>💰 ₹12–18 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div><div class="j-sk"><span>React</span><span>TypeScript</span><span>Node.js</span><span>AWS</span></div><div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div></div>
+      <div class="jc reveal" data-cat="Finance"><div class="j-top"><div><div class="j-t">Financial Analyst</div><div class="j-c">Capital Bridge</div><div class="j-m"><span>📍 Mumbai</span><span>💰 ₹8–12 LPA</span></div></div><span class="jbdg bg-con">Contract</span></div><div class="j-sk"><span>Excel</span><span>SAP</span><span>Tally</span><span>CA Preferred</span></div><div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div></div>
+      <div class="jc reveal" data-cat="Healthcare"><div class="j-top"><div><div class="j-t">Hospital Operations Manager</div><div class="j-c">MediCare Hospitals</div><div class="j-m"><span>📍 Bangalore</span><span>💰 ₹10–15 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div><div class="j-sk"><span>Hospital Mgmt</span><span>JCI Accreditation</span><span>NABH</span></div><div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div></div>
+      <div class="jc reveal" data-cat="Manufacturing"><div class="j-top"><div><div class="j-t">Production Supervisor</div><div class="j-c">Meridian Manufacturing</div><div class="j-m"><span>📍 Pune</span><span>💰 ₹5–8 LPA</span></div></div><span class="jbdg bg-tmp">Temporary</span></div><div class="j-sk"><span>Lean Manufacturing</span><span>ISO 9001</span><span>PLC Operations</span></div><div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div></div>
+      <div class="jc reveal" data-cat="HR"><div class="j-top"><div><div class="j-t">HR Business Partner</div><div class="j-c">StarPath Retail</div><div class="j-m"><span>📍 Delhi</span><span>💰 ₹7–11 LPA</span></div></div><span class="jbdg bg-full">Full Time</span></div><div class="j-sk"><span>HRIS</span><span>Employee Relations</span><span>SHRM-CP</span></div><div class="j-btn-g"><a href="#contact" class="j-apply g">Apply via SMIF</a></div></div>
     </div>
   </div>
 </section>
@@ -656,7 +719,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <p class="lead">Benchmark compensation for any role. Make smarter hiring decisions or negotiate with confidence.</p>
         <div class="sal-perks">
           <div class="sp"><div class="sp-ico">📈</div><div><div class="sp-t">Real Market Data</div><div class="sp-s">Based on active placements across India</div></div></div>
-          <div class="sp"><div class="sp-ico">🏙️</div><div><div class="sp-t">City-Wise Benchmarks</div><div class="sp-s">Metro vs Tier 2 &amp; 3 city adjustments</div></div></div>
+          <div class="sp"><div class="sp-ico">🏙️</div><div><div class="sp-t">City-Wise Benchmarks</div><div class="sp-s">Metro vs Tier 2 & 3 city adjustments</div></div></div>
           <div class="sp"><div class="sp-ico">🎓</div><div><div class="sp-t">Experience-Adjusted</div><div class="sp-s">Ranges shift based on years of experience</div></div></div>
         </div>
       </div>
@@ -667,11 +730,11 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <div class="slbl" style="margin-bottom:.38rem">Industry</div>
         <select class="ssel" id="indSel" onchange="calcSal()">
           <option value="IT">Information Technology</option>
-          <option value="Finance">Banking &amp; Finance</option>
-          <option value="Healthcare">Healthcare &amp; Pharma</option>
+          <option value="Finance">Banking & Finance</option>
+          <option value="Healthcare">Healthcare & Pharma</option>
           <option value="Manufacturing">Manufacturing</option>
-          <option value="Retail">Retail &amp; E-Commerce</option>
-          <option value="Logistics">Logistics &amp; Supply Chain</option>
+          <option value="Retail">Retail & E-Commerce</option>
+          <option value="Logistics">Logistics & Supply Chain</option>
         </select>
         <div class="slbl" style="margin-bottom:.38rem">City Tier</div>
         <select class="ssel" id="citySel" onchange="calcSal()">
@@ -706,15 +769,15 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <p class="lead">Specialized talent pools and domain expertise — candidates who are truly ready to contribute from day one.</p>
         <div class="ind-tags">
           <span class="it-tag active">Information Technology</span>
-          <span class="it-tag">Healthcare &amp; Pharma</span>
+          <span class="it-tag">Healthcare & Pharma</span>
           <span class="it-tag">Manufacturing</span>
-          <span class="it-tag">Banking &amp; Finance</span>
-          <span class="it-tag">Retail &amp; E-Commerce</span>
+          <span class="it-tag">Banking & Finance</span>
+          <span class="it-tag">Retail & E-Commerce</span>
           <span class="it-tag">Construction</span>
-          <span class="it-tag">Logistics &amp; Supply Chain</span>
+          <span class="it-tag">Logistics & Supply Chain</span>
           <span class="it-tag">Hospitality</span>
           <span class="it-tag">Education</span>
-          <span class="it-tag">Oil &amp; Gas</span>
+          <span class="it-tag">Oil & Gas</span>
           <span class="it-tag">Telecom</span>
           <span class="it-tag">FMCG</span>
         </div>
@@ -722,9 +785,9 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       <div class="proc-box reveal">
         <div style="font-size:.67rem;text-transform:uppercase;letter-spacing:1.3px;color:var(--gold);margin-bottom:1.65rem;font-weight:700">Our Hiring Process</div>
         <div class="ps"><div class="ps-n">01</div><div><div class="ps-t">Requirements Discovery</div><div class="ps-d">We deeply understand your role requirements, team culture, and business goals through a structured briefing.</div></div></div>
-        <div class="ps"><div class="ps-n">02</div><div><div class="ps-t">Talent Sourcing &amp; Screening</div><div class="ps-d">Rigorous multi-stage screening including technical assessments and background checks from our vast network.</div></div></div>
-        <div class="ps"><div class="ps-n">03</div><div><div class="ps-t">Shortlisting &amp; Interviews</div><div class="ps-d">Curated pre-vetted shortlist delivered to you. We coordinate all interviews and gather structured feedback.</div></div></div>
-        <div class="ps"><div class="ps-n">04</div><div><div class="ps-t">Deployment &amp; Follow-up</div><div class="ps-d">We manage onboarding and conduct 30/60/90-day check-ins to ensure satisfaction on both sides.</div></div></div>
+        <div class="ps"><div class="ps-n">02</div><div><div class="ps-t">Talent Sourcing & Screening</div><div class="ps-d">Rigorous multi-stage screening including technical assessments and background checks from our vast network.</div></div></div>
+        <div class="ps"><div class="ps-n">03</div><div><div class="ps-t">Shortlisting & Interviews</div><div class="ps-d">Curated pre-vetted shortlist delivered to you. We coordinate all interviews and gather structured feedback.</div></div></div>
+        <div class="ps"><div class="ps-n">04</div><div><div class="ps-t">Deployment & Follow-up</div><div class="ps-d">We manage onboarding and conduct 30/60/90-day check-ins to ensure satisfaction on both sides.</div></div></div>
       </div>
     </div>
   </div>
@@ -739,9 +802,9 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       <div class="founder reveal">
         <div class="f-av">AY</div>
         <div class="f-name">Arjun Yadav</div>
-        <div class="f-ttl">Founder &amp; Managing Director</div>
+        <div class="f-ttl">Founder & Managing Director</div>
         <p class="f-bio">An HR professional with a passion for bridging the gap between exceptional talent and high-growth organizations. Arjun founded SMIF Enterprises with a vision to make quality manpower solutions accessible to businesses of all sizes across India.</p>
-        <p class="f-bio" style="margin-bottom:0">With deep expertise in workforce planning, compliance, and talent strategy, he personally oversees every client relationship to ensure standards of quality and speed remain uncompromised.</p>
+        <p class="f-bio" style="margin-bottom:0">With deep expertise in workforce planning, compliance, and talent strategy, he personally oversees every client relationship.</p>
         <div class="f-bgs">
           <span class="f-bg">🏆 1+ Year in HR</span>
           <span class="f-bg">📍 Delhi-Based</span>
@@ -758,7 +821,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <p class="lead" style="margin-bottom:1.65rem">Founded in 2025 and headquartered in Dwarka, New Delhi, SMIF Enterprises was born from a belief that great businesses deserve great people — and finding them shouldn't be complicated.</p>
         <div class="mc"><h4>🎯 Our Mission</h4><p>To be India's most trusted manpower partner — delivering qualified, compliant, and culture-fit talent at the speed businesses demand today.</p></div>
         <div class="mc"><h4>👁️ Our Vision</h4><p>A future where every organization — from startups to enterprises — has effortless access to the human capital it needs to thrive.</p></div>
-        <div class="mc"><h4>💎 Our Values</h4><p>Integrity in every placement. Speed without compromise. Compliance as a standard, not an afterthought. Relationships built on accountability.</p></div>
+        <div class="mc"><h4>💎 Our Values</h4><p>Integrity in every placement. Speed without compromise. Compliance as a standard, not an afterthought.</p></div>
         <div class="a-nums">
           <div class="an"><div class="an-n">2025</div><div class="an-l">Founded</div></div>
           <div class="an"><div class="an-n">5+</div><div class="an-l">Clients</div></div>
@@ -782,12 +845,12 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <div style="margin-top:2rem"><a href="#contact" class="btn btn-dark">Partner With Us</a></div>
       </div>
       <div class="why-g">
-        <div class="wc reveal"><div class="wi">⚡</div><h4>Speed Without Compromise</h4><p>Pre-screened talent pools mean we can deploy qualified candidates in as little as 48 hours, without cutting corners on quality.</p></div>
-        <div class="wc reveal"><div class="wi">⚖️</div><h4>Compliance Guaranteed</h4><p>Fully compliant with all labor laws, PF/ESI regulations, and statutory requirements — protecting you from legal risk.</p></div>
-        <div class="wc reveal"><div class="wi">🤝</div><h4>Dedicated Account Managers</h4><p>Every client gets one point of contact who understands your business and is personally accountable for results.</p></div>
-        <div class="wc reveal"><div class="wi">🔄</div><h4>Replacement Guarantee</h4><p>If a placed candidate doesn't work out within the guarantee period, we find a replacement at no additional cost.</p></div>
-        <div class="wc reveal"><div class="wi">🗺️</div><h4>Pan-India Network</h4><p>With talent networks across all major cities, we source the right people wherever your operations are located.</p></div>
-        <div class="wc reveal"><div class="wi">💡</div><h4>Technology-Driven Matching</h4><p>Our ATS and skills assessment platform ensures data-backed candidate matching, not just resume scanning.</p></div>
+        <div class="wc reveal"><div class="wi">⚡</div><h4>Speed Without Compromise</h4><p>Pre-screened talent pools mean we deploy qualified candidates in as little as 48 hours.</p></div>
+        <div class="wc reveal"><div class="wi">⚖️</div><h4>Compliance Guaranteed</h4><p>Fully compliant with all labor laws, PF/ESI regulations, and statutory requirements.</p></div>
+        <div class="wc reveal"><div class="wi">🤝</div><h4>Dedicated Account Managers</h4><p>Every client gets one point of contact personally accountable for results.</p></div>
+        <div class="wc reveal"><div class="wi">🔄</div><h4>Replacement Guarantee</h4><p>If a placed candidate doesn't work out, we find a replacement at no additional cost.</p></div>
+        <div class="wc reveal"><div class="wi">🗺️</div><h4>Pan-India Network</h4><p>With talent networks across all major cities, we source the right people wherever your operations are.</p></div>
+        <div class="wc reveal"><div class="wi">💡</div><h4>Technology-Driven Matching</h4><p>Our ATS and skills assessment platform ensures data-backed candidate matching.</p></div>
       </div>
     </div>
   </div>
@@ -795,7 +858,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 
 <div class="divider"></div>
 
-<!-- COMPARISON TABLE (NEW) -->
+<!-- COMPARISON TABLE -->
 <section id="compare">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:3rem" class="reveal">
@@ -805,14 +868,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
     </div>
     <div class="cmp-wrap reveal">
       <table class="cmp-table">
-        <thead>
-          <tr>
-            <th>Feature</th>
-            <th class="smif-col">SMIF Enterprises</th>
-            <th>Job Portals</th>
-            <th>In-House HR</th>
-          </tr>
-        </thead>
+        <thead><tr><th>Feature</th><th class="smif-col">SMIF Enterprises</th><th>Job Portals</th><th>In-House HR</th></tr></thead>
         <tbody>
           <tr><td>Time to Deploy</td><td class="smif-col">48 Hours</td><td><span class="par">1–3 Weeks</span></td><td><span class="no">4–8 Weeks</span></td></tr>
           <tr><td>Pre-Screened Candidates</td><td class="smif-col"><span class="yes">✓</span></td><td><span class="no">✗</span></td><td><span class="par">Partial</span></td></tr>
@@ -833,86 +889,32 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 <!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="wrap">
-    <div class="reveal">
-      <div class="eyebrow">Client Stories</div>
-      <h2 class="h-lg">What Our Clients Say</h2>
-    </div>
+    <div class="reveal"><div class="eyebrow">Client Stories</div><h2 class="h-lg">What Our Clients Say</h2></div>
     <div class="tg">
-      <div class="tcard reveal">
-        <div class="tc-s">★★★★★</div>
-        <div class="tc-q">"</div>
-        <p class="tc-txt">SMIF Enterprises helped us ramp up our operations team by 60 people in under 3 weeks. Their speed and quality of candidates is genuinely impressive.</p>
-        <div class="tc-au"><div class="tc-av2">RK</div><div><div class="tc-n">Rajesh Kumar</div><div class="tc-r">VP Operations, TechNova Solutions</div></div></div>
-      </div>
-      <div class="tcard reveal">
-        <div class="tc-s">★★★★★</div>
-        <div class="tc-q">"</div>
-        <p class="tc-txt">We've partnered with SMIF for all our contractual hiring. Their compliance management alone has saved us significant legal headaches.</p>
-        <div class="tc-au"><div class="tc-av2">PS</div><div><div class="tc-n">Priya Sharma</div><div class="tc-r">HR Director, Meridian Manufacturing</div></div></div>
-      </div>
-      <div class="tcard reveal">
-        <div class="tc-s">★★★★★</div>
-        <div class="tc-q">"</div>
-        <p class="tc-txt">The dedicated account manager approach sets them apart. They know our culture and only send candidates who will truly fit — never wasting our time.</p>
-        <div class="tc-au"><div class="tc-av2">AM</div><div><div class="tc-n">Anil Mehta</div><div class="tc-r">CEO, StarPath Retail Group</div></div></div>
-      </div>
+      <div class="tcard reveal"><div class="tc-s">★★★★★</div><div class="tc-q">"</div><p class="tc-txt">SMIF Enterprises helped us ramp up our operations team by 60 people in under 3 weeks. Their speed and quality of candidates is genuinely impressive.</p><div class="tc-au"><div class="tc-av2">RK</div><div><div class="tc-n">Rajesh Kumar</div><div class="tc-r">VP Operations, TechNova Solutions</div></div></div></div>
+      <div class="tcard reveal"><div class="tc-s">★★★★★</div><div class="tc-q">"</div><p class="tc-txt">We've partnered with SMIF for all our contractual hiring. Their compliance management alone has saved us significant legal headaches.</p><div class="tc-au"><div class="tc-av2">PS</div><div><div class="tc-n">Priya Sharma</div><div class="tc-r">HR Director, Meridian Manufacturing</div></div></div></div>
+      <div class="tcard reveal"><div class="tc-s">★★★★★</div><div class="tc-q">"</div><p class="tc-txt">The dedicated account manager approach sets them apart. They know our culture and only send candidates who will truly fit.</p><div class="tc-au"><div class="tc-av2">AM</div><div><div class="tc-n">Anil Mehta</div><div class="tc-r">CEO, StarPath Retail Group</div></div></div></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- RESOURCE HUB (NEW) -->
+<!-- RESOURCE HUB -->
 <section id="resources">
   <div class="wrap">
     <div style="text-align:center;margin-bottom:0" class="reveal">
       <div class="eyebrow">Knowledge Centre</div>
-      <h2 class="h-lg">HR Resources &amp; Guides</h2>
+      <h2 class="h-lg">HR Resources & Guides</h2>
       <p class="lead" style="margin:0 auto;max-width:480px">Free tools, tips, and guides to help HR leaders and job seekers make better decisions.</p>
     </div>
     <div class="res-g">
-      <div class="res-card reveal">
-        <span class="res-tag guide">Guide</span>
-        <div class="res-ico">📘</div>
-        <div class="res-t">India Labour Law Compliance Checklist 2025</div>
-        <p class="res-d">A practical checklist covering PF, ESI, gratuity, professional tax, and the latest amendments every employer must know.</p>
-        <a class="res-link" href="#contact">Download Free → <span>↗</span></a>
-      </div>
-      <div class="res-card reveal">
-        <span class="res-tag tip">Tip Sheet</span>
-        <div class="res-ico">🎯</div>
-        <div class="res-t">How to Write a Job Description That Attracts Top Talent</div>
-        <p class="res-d">10 proven principles that make your JD stand out and reduce the volume of unqualified applications.</p>
-        <a class="res-link" href="#contact">Download Free → <span>↗</span></a>
-      </div>
-      <div class="res-card reveal">
-        <span class="res-tag tool">Tool</span>
-        <div class="res-ico">💰</div>
-        <div class="res-t">Manpower Cost Calculator</div>
-        <p class="res-d">Estimate total cost of employment including CTC, PF, ESI, gratuity, and other statutory components instantly.</p>
-        <a class="res-link" href="#salary">Use Salary Tool → <span>↗</span></a>
-      </div>
-      <div class="res-card reveal">
-        <span class="res-tag guide">Guide</span>
-        <div class="res-ico">🤝</div>
-        <div class="res-t">Interview Preparation Kit for Job Seekers</div>
-        <p class="res-d">Role-specific interview questions, answer frameworks, and tips to help you land your next opportunity with confidence.</p>
-        <a class="res-link" href="#contact">Get the Kit → <span>↗</span></a>
-      </div>
-      <div class="res-card reveal">
-        <span class="res-tag tip">Tip Sheet</span>
-        <div class="res-ico">📊</div>
-        <div class="res-t">Workforce Planning Template for SMEs</div>
-        <p class="res-d">A ready-to-use Excel template to forecast hiring needs, track headcount, and plan your annual manpower budget.</p>
-        <a class="res-link" href="#contact">Request Template → <span>↗</span></a>
-      </div>
-      <div class="res-card reveal">
-        <span class="res-tag tool">Tool</span>
-        <div class="res-ico">🔍</div>
-        <div class="res-t">Candidate Background Check Guide</div>
-        <p class="res-d">What to verify before hiring — from education and employment history to criminal records and reference checks in India.</p>
-        <a class="res-link" href="#contact">Read Guide → <span>↗</span></a>
-      </div>
+      <div class="res-card reveal"><span class="res-tag guide">Guide</span><div class="res-ico">📘</div><div class="res-t">India Labour Law Compliance Checklist 2025</div><p class="res-d">A practical checklist covering PF, ESI, gratuity, professional tax, and the latest amendments every employer must know.</p><a class="res-link" href="#contact">Download Free → <span>↗</span></a></div>
+      <div class="res-card reveal"><span class="res-tag tip">Tip Sheet</span><div class="res-ico">🎯</div><div class="res-t">How to Write a Job Description That Attracts Top Talent</div><p class="res-d">10 proven principles that make your JD stand out and reduce unqualified applications.</p><a class="res-link" href="#contact">Download Free → <span>↗</span></a></div>
+      <div class="res-card reveal"><span class="res-tag tool">Tool</span><div class="res-ico">💰</div><div class="res-t">Manpower Cost Calculator</div><p class="res-d">Estimate total cost of employment including CTC, PF, ESI, gratuity, and statutory components instantly.</p><a class="res-link" href="#salary">Use Salary Tool → <span>↗</span></a></div>
+      <div class="res-card reveal"><span class="res-tag guide">Guide</span><div class="res-ico">🤝</div><div class="res-t">Interview Preparation Kit for Job Seekers</div><p class="res-d">Role-specific interview questions, answer frameworks, and tips to help you land your next opportunity.</p><a class="res-link" href="#contact">Get the Kit → <span>↗</span></a></div>
+      <div class="res-card reveal"><span class="res-tag tip">Tip Sheet</span><div class="res-ico">📊</div><div class="res-t">Workforce Planning Template for SMEs</div><p class="res-d">A ready-to-use Excel template to forecast hiring needs, track headcount, and plan your annual manpower budget.</p><a class="res-link" href="#contact">Request Template → <span>↗</span></a></div>
+      <div class="res-card reveal"><span class="res-tag tool">Tool</span><div class="res-ico">🔍</div><div class="res-t">Candidate Background Check Guide</div><p class="res-d">What to verify before hiring — from education and employment history to criminal records and references in India.</p><a class="res-link" href="#contact">Read Guide → <span>↗</span></a></div>
     </div>
   </div>
 </section>
@@ -930,14 +932,12 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <div style="margin-top:2rem"><a href="#contact" class="btn btn-outline">Ask Anything →</a></div>
       </div>
       <div class="reveal">
-        <div class="fi"><button class="fq" onclick="tf(this)">How quickly can you deploy candidates? <i class="fi-ico">+</i></button><div class="fa">For temporary and contractual roles, we can deploy pre-screened candidates within 24–48 hours of receiving a confirmed requirement. For permanent senior roles, our average time-to-offer is 7–10 business days.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">What is your replacement guarantee policy? <i class="fi-ico">+</i></button><div class="fa">If a placed candidate leaves or underperforms within the guarantee period (30–90 days depending on role type), we provide a free replacement at no extra cost. We stand fully behind every placement we make.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">Do you handle PF, ESI, and statutory compliance? <i class="fi-ico">+</i></button><div class="fa">Yes — for all contract and temporary staff deployed through us, we are the employer of record and handle all compliances including PF, ESI, gratuity, professional tax, and labour law filings. Zero compliance risk for you.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">How quickly can you deploy candidates? <i class="fi-ico">+</i></button><div class="fa">For temporary and contractual roles, we can deploy pre-screened candidates within 24–48 hours. For permanent senior roles, our average time-to-offer is 7–10 business days.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">What is your replacement guarantee policy? <i class="fi-ico">+</i></button><div class="fa">If a placed candidate leaves or underperforms within the guarantee period (30–90 days depending on role type), we provide a free replacement at no extra cost.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">Do you handle PF, ESI, and statutory compliance? <i class="fi-ico">+</i></button><div class="fa">Yes — for all contract and temporary staff deployed through us, we are the employer of record and handle all compliances including PF, ESI, gratuity, professional tax, and labour law filings.</div></div>
         <div class="fi"><button class="fq" onclick="tf(this)">Which cities do you operate in? <i class="fi-ico">+</i></button><div class="fa">We operate pan-India from our base in New Delhi. We actively source and deploy in Delhi NCR, Mumbai, Bangalore, Hyderabad, Pune, Chennai, Kolkata, and Tier 2 cities on request.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">Can job seekers also register with you? <i class="fi-ico">+</i></button><div class="fa">Absolutely. Email your CV to info@smifenterprises.online or submit via our contact form below. We'll reach out when a matching opportunity arises from our client mandates.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">How do I reach your support team? <i class="fi-ico">+</i></button><div class="fa">Email support@245582739.na2.r.hubspot-inbox.com — all queries are tracked via HubSpot CRM with a guaranteed response within 4 business hours on working days.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">Do you charge candidates a placement fee? <i class="fi-ico">+</i></button><div class="fa">No. We never charge candidates any fee for job placement or registration. Our fees are paid entirely by the hiring companies. Your career opportunities with us are always free of charge.</div></div>
-        <div class="fi"><button class="fq" onclick="tf(this)">What industries do you specialize in? <i class="fi-ico">+</i></button><div class="fa">We have deep expertise across IT, Healthcare, Manufacturing, Banking &amp; Finance, Retail, Logistics, Construction, and FMCG sectors, with dedicated sourcing networks for each domain.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">Can job seekers also register with you? <i class="fi-ico">+</i></button><div class="fa">Absolutely. Email your CV to info@smifenterprises.online or submit via our contact form below. We'll reach out when a matching opportunity arises.</div></div>
+        <div class="fi"><button class="fq" onclick="tf(this)">Do you charge candidates a placement fee? <i class="fi-ico">+</i></button><div class="fa">No. We never charge candidates any fee. Our fees are paid entirely by hiring companies. Your career opportunities with us are always free of charge.</div></div>
       </div>
     </div>
   </div>
@@ -945,10 +945,7 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 
 <!-- HIRE BANNER -->
 <div class="hb">
-  <div>
-    <h3>📢 We're Hiring Recruitment Consultants!</h3>
-    <p>Join the SMIF Enterprises team — help businesses grow and candidates thrive.</p>
-  </div>
+  <div><h3>📢 We're Hiring Recruitment Consultants!</h3><p>Join the SMIF Enterprises team — help businesses grow and candidates thrive.</p></div>
   <a href="mailto:info@smifenterprises.online" class="hb-btn">View Internal Openings →</a>
 </div>
 
@@ -962,17 +959,11 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
         <p class="lead">Tell us your manpower requirements and a SMIF consultant will respond within 4 business hours with a tailored proposal.</p>
         <div class="cd"><div class="cd-ico">📞</div><span>+91 96502 99407</span></div>
         <div class="cd"><div class="cd-ico">✉️</div><span>info@smifenterprises.online</span></div>
-        <div class="cd" style="align-items:flex-start">
-          <div class="cd-ico">🎧</div>
-          <div><div class="cd-sub">HubSpot Support Inbox</div><span style="font-size:.8rem;word-break:break-all">support@245582739.na2.r.hubspot-inbox.com</span></div>
-        </div>
+        <div class="cd" style="align-items:flex-start"><div class="cd-ico">🎧</div><div><div class="cd-sub">HubSpot Support Inbox</div><span style="font-size:.8rem;word-break:break-all">support@245582739.na2.r.hubspot-inbox.com</span></div></div>
         <div class="cd"><div class="cd-ico">📍</div><span>Dwarka, New Delhi 110078</span></div>
         <div class="cd"><div class="cd-ico">🕐</div><span>Mon – Sat, 9:00 AM – 6:30 PM IST</span></div>
-        <div class="cd"><div class="cd-ico">👤</div><span>Arjun Yadav — Founder &amp; MD</span></div>
-        <div class="hs-n">
-          <div style="font-size:1.3rem">⚡</div>
-          <div><div class="hs-nt">Powered by HubSpot CRM</div><p class="hs-nb">All inquiries tracked end-to-end. Response within <strong style="color:#fff">4 business hours</strong>.</p></div>
-        </div>
+        <div class="cd"><div class="cd-ico">👤</div><span>Arjun Yadav — Founder & MD</span></div>
+        <div class="hs-n"><div style="font-size:1.3rem">⚡</div><div><div class="hs-nt">Powered by HubSpot CRM</div><p class="hs-nb">All inquiries tracked end-to-end. Response within <strong style="color:#fff">4 business hours</strong>.</p></div></div>
       </div>
       <div class="cf reveal">
         <h3>Request a Consultation</h3>
@@ -984,21 +975,8 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
           <div class="fg"><label>Email</label><input type="email" placeholder="work@company.com"></div>
           <div class="fg"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
         </div>
-        <div class="fg">
-          <label>Service Required</label>
-          <select>
-            <option>Temporary Staffing</option>
-            <option>Permanent Recruitment</option>
-            <option>Contract-to-Hire</option>
-            <option>Payroll Management</option>
-            <option>HR Consulting</option>
-            <option>Training &amp; Upskilling</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Tell Us About Your Requirement</label>
-          <textarea placeholder="Number of positions, role type, timeline, location..."></textarea>
-        </div>
+        <div class="fg"><label>Service Required</label><select><option>Temporary Staffing</option><option>Permanent Recruitment</option><option>Contract-to-Hire</option><option>Payroll Management</option><option>HR Consulting</option><option>Training & Upskilling</option></select></div>
+        <div class="fg"><label>Tell Us About Your Requirement</label><textarea placeholder="Number of positions, role type, timeline, location..."></textarea></div>
         <button class="f-sub" onclick="this.textContent='✅ Inquiry Submitted!';this.style.background='#1c7a3e';setTimeout(()=>{this.textContent='Submit Request';this.style.background=''},3000)">Submit Request</button>
       </div>
     </div>
@@ -1013,58 +991,183 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
       <p>Your trusted HR partner — connecting ambitious businesses with exceptional talent across India.</p>
       <p class="fb3-s">Founded by Arjun Yadav · Dwarka, New Delhi</p>
     </div>
-    <div class="fl2">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#services">Permanent Recruitment</a></li>
-        <li><a href="#services">Temporary Staffing</a></li>
-        <li><a href="#services">Payroll Management</a></li>
-        <li><a href="#services">HR Consulting</a></li>
-        <li><a href="#services">Training &amp; Upskilling</a></li>
-      </ul>
-    </div>
-    <div class="fl2">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#jobs">Job Openings</a></li>
-        <li><a href="#resources">Resources</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="fl2">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="tel:+919650299407">+91 96502 99407</a></li>
-        <li><a href="mailto:info@smifenterprises.online">info@smifenterprises.online</a></li>
-        <li><a href="mailto:support@245582739.na2.r.hubspot-inbox.com" style="font-size:.72rem;word-break:break-all;line-height:1.6">HubSpot Support</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Compliance</a></li>
-      </ul>
-    </div>
+    <div class="fl2"><h4>Services</h4><ul><li><a href="#services">Permanent Recruitment</a></li><li><a href="#services">Temporary Staffing</a></li><li><a href="#services">Payroll Management</a></li><li><a href="#services">HR Consulting</a></li><li><a href="#services">Training & Upskilling</a></li></ul></div>
+    <div class="fl2"><h4>Company</h4><ul><li><a href="#about">About Us</a></li><li><a href="#jobs">Job Openings</a></li><li><a href="#resources">Resources</a></li><li><a href="#faq">FAQ</a></li></ul></div>
+    <div class="fl2"><h4>Contact</h4><ul><li><a href="tel:+919650299407">+91 96502 99407</a></li><li><a href="mailto:info@smifenterprises.online">info@smifenterprises.online</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Compliance</a></li></ul></div>
   </div>
   <div class="fbot">
     <span>© 2025 SMIF Enterprises. All rights reserved. Founded by Arjun Yadav.</span>
-    <div class="fbot-r">
-      <span>info@smifenterprises.online · +91 96502 99407</span>
-      <span style="font-size:.66rem">support@245582739.na2.r.hubspot-inbox.com</span>
-    </div>
+    <div class="fbot-r"><span>info@smifenterprises.online · +91 96502 99407</span></div>
   </div>
 </footer>
 
-<!-- CHATBOT (NEW) -->
+<!-- ══════════════════════════════════════════
+     AUTH MODAL (Login / Register)
+══════════════════════════════════════════ -->
+<div class="modal-overlay" id="authModal" onclick="handleModalOverlayClick(event)">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <h2 id="modalTitle">Welcome Back</h2>
+      <p id="modalSubtitle">Sign in to your SMIF account</p>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <!-- Role Tabs -->
+      <div class="role-tabs">
+        <button class="role-tab active" id="tabEmployee" onclick="setRole('employee')">🏢 Employee</button>
+        <button class="role-tab" id="tabJobseeker" onclick="setRole('jobseeker')">👤 Job Seeker</button>
+      </div>
+
+      <!-- Employee note -->
+      <div class="emp-note" id="empNote">
+        <strong>🔒 Employee Access:</strong> Registration is restricted to <strong>@smifenterprises.online</strong> email addresses. A verification email will be sent to confirm your identity.
+      </div>
+
+      <!-- Error / Success -->
+      <div class="auth-err" id="authErr"></div>
+      <div class="auth-suc" id="authSuc"></div>
+
+      <!-- Login Form -->
+      <div id="loginForm">
+        <div class="auth-form">
+          <div class="fg"><label>Email Address</label><input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email"></div>
+          <div class="fg"><label>Password</label><input type="password" id="loginPass" placeholder="Your password" autocomplete="current-password"></div>
+          <button class="auth-submit" id="loginBtn" onclick="doLogin()">Sign In →</button>
+        </div>
+        <div class="auth-switch">Don't have an account? <a onclick="switchToRegister()">Register here</a></div>
+      </div>
+
+      <!-- Register Form -->
+      <div id="registerForm" style="display:none">
+        <div class="auth-form">
+          <div class="fg"><label>Full Name</label><input type="text" id="regName" placeholder="Your full name" autocomplete="name"></div>
+          <div class="fg"><label>Email Address</label><input type="email" id="regEmail" placeholder="you@smifenterprises.online" autocomplete="email" id="regEmail"></div>
+          <div class="fg"><label>Password</label><input type="password" id="regPass" placeholder="Minimum 6 characters" autocomplete="new-password"></div>
+          <div class="fg"><label>Confirm Password</label><input type="password" id="regPass2" placeholder="Repeat password" autocomplete="new-password"></div>
+          <button class="auth-submit" id="registerBtn" onclick="doRegister()">Create Account →</button>
+        </div>
+        <div class="auth-switch">Already have an account? <a onclick="switchToLogin()">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EMPLOYEE DASHBOARD
+══════════════════════════════════════════ -->
+<div class="dash-overlay" id="dashboard">
+  <nav class="dash-nav">
+    <div class="dash-logo">SMIF<span> Dashboard</span></div>
+    <div class="dash-nav-r">
+      <span class="dash-user" id="dashUserName">Loading...</span>
+      <button class="dash-logout" onclick="doLogout()">Logout</button>
+      <button class="dash-logout" style="background:rgba(201,153,63,.2);color:var(--gold3)" onclick="closeDashboard()">← Back to Site</button>
+    </div>
+  </nav>
+
+  <!-- Email verification banner -->
+  <div class="verify-banner" id="verifyBanner" style="display:none">
+    <div style="font-size:1.5rem">📧</div>
+    <div class="verify-banner-t">
+      <h4>Verify Your Email to Access Full Dashboard</h4>
+      <p>A verification link was sent to your email. Please verify to manage candidates.</p>
+    </div>
+    <button class="verify-resend" onclick="resendVerification()">Resend Email</button>
+  </div>
+
+  <div class="dash-body">
+    <div class="dash-welcome">
+      <h1>Good day, <span id="dashGreetName">Employee</span> 👋</h1>
+      <p>Here's an overview of your candidate pipeline</p>
+    </div>
+
+    <div class="dash-stats">
+      <div class="ds-card"><div class="ds-ico">👥</div><div class="ds-n" id="statTotal">—</div><div class="ds-l">Total Candidates</div></div>
+      <div class="ds-card"><div class="ds-ico">💼</div><div class="ds-n" id="statIT">—</div><div class="ds-l">IT / Tech</div></div>
+      <div class="ds-card"><div class="ds-ico">🏥</div><div class="ds-n" id="statHealth">—</div><div class="ds-l">Healthcare</div></div>
+      <div class="ds-card"><div class="ds-ico">📅</div><div class="ds-n" id="statNew">—</div><div class="ds-l">Added This Week</div></div>
+    </div>
+
+    <div class="dash-panel">
+      <div class="dash-panel-hdr">
+        <h3>Candidate Pipeline</h3>
+        <button class="add-cand-btn" onclick="openCandModal()">+ Add Candidate</button>
+      </div>
+      <div class="cand-table-wrap">
+        <table class="cand-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Skill</th>
+              <th>Experience</th>
+              <th>Note</th>
+              <th>Added</th>
+            </tr>
+          </thead>
+          <tbody id="candTableBody">
+            <tr class="loading-row"><td colspan="8">⏳ Loading candidates...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CANDIDATE MODAL -->
+<div class="cand-modal-overlay" id="candModal" onclick="handleCandModalOverlayClick(event)">
+  <div class="cand-modal-box">
+    <div class="cand-modal-hdr">
+      <h3>➕ Add New Candidate</h3>
+      <button class="modal-close" onclick="closeCandModal()">✕</button>
+    </div>
+    <div class="cand-modal-body">
+      <div class="auth-err" id="candErr"></div>
+      <div class="auth-suc" id="candSuc"></div>
+      <div class="cand-form">
+        <div class="fr2">
+          <div class="fg"><label>Full Name *</label><input type="text" id="cName" placeholder="Candidate full name"></div>
+          <div class="fg"><label>Phone *</label><input type="tel" id="cPhone" placeholder="+91 XXXXX XXXXX"></div>
+        </div>
+        <div class="fg"><label>Email</label><input type="email" id="cEmail" placeholder="candidate@email.com"></div>
+        <div class="fr2">
+          <div class="fg">
+            <label>Primary Skill *</label>
+            <select id="cSkill">
+              <option value="">Select skill</option>
+              <option>React / Frontend</option>
+              <option>Node.js / Backend</option>
+              <option>Full Stack</option>
+              <option>Data Analysis</option>
+              <option>Sales / BDE</option>
+              <option>HR / Recruitment</option>
+              <option>Operations</option>
+              <option>Finance / Accounts</option>
+              <option>Healthcare</option>
+              <option>Manufacturing / Production</option>
+              <option>Logistics</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="fg"><label>Experience (Years) *</label><input type="number" id="cExp" placeholder="e.g. 3" min="0" max="50"></div>
+        </div>
+        <div class="fg"><label>Notes</label><textarea id="cNote" placeholder="Any relevant notes, job preference, current CTC, expected CTC..."></textarea></div>
+        <button class="cand-submit" id="candSubmitBtn" onclick="addCandidate()">Save Candidate →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHATBOT -->
 <div class="chat-box" id="chatBox">
   <div class="chat-hdr">
     <div class="chat-av">AY</div>
-    <div class="chat-hdr-t">
-      <div>SMIF Assistant</div>
-      <div>Online Now</div>
-    </div>
+    <div class="chat-hdr-t"><div>SMIF Assistant</div><div>Online Now</div></div>
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
-  <div class="chat-msgs" id="chatMsgs">
-    <div class="msg bot">👋 Hi! I'm the SMIF virtual assistant. How can I help you today?</div>
-  </div>
+  <div class="chat-msgs" id="chatMsgs"><div class="msg bot">👋 Hi! I'm the SMIF virtual assistant. How can I help you today?</div></div>
   <div class="chat-qs" id="chatQs">
     <button class="chat-q" onclick="askQ('I need to hire staff')">Need to hire?</button>
     <button class="chat-q" onclick="askQ('Looking for a job')">Looking for a job?</button>
@@ -1083,128 +1186,284 @@ footer{background:var(--ink);padding:clamp(2.5rem,4vw,3.5rem) clamp(1.25rem,5vw,
 </a>
 
 <script>
-// Hamburger
-function toggleMenu(){
-  const h=document.getElementById('ham'),d=document.getElementById('drawer');
-  h.classList.toggle('open');d.classList.toggle('open');
-  document.body.style.overflow=d.classList.contains('open')?'hidden':'';
-}
-function cm(){
-  document.getElementById('ham').classList.remove('open');
-  document.getElementById('drawer').classList.remove('open');
-  document.body.style.overflow='';
-}
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    const h=a.getAttribute('href');
-    if(h==='#')return;
-    e.preventDefault();cm();
-    const t=document.querySelector(h);
-    if(t)t.scrollIntoView({behavior:'smooth'});
-  });
-});
-
-// Scroll reveal
+// ══════════════════ EXISTING SITE FUNCTIONS ══════════════════
+function toggleMenu(){const h=document.getElementById('ham'),d=document.getElementById('drawer');h.classList.toggle('open');d.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function cm(){document.getElementById('ham').classList.remove('open');document.getElementById('drawer').classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const h=a.getAttribute('href');if(h==='#')return;e.preventDefault();cm();const t=document.querySelector(h);if(t)t.scrollIntoView({behavior:'smooth'});});});
 const revs=document.querySelectorAll('.reveal');
-const ro=new IntersectionObserver((entries)=>{
-  entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*55);});
-},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
+const ro=new IntersectionObserver((entries)=>{entries.forEach((e,i)=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('visible'),i*55);});},{threshold:.06,rootMargin:'0px 0px -30px 0px'});
 revs.forEach(el=>ro.observe(el));
-
-// Industry tags
-document.querySelectorAll('.it-tag').forEach(t=>{
-  t.addEventListener('click',function(){
-    document.querySelectorAll('.it-tag').forEach(x=>x.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
-
-// Job filter
-function fj(cat,btn){
-  document.querySelectorAll('.fb2').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.jc').forEach(c=>{
-    c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';
-  });
-}
-
-// FAQ
-function tf(btn){
-  const item=btn.parentElement,open=item.classList.contains('open');
-  document.querySelectorAll('.fi').forEach(i=>i.classList.remove('open'));
-  if(!open)item.classList.add('open');
-}
-
-// Salary calc
+document.querySelectorAll('.it-tag').forEach(t=>{t.addEventListener('click',function(){document.querySelectorAll('.it-tag').forEach(x=>x.classList.remove('active'));this.classList.add('active');});});
+function fj(cat,btn){document.querySelectorAll('.fb2').forEach(b=>b.classList.remove('active'));btn.classList.add('active');document.querySelectorAll('.jc').forEach(c=>{c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none';});}
+function tf(btn){const item=btn.parentElement,open=item.classList.contains('open');document.querySelectorAll('.fi').forEach(i=>i.classList.remove('open'));if(!open)item.classList.add('open');}
 const sb={IT:{b:4.5,g:1.8},Finance:{b:4.0,g:1.5},Healthcare:{b:3.5,g:1.3},Manufacturing:{b:2.8,g:1.1},Retail:{b:2.5,g:1.0},Logistics:{b:2.8,g:1.0}};
-function calcSal(){
-  const exp=parseInt(document.getElementById('expSlider').value);
-  const ind=document.getElementById('indSel').value;
-  const city=parseFloat(document.getElementById('citySel').value);
-  document.getElementById('expVal').textContent=exp+(exp===1?' Year':' Years');
-  const{b,g}=sb[ind];
-  const mn=(b+exp*g*.4)*city,mx=(b+exp*g*.7)*city*1.3;
-  document.getElementById('salMin').textContent='₹'+mn.toFixed(1)+'L';
-  document.getElementById('salMax').textContent='₹'+mx.toFixed(1)+'L';
-  document.getElementById('salMMin').textContent='₹'+Math.round(mn*100000/12/1000)+'K';
-  document.getElementById('salMMax').textContent='₹'+Math.round(mx*100000/12/1000)+'K';
-}
+function calcSal(){const exp=parseInt(document.getElementById('expSlider').value);const ind=document.getElementById('indSel').value;const city=parseFloat(document.getElementById('citySel').value);document.getElementById('expVal').textContent=exp+(exp===1?' Year':' Years');const{b,g}=sb[ind];const mn=(b+exp*g*.4)*city,mx=(b+exp*g*.7)*city*1.3;document.getElementById('salMin').textContent='₹'+mn.toFixed(1)+'L';document.getElementById('salMax').textContent='₹'+mx.toFixed(1)+'L';document.getElementById('salMMin').textContent='₹'+Math.round(mn*100000/12/1000)+'K';document.getElementById('salMMax').textContent='₹'+Math.round(mx*100000/12/1000)+'K';}
 calcSal();
+window.addEventListener('scroll',()=>{const n=document.getElementById('mainnav');n.style.background=window.scrollY>60?'rgba(255,255,255,.98)':'rgba(255,255,255,.88)';},{passive:true});
+window.addEventListener('scroll',()=>{const scrolled=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;document.getElementById('scroll-progress').style.width=scrolled+'%';const btt=document.getElementById('btt');btt.classList.toggle('show',window.scrollY>400);},{passive:true});
+const chatReplies={'i need to hire staff':'Great! We can deploy pre-screened candidates within 48 hours. Fill out the contact form below or call +91 96502 99407 and Arjun will personally get back to you.','looking for a job':'Awesome! We have active openings across IT, Sales, Finance, Healthcare and more. Email your CV to info@smifenterprises.online and we will match you with the right opportunity.','tell me about your services':'We offer: Permanent Recruitment, Temporary Staffing, Contract-to-Hire, Payroll Management, Training and Upskilling, and HR Consulting. Scroll to our Services section for details!','how fast can you deploy?':'For contractual/temporary roles, we deploy within 24-48 hours. For permanent senior roles, our average time-to-offer is 7-10 business days.','default':'Thanks for reaching out! For fastest response, please call +91 96502 99407 or email info@smifenterprises.online. Our team responds within 4 business hours.'};
+function toggleChat(){const box=document.getElementById('chatBox');box.classList.toggle('open');document.getElementById('chatFab').textContent=box.classList.contains('open')?'✕':'💬';}
+function askQ(q){addMsg(q,'user');document.getElementById('chatQs').style.display='none';setTimeout(()=>{const k=q.toLowerCase();const reply=chatReplies[k]||chatReplies['default'];addMsg(reply,'bot');},600);}
+function sendChat(){const inp=document.getElementById('chatInput');const val=inp.value.trim();if(!val)return;addMsg(val,'user');inp.value='';document.getElementById('chatQs').style.display='none';setTimeout(()=>{addMsg(chatReplies['default'],'bot');},600);}
+function addMsg(text,type){const msgs=document.getElementById('chatMsgs');const div=document.createElement('div');div.className='msg '+type;div.textContent=text;msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
 
-// Nav scroll effect
-window.addEventListener('scroll',()=>{
-  const n=document.getElementById('mainnav');
-  n.style.background=window.scrollY>60?'rgba(255,255,255,.98)':'rgba(255,255,255,.88)';
-},{passive:true});
+// ══════════════════ AUTH MODAL ══════════════════
+let currentRole = 'employee';
+let isLoginMode = true;
 
-// Scroll progress bar
-window.addEventListener('scroll',()=>{
-  const scrolled=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
-  document.getElementById('scroll-progress').style.width=scrolled+'%';
-  const btt=document.getElementById('btt');
-  btt.classList.toggle('show',window.scrollY>400);
-},{passive:true});
+function openModal(mode='login'){
+  isLoginMode = mode === 'login';
+  document.getElementById('authModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  updateModalUI();
+  clearAuthMessages();
+}
 
-// Chatbot
-const chatReplies={
-  'i need to hire staff':'Great! We can deploy pre-screened candidates within 48 hours. Fill out the contact form below or call +91 96502 99407 and Arjun will personally get back to you.',
-  'looking for a job':'Awesome! We have active openings across IT, Sales, Finance, Healthcare and more. Email your CV to info@smifenterprises.online and we will match you with the right opportunity.',
-  'tell me about your services':'We offer: Permanent Recruitment, Temporary Staffing, Contract-to-Hire, Payroll Management, Training and Upskilling, and HR Consulting. Scroll to our Services section for details!',
-  'how fast can you deploy?':'For contractual/temporary roles, we deploy within 24-48 hours. For permanent senior roles, our average time-to-offer is 7-10 business days.',
-  'default':'Thanks for reaching out! For fastest response, please call +91 96502 99407 or email info@smifenterprises.online. Our team responds within 4 business hours.'
-};
-function toggleChat(){
-  const box=document.getElementById('chatBox');
-  box.classList.toggle('open');
-  document.getElementById('chatFab').textContent=box.classList.contains('open')?'✕':'💬';
+function closeModal(){
+  document.getElementById('authModal').classList.remove('show');
+  document.body.style.overflow = '';
 }
-function askQ(q){
-  addMsg(q,'user');
-  document.getElementById('chatQs').style.display='none';
-  setTimeout(()=>{
-    const k=q.toLowerCase();
-    const reply=chatReplies[k]||chatReplies['default'];
-    addMsg(reply,'bot');
-  },600);
+
+function handleModalOverlayClick(e){
+  if(e.target === document.getElementById('authModal')) closeModal();
 }
-function sendChat(){
-  const inp=document.getElementById('chatInput');
-  const val=inp.value.trim();
-  if(!val)return;
-  addMsg(val,'user');
-  inp.value='';
-  document.getElementById('chatQs').style.display='none';
-  setTimeout(()=>{addMsg(chatReplies['default'],'bot');},600);
+
+function setRole(role){
+  currentRole = role;
+  document.getElementById('tabEmployee').classList.toggle('active', role === 'employee');
+  document.getElementById('tabJobseeker').classList.toggle('active', role === 'jobseeker');
+  document.getElementById('empNote').style.display = (role === 'employee' && !isLoginMode) ? 'block' : 'none';
+  clearAuthMessages();
+  // Update email placeholder
+  const emailInput = document.getElementById('regEmail');
+  if(emailInput){
+    emailInput.placeholder = role === 'employee' ? 'yourname@smifenterprises.online' : 'you@example.com';
+  }
 }
-function addMsg(text,type){
-  const msgs=document.getElementById('chatMsgs');
-  const div=document.createElement('div');
-  div.className='msg '+type;
-  div.textContent=text;
-  msgs.appendChild(div);
-  msgs.scrollTop=msgs.scrollHeight;
+
+function updateModalUI(){
+  const title = document.getElementById('modalTitle');
+  const subtitle = document.getElementById('modalSubtitle');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  if(isLoginMode){
+    title.textContent = 'Welcome Back';
+    subtitle.textContent = 'Sign in to your SMIF account';
+    loginForm.style.display = 'block';
+    registerForm.style.display = 'none';
+    document.getElementById('empNote').style.display = 'none';
+  } else {
+    title.textContent = 'Create Account';
+    subtitle.textContent = 'Join SMIF Enterprises';
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'block';
+    document.getElementById('empNote').style.display = currentRole === 'employee' ? 'block' : 'none';
+  }
+}
+
+function switchToRegister(){ isLoginMode = false; updateModalUI(); clearAuthMessages(); }
+function switchToLogin(){ isLoginMode = true; updateModalUI(); clearAuthMessages(); }
+
+function showAuthErr(msg){ const el = document.getElementById('authErr'); el.textContent = msg; el.style.display = 'block'; document.getElementById('authSuc').style.display = 'none'; }
+function showAuthSuc(msg){ const el = document.getElementById('authSuc'); el.textContent = msg; el.style.display = 'block'; document.getElementById('authErr').style.display = 'none'; }
+function clearAuthMessages(){ document.getElementById('authErr').style.display = 'none'; document.getElementById('authSuc').style.display = 'none'; }
+
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPass').value;
+  if(!email || !pass){ showAuthErr('Please fill in all fields.'); return; }
+  const btn = document.getElementById('loginBtn');
+  btn.disabled = true; btn.textContent = 'Signing in...';
+  try {
+    const { auth, signInWithEmailAndPassword, db, doc, getDoc } = window._smif;
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    const userDocRef = doc(db, 'users', cred.user.uid);
+    const userDoc = await getDoc(userDocRef);
+    const role = userDoc.exists() ? userDoc.data().role : 'jobseeker';
+    window._smifUser = { ...cred.user, role };
+    window.updateNavForLoggedIn(cred.user, role);
+    showAuthSuc('✅ Signed in successfully!');
+    setTimeout(() => {
+      closeModal();
+      if(role === 'employee'){
+        if(cred.user.emailVerified){ openDashboard(); }
+        else { alert('Please verify your @smifenterprises.online email before accessing the dashboard. Check your inbox!'); }
+      }
+    }, 900);
+  } catch(err) {
+    const msgs = { 'auth/invalid-credential':'Invalid email or password.', 'auth/user-not-found':'No account found with this email.', 'auth/wrong-password':'Incorrect password.', 'auth/too-many-requests':'Too many attempts. Please try again later.' };
+    showAuthErr(msgs[err.code] || 'Login failed: ' + err.message);
+  } finally { btn.disabled = false; btn.textContent = 'Sign In →'; }
+}
+
+async function doRegister(){
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pass = document.getElementById('regPass').value;
+  const pass2 = document.getElementById('regPass2').value;
+  if(!name || !email || !pass || !pass2){ showAuthErr('Please fill in all fields.'); return; }
+  if(pass !== pass2){ showAuthErr('Passwords do not match.'); return; }
+  if(pass.length < 6){ showAuthErr('Password must be at least 6 characters.'); return; }
+  
+  // Employee email validation
+  if(currentRole === 'employee' && !email.endsWith('@smifenterprises.online')){
+    showAuthErr('⚠️ Employee accounts require an @smifenterprises.online email address.');
+    return;
+  }
+
+  const btn = document.getElementById('registerBtn');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  try {
+    const { auth, db, createUserWithEmailAndPassword, sendEmailVerification, updateProfile, doc, setDoc, serverTimestamp } = window._smif;
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await updateProfile(cred.user, { displayName: name });
+    // Save user role to Firestore
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      name, email, role: currentRole, createdAt: serverTimestamp()
+    });
+    // Send verification email
+    await sendEmailVerification(cred.user);
+    showAuthSuc(`✅ Account created! A verification email has been sent to ${email}. Please verify to access all features.`);
+    setTimeout(() => switchToLogin(), 3500);
+  } catch(err) {
+    const msgs = { 'auth/email-already-in-use':'This email is already registered. Please sign in.', 'auth/invalid-email':'Please enter a valid email address.', 'auth/weak-password':'Password is too weak.' };
+    showAuthErr(msgs[err.code] || 'Registration failed: ' + err.message);
+  } finally { btn.disabled = false; btn.textContent = 'Create Account →'; }
+}
+
+// ══════════════════ DASHBOARD ══════════════════
+function openDashboard(){
+  const user = window._smifUser;
+  if(!user){ openModal('login'); return; }
+  if(user.role !== 'employee'){ alert('Dashboard is only available for SMIF employees.'); return; }
+  if(!user.emailVerified){ 
+    document.getElementById('verifyBanner').style.display = 'flex';
+  } else {
+    document.getElementById('verifyBanner').style.display = 'none';
+  }
+  const name = user.displayName || user.email.split('@')[0];
+  document.getElementById('dashUserName').textContent = name;
+  document.getElementById('dashGreetName').textContent = name.split(' ')[0];
+  document.getElementById('dashboard').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  loadCandidates();
+}
+
+function closeDashboard(){
+  document.getElementById('dashboard').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+async function doLogout(){
+  const { auth, signOut } = window._smif;
+  await signOut(auth);
+  closeDashboard();
+}
+
+async function resendVerification(){
+  const { auth, sendEmailVerification } = window._smif;
+  try {
+    await sendEmailVerification(auth.currentUser);
+    alert('Verification email sent! Check your inbox.');
+  } catch(e){ alert('Could not send email: ' + e.message); }
+}
+
+// ══════════════════ CANDIDATES ══════════════════
+async function loadCandidates(){
+  const tbody = document.getElementById('candTableBody');
+  tbody.innerHTML = '<tr class="loading-row"><td colspan="8">⏳ Loading candidates...</td></tr>';
+  try {
+    const { db, collection, getDocs, query, orderBy } = window._smif;
+    const q = query(collection(db, 'candidates'), orderBy('createdAt', 'desc'));
+    const snap = await getDocs(q);
+    const candidates = [];
+    snap.forEach(d => candidates.push({ id: d.id, ...d.data() }));
+    renderCandidates(candidates);
+    updateDashStats(candidates);
+  } catch(e){
+    tbody.innerHTML = `<tr class="loading-row"><td colspan="8" style="color:var(--red)">⚠️ Error loading: ${e.message}</td></tr>`;
+  }
+}
+
+function renderCandidates(candidates){
+  const tbody = document.getElementById('candTableBody');
+  if(candidates.length === 0){
+    tbody.innerHTML = `<tr><td colspan="8"><div class="cand-empty"><div class="cand-empty-ico">📋</div>No candidates yet. Add your first candidate!</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = candidates.map((c, i) => {
+    const date = c.createdAt?.toDate ? c.createdAt.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '—';
+    return `<tr>
+      <td style="color:var(--ink4);font-size:.75rem">${i+1}</td>
+      <td><strong style="color:var(--ink)">${esc(c.name)}</strong></td>
+      <td><a href="tel:${esc(c.phone)}" style="color:var(--blue)">${esc(c.phone)}</a></td>
+      <td style="font-size:.78rem">${c.email ? `<a href="mailto:${esc(c.email)}" style="color:var(--blue)">${esc(c.email)}</a>` : '—'}</td>
+      <td><span class="skill-tag">${esc(c.skill)}</span></td>
+      <td style="text-align:center">${c.experience} yr${c.experience != 1 ? 's':''}</td>
+      <td style="font-size:.76rem;color:var(--ink3);max-width:160px;white-space:normal;line-height:1.4">${c.note ? esc(c.note) : '—'}</td>
+      <td style="font-size:.72rem;color:var(--ink4);white-space:nowrap">${date}</td>
+    </tr>`;
+  }).join('');
+}
+
+function updateDashStats(candidates){
+  document.getElementById('statTotal').textContent = candidates.length;
+  document.getElementById('statIT').textContent = candidates.filter(c => c.skill && (c.skill.includes('React') || c.skill.includes('Node') || c.skill.includes('Full') || c.skill.includes('Data'))).length;
+  document.getElementById('statHealth').textContent = candidates.filter(c => c.skill === 'Healthcare').length;
+  const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  document.getElementById('statNew').textContent = candidates.filter(c => c.createdAt?.toDate && c.createdAt.toDate().getTime() > oneWeekAgo).length;
+}
+
+function esc(s){ if(!s) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ══════════════════ ADD CANDIDATE MODAL ══════════════════
+function openCandModal(){
+  const user = window._smifUser;
+  if(!user || !user.emailVerified){ alert('Please verify your email first to add candidates.'); return; }
+  document.getElementById('candModal').classList.add('show');
+  // Don't lock body scroll on dashboard
+}
+
+function closeCandModal(){
+  document.getElementById('candModal').classList.remove('show');
+  // Clear form
+  ['cName','cPhone','cEmail','cExp','cNote'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  document.getElementById('cSkill').value = '';
+  document.getElementById('candErr').style.display = 'none';
+  document.getElementById('candSuc').style.display = 'none';
+}
+
+function handleCandModalOverlayClick(e){ if(e.target === document.getElementById('candModal')) closeCandModal(); }
+
+async function addCandidate(){
+  const name = document.getElementById('cName').value.trim();
+  const phone = document.getElementById('cPhone').value.trim();
+  const email = document.getElementById('cEmail').value.trim();
+  const skill = document.getElementById('cSkill').value;
+  const experience = document.getElementById('cExp').value.trim();
+  const note = document.getElementById('cNote').value.trim();
+
+  const errEl = document.getElementById('candErr');
+  const sucEl = document.getElementById('candSuc');
+  errEl.style.display = 'none'; sucEl.style.display = 'none';
+
+  if(!name || !phone || !skill || experience === ''){ errEl.textContent = 'Please fill in Name, Phone, Skill, and Experience.'; errEl.style.display = 'block'; return; }
+
+  const btn = document.getElementById('candSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const { db, collection, addDoc, serverTimestamp } = window._smif;
+    await addDoc(collection(db, 'candidates'), {
+      name, phone, email: email || null, skill, experience: parseInt(experience), note: note || null,
+      addedBy: window._smifUser.uid, addedByEmail: window._smifUser.email,
+      createdAt: serverTimestamp()
+    });
+    sucEl.textContent = '✅ Candidate added successfully!';
+    sucEl.style.display = 'block';
+    setTimeout(() => { closeCandModal(); loadCandidates(); }, 1200);
+  } catch(e){
+    errEl.textContent = 'Failed to add candidate: ' + e.message; errEl.style.display = 'block';
+  } finally { btn.disabled = false; btn.textContent = 'Save Candidate →'; }
 }
 </script>
 </body>
