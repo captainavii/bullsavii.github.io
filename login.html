@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login — SMIF Enterprises</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Tumhare main website se match karta hua design */
+        body { font-family: 'DM Sans', sans-serif; background: #f5f5f7; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .auth-card { background: white; padding: 2.5rem; border-radius: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { font-family: 'Playfair Display', serif; color: #1d1d1f; margin-bottom: 1.5rem; text-align: center; }
+        input { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1.5px solid #d2d2d7; border-radius: 10px; outline: none; }
+        .btn-gold { width: 100%; background: #c9933f; color: white; border: none; padding: 0.9rem; border-radius: 980px; font-weight: 700; cursor: pointer; }
+        .switch { text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #6e6e73; }
+        .switch a { color: #b07d2a; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <h2>Login to SMIF</h2>
+    <input type="email" id="loginEmail" placeholder="Email Address">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button class="btn-gold" id="btnLogin">Login</button>
+    <div class="switch">Don't have an account? <a href="register.html">Register</a></div>
+    <div class="switch"><a href="index.html">← Back to Home</a></div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>
