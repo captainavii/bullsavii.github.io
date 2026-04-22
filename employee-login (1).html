@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Employee Portal — SMIF Enterprises</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#0f1923;min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.bg-glow{position:fixed;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(201,153,63,.12),transparent 65%);pointer-events:none}
+.bg-glow2{position:fixed;bottom:-200px;left:-200px;width:500px;height:500px;background:radial-gradient(circle,rgba(15,32,64,.5),transparent 70%);pointer-events:none}
+.container{width:100%;max-width:440px;padding:1.5rem;position:relative;z-index:1}
+.logo-bar{text-align:center;margin-bottom:2rem}
+.logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-.3px}
+.logo span{color:#c9933f}
+.logo-sub{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:.3rem;letter-spacing:1.5px;text-transform:uppercase}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:2.5rem;backdrop-filter:blur(20px)}
+.tab-row{display:flex;background:rgba(0,0,0,.3);border-radius:10px;padding:4px;margin-bottom:2rem;gap:4px}
+.tab{flex:1;padding:.55rem;border:none;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:rgba(255,255,255,.45);background:transparent}
+.tab.active{background:rgba(201,153,63,.9);color:#fff;box-shadow:0 2px 12px rgba(201,153,63,.3)}
+.field{margin-bottom:1.1rem}
+.field label{display:block;font-size:.68rem;color:rgba(255,255,255,.45);margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px}
+.field input,.field select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:.72rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:.88rem;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus{border-color:rgba(201,153,63,.6);background:rgba(201,153,63,.04)}
+.field input::placeholder{color:rgba(255,255,255,.22)}
+.field select option{background:#1a2535;color:#fff}
+.field select{-webkit-appearance:none;appearance:none}
+.btn-main{width:100%;background:linear-gradient(135deg,#c9933f,#e8ba6a);color:#fff;border:none;border-radius:980px;padding:.88rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.95rem;cursor:pointer;transition:all .22s;margin-top:.5rem;letter-spacing:.2px}
+.btn-main:hover{transform:scale(1.02);box-shadow:0 8px 28px rgba(201,153,63,.35)}
+.btn-main:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.divrow{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.note{font-size:.72rem;color:rgba(255,255,255,.3);text-align:center;margin-top:1.2rem;line-height:1.6}
+.note a{color:#c9933f;cursor:pointer}
+.msg{padding:.75rem 1rem;border-radius:10px;font-size:.8rem;margin-top:1rem;display:none;font-weight:500}
+.msg.success{background:rgba(28,122,62,.2);border:1px solid rgba(28,122,62,.4);color:#6fcf97;display:block}
+.msg.error{background:rgba(192,57,43,.2);border:1px solid rgba(192,57,43,.4);color:#f28b82;display:block}
+.msg.info{background:rgba(201,153,63,.15);border:1px solid rgba(201,153,63,.35);color:#e8ba6a;display:block}
+.pending-badge{text-align:center;padding:1.5rem;background:rgba(201,153,63,.08);border:1px solid rgba(201,153,63,.2);border-radius:14px;margin-top:1rem}
+.pending-badge .icon{font-size:2.5rem;margin-bottom:.6rem}
+.pending-badge h3{color:#e8ba6a;font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.4rem}
+.pending-badge p{color:rgba(255,255,255,.45);font-size:.78rem;line-height:1.6}
+.back-link{display:block;text-align:center;margin-top:1.5rem;color:rgba(255,255,255,.3);font-size:.78rem;text-decoration:none;transition:color .2s}
+.back-link:hover{color:#c9933f}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.section{display:none}
+.section.active{display:block}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-glow2"></div>
+
+<div class="container">
+  <div class="logo-bar">
+    <div class="logo">SMIF<span> Enterprises</span></div>
+    <div class="logo-sub">Employee Portal</div>
+  </div>
+
+  <div class="card">
+    <div class="tab-row">
+      <button class="tab active" onclick="switchTab('login')">Login</button>
+      <button class="tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- LOGIN SECTION -->
+    <div class="section active" id="sec-login">
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="l-email" placeholder="your@email.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="l-pass" placeholder="Enter password">
+      </div>
+      <button class="btn-main" id="loginBtn" onclick="doLogin()">Sign In to Portal</button>
+      <div class="msg" id="loginMsg"></div>
+      <p class="note">Forgot password? <a onclick="doReset()">Reset via email</a></p>
+    </div>
+
+    <!-- REGISTER SECTION -->
+    <div class="section" id="sec-register">
+      <div id="reg-form-wrap">
+        <div class="divrow">
+          <div class="field"><label>First Name</label><input type="text" id="r-fname" placeholder="Rohit"></div>
+          <div class="field"><label>Last Name</label><input type="text" id="r-lname" placeholder="Sharma"></div>
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="r-email" placeholder="work@email.com">
+        </div>
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="r-phone" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="field">
+          <label>Your Role / Designation</label>
+          <input type="text" id="r-role" placeholder="Recruitment Consultant">
+        </div>
+        <div class="field">
+          <label>Employee ID (if assigned)</label>
+          <input type="text" id="r-empid" placeholder="SMIF-001 (optional)">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="r-pass" placeholder="Min 8 characters">
+        </div>
+        <div class="field">
+          <label>Confirm Password</label>
+          <input type="password" id="r-cpass" placeholder="Re-enter password">
+        </div>
+        <button class="btn-main" id="regBtn" onclick="doRegister()">Submit for Approval</button>
+        <div class="msg" id="regMsg"></div>
+        <p class="note">Registration requires admin approval before you can login.<br>Arjun Yadav will review and activate your account.</p>
+      </div>
+      <div id="reg-pending" style="display:none">
+        <div class="pending-badge">
+          <div class="icon">⏳</div>
+          <h3>Registration Submitted!</h3>
+          <p>Your request has been sent for approval.<br>Arjun Yadav will review and activate your account within 24 hours.<br><br>You'll receive an email once approved.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <a href="index.html" class="back-link">← Back to SMIF Enterprises Website</a>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // =====================================================
+  // 🔥 FIREBASE CONFIG — APNA CONFIG YAHAN DAALO
+  // Firebase Console > Project Settings > Your apps
+  // =====================================================
+  const firebaseConfig = {
+    apiKey: "AIzaSyAgrf2G3K-26riFeXo6EAZZ038Lb4_HSeY",
+    authDomain: "humanresourcesmif.firebaseapp.com",
+    projectId: "humanresourcesmif",
+    storageBucket: "humanresourcesmif.firebasestorage.app",
+    messagingSenderId: "407953638070",
+    appId: "1:407953638070:web:d89c1c973bc6cac8f7dc17",
+    measurementId: "G-Y979YLSSQE"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  function showMsg(id, text, type) {
+    const el = document.getElementById(id);
+    el.textContent = text;
+    el.className = 'msg ' + type;
+  }
+
+  function setLoading(btnId, loading, defaultText) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.innerHTML = loading ? '<span class="spinner"></span> Please wait...' : defaultText;
+  }
+
+  // LOGIN
+  window.doLogin = async function() {
+    const email = document.getElementById('l-email').value.trim();
+    const pass = document.getElementById('l-pass').value;
+    if (!email || !pass) { showMsg('loginMsg','Please fill all fields','error'); return; }
+
+    setLoading('loginBtn', true, 'Sign In to Portal');
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      const snap = await getDoc(doc(db, 'employees', cred.user.uid));
+      if (!snap.exists()) { showMsg('loginMsg','Employee record not found. Contact admin.','error'); setLoading('loginBtn',false,'Sign In to Portal'); return; }
+      const data = snap.data();
+      if (data.status !== 'approved') {
+        showMsg('loginMsg', data.status === 'pending' ? '⏳ Your account is pending approval. Please wait.' : '❌ Your account has been suspended. Contact admin.', 'info');
+        setLoading('loginBtn', false, 'Sign In to Portal');
+        return;
+      }
+      // Save session
+      sessionStorage.setItem('smif_user', JSON.stringify({ uid: cred.user.uid, name: data.firstName + ' ' + data.lastName, role: data.role, email: data.email }));
+      showMsg('loginMsg', '✅ Login successful! Redirecting...', 'success');
+      setTimeout(() => window.location.href = 'dashboard.html', 1200);
+    } catch(e) {
+      const msgs = { 'auth/user-not-found':'No account found with this email.', 'auth/wrong-password':'Incorrect password. Try again.', 'auth/too-many-requests':'Too many attempts. Try after some time.' };
+      showMsg('loginMsg', msgs[e.code] || 'Login failed: ' + e.message, 'error');
+      setLoading('loginBtn', false, 'Sign In to Portal');
+    }
+  };
+
+  // REGISTER
+  window.doRegister = async function() {
+    const fname = document.getElementById('r-fname').value.trim();
+    const lname = document.getElementById('r-lname').value.trim();
+    const email = document.getElementById('r-email').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    const role = document.getElementById('r-role').value.trim();
+    const empid = document.getElementById('r-empid').value.trim();
+    const pass = document.getElementById('r-pass').value;
+    const cpass = document.getElementById('r-cpass').value;
+
+    if (!fname||!lname||!email||!phone||!role||!pass) { showMsg('regMsg','Please fill all required fields','error'); return; }
+    if (pass.length < 8) { showMsg('regMsg','Password must be at least 8 characters','error'); return; }
+    if (pass !== cpass) { showMsg('regMsg','Passwords do not match','error'); return; }
+
+    setLoading('regBtn', true, 'Submit for Approval');
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      await setDoc(doc(db, 'employees', cred.user.uid), {
+        firstName: fname, lastName: lname, email, phone,
+        role, empId: empid || '', status: 'pending',
+        uid: cred.user.uid, createdAt: serverTimestamp(),
+        approvedBy: null, approvedAt: null
+      });
+      document.getElementById('reg-form-wrap').style.display = 'none';
+      document.getElementById('reg-pending').style.display = 'block';
+    } catch(e) {
+      const msgs = { 'auth/email-already-in-use':'This email is already registered.', 'auth/weak-password':'Password is too weak.' };
+      showMsg('regMsg', msgs[e.code] || 'Registration failed: ' + e.message, 'error');
+      setLoading('regBtn', false, 'Submit for Approval');
+    }
+  };
+
+  // PASSWORD RESET
+  window.doReset = async function() {
+    const email = document.getElementById('l-email').value.trim();
+    if (!email) { showMsg('loginMsg','Enter your email above first','error'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showMsg('loginMsg','✅ Password reset email sent! Check your inbox.','success');
+    } catch(e) {
+      showMsg('loginMsg','Could not send reset email. Check the email address.','error');
+    }
+  };
+</script>
+
+<script>
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('sec-' + tab).classList.add('active');
+}
+</script>
+</body>
+</html>
